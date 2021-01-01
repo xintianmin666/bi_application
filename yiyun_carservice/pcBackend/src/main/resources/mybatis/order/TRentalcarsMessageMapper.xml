@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.order.mapper.TRentalcarsMessageMapper">
+
+    <resultMap type="TRentalcarsMessage" id="TRentalcarsMessageResult">
+        <result property="id" column="id"/>
+        <result property="busId" column="bus_id"/>
+        <result property="useTime" column="use_time"/>
+        <result property="reserveName" column="reserve_name"/>
+        <result property="reserveMobile" column="reserve_mobile"/>
+        <result property="beginStation" column="begin_station"/>
+        <result property="endStation" column="end_station"/>
+        <result property="orderCode" column="order_code"/>
+        <result property="orderType" column="order_type"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="driverId" column="driver_id"/>
+        <result property="endLongitude" column="end_longitude"/>
+        <result property="endLatitude" column="end_latitude"/>
+        <result property="passengerNum" column="passenger_num"/>
+        <result property="siteType" column="site_type"/>
+        <result property="receptionNum" column="reception_num"/>
+        <result property="receptionTime" column="reception_time"/>
+    </resultMap>
+
+    <sql id="selectTRentalcarsMessageVo">
+        select id,reception_time,reception_num,site_type,passenger_num, bus_id, use_time, reserve_name, reserve_mobile, begin_station, end_station, order_code, order_type,  longitude, latitude, driver_id, end_longitude, end_latitude from t_rentalcars_message
+    </sql>
+
+    <sql id="selectTRentalcarsMessageDetailVo">
+        select id,reception_time,reception_num,reserve_name, reserve_mobile, group_concat(begin_station,',',longitude,',',latitude) begin_station,passenger_num from t_rentalcars_message
+    </sql>
+
+    <sql id="selectPassengerList">
+        select a.id,reception_time,reception_num,site_type,passenger_num, a.bus_id, b.use_time, a.reserve_name, a.reserve_mobile, a.begin_station, a.end_station, a.order_code, a.order_type,  a.longitude, a.latitude, a.driver_id, a.end_longitude, a.end_latitude from t_rentalcars_message a,t_taxi_order b where a.order_code=b.order_code and a.site_type=1
+    </sql>
+
+    <select id="selectTRentalcarsMessageList" parameterType="TRentalcarsMessage" resultMap="TRentalcarsMessageResult">
+        <include refid="selectTRentalcarsMessageVo"/>
+        <where>
+            <if test="busId != null  and busId != ''">and bus_id = #{busId}</if>
+            <if test="useTime != null  and useTime != ''">and use_time = #{useTime}</if>
+            <if test="reserveName != null  and reserveName != ''">and reserve_name like concat('%', #{reserveName},
+                '%')
+            </if>
+            <if test="reserveMobile != null  and reserveMobile != ''">and reserve_mobile = #{reserveMobile}</if>
+            <if test="beginStation != null  and beginStation != ''">and begin_station = #{beginStation}</if>
+            <if test="endStation != null  and endStation != ''">and end_station = #{endStation}</if>
+            <if test="orderCode != null  and orderCode != ''">and order_code = #{orderCode}</if>
+            <if test="orderType != null  and orderType != ''">and order_type = #{orderType}</if>
+            <if test="longitude != null  and longitude != ''">and longitude = #{longitude}</if>
+            <if test="latitude != null  and latitude != ''">and latitude = #{latitude}</if>
+            <if test="driverId != null  and driverId != ''">and driver_id = #{driverId}</if>
+            <if test="endLongitude != null  and endLongitude != ''">and end_longitude = #{endLongitude}</if>
+            <if test="endLatitude != null  and endLatitude != ''">and end_latitude = #{endLatitude}</if>
+            <if test="siteType != null  and siteType != ''">and site_type = #{siteType}</if>
+            order by reception_num
+        </where>
+    </select>
+
+    <select id="selectTRentalcarsMessageDetail" parameterType="TRentalcarsMessage" resultMap="TRentalcarsMessageResult">
+        <include refid="selectTRentalcarsMessageDetailVo"/>
+        <where>
+            <if test="busId != null  and busId != ''">and bus_id = #{busId}</if>
+            <if test="orderCode != null  and orderCode != ''">and order_code = #{orderCode}</if>
+            <if test="siteType != null  and siteType != ''">and site_type = #{siteType}</if>
+        </where>
+    </select>
+
+    <select id="selectTRentalcarsMessageByBusId" parameterType="TRentalcarsMessage"
+            resultMap="TRentalcarsMessageResult">
+        select a.id,reception_time,reception_num,site_type,passenger_num, a.bus_id, b.use_time, a.reserve_name,
+        a.reserve_mobile, a.begin_station, a.end_station, a.order_code, a.order_type, a.longitude, a.latitude,
+        a.driver_id, a.end_longitude, a.end_latitude from t_rentalcars_message a,t_taxi_order b where
+        a.order_code=b.order_code
+        <if test="busId != null  and busId != ''">and a.bus_id = #{busId}</if>
+        <if test="siteType != null  and siteType != ''">and a.site_type=#{siteType}</if>
+        <if test="orderCode != null  and orderCode != ''">and order_code = #{orderCode}</if>
+        order by reception_num
+    </select>
+
+    <select id="selectTRentalcarsMessageById" parameterType="Long" resultMap="TRentalcarsMessageResult">
+        <include refid="selectTRentalcarsMessageVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectMaxTRentalcarsMessageById" parameterType="TRentalcarsMessage"
+            resultMap="TRentalcarsMessageResult">
+        select max(reception_num) reception_num,longitude,latitude from t_rentalcars_message where bus_id=#{busId}
+    </select>
+
+    <select id="selectMaxTRentalcarsMessageByBusId" resultMap="TRentalcarsMessageResult">
+        <include refid="selectTRentalcarsMessageVo"/>
+        where bus_id = #{busId}
+    </select>
+
+    <insert id="insertTRentalcarsMessage" parameterType="TRentalcarsMessage" useGeneratedKeys="true" keyProperty="id">
+        insert into t_rentalcars_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="busId != null  and busId != ''">bus_id,</if>
+            <if test="useTime != null  and useTime != ''">use_time,</if>
+            <if test="reserveName != null  and reserveName != ''">reserve_name,</if>
+            <if test="reserveMobile != null  and reserveMobile != ''">reserve_mobile,</if>
+            <if test="beginStation != null  and beginStation != ''">begin_station,</if>
+            <if test="endStation != null  and endStation != ''">end_station,</if>
+            <if test="orderCode != null  and orderCode != ''">order_code,</if>
+            <if test="orderType != null  and orderType != ''">order_type,</if>
+            <if test="longitude != null  and longitude != ''">longitude,</if>
+            <if test="latitude != null  and latitude != ''">latitude,</if>
+            <if test="driverId != null  and driverId != ''">driver_id,</if>
+            <if test="endLongitude != null  and endLongitude != ''">end_longitude,</if>
+            <if test="endLatitude != null  and endLatitude != ''">end_latitude,</if>
+            <if test="passengerNum != null  and passengerNum != ''">passenger_num,</if>
+            <if test="siteType != null  and siteType != ''">site_type,</if>
+            <if test="receptionNum != null  and receptionNum != ''">reception_num,</if>
+            <if test="receptionTime != null  and receptionTime != ''">reception_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="busId != null  and busId != ''">#{busId},</if>
+            <if test="useTime != null  and useTime != ''">#{useTime},</if>
+            <if test="reserveName != null  and reserveName != ''">#{reserveName},</if>
+            <if test="reserveMobile != null  and reserveMobile != ''">#{reserveMobile},</if>
+            <if test="beginStation != null  and beginStation != ''">#{beginStation},</if>
+            <if test="endStation != null  and endStation != ''">#{endStation},</if>
+            <if test="orderCode != null  and orderCode != ''">#{orderCode},</if>
+            <if test="orderType != null  and orderType != ''">#{orderType},</if>
+            <if test="longitude != null  and longitude != ''">#{longitude},</if>
+            <if test="latitude != null  and latitude != ''">#{latitude},</if>
+            <if test="driverId != null  and driverId != ''">#{driverId},</if>
+            <if test="endLongitude != null  and endLongitude != ''">#{endLongitude},</if>
+            <if test="endLatitude != null  and endLatitude != ''">#{endLatitude},</if>
+            <if test="passengerNum != null  and passengerNum != ''">#{passengerNum},</if>
+            <if test="siteType != null  and siteType != ''">#{siteType},</if>
+            <if test="receptionNum != null  and receptionNum != ''">#{receptionNum},</if>
+            <if test="receptionTime != null  and receptionTime != ''">#{receptionTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTRentalcarsMessage" parameterType="TRentalcarsMessage">
+        update t_rentalcars_message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="busId != null  and busId != ''">bus_id = #{busId},</if>
+            <if test="useTime != null  and useTime != ''">use_time = #{useTime},</if>
+            <if test="reserveName != null  and reserveName != ''">reserve_name = #{reserveName},</if>
+            <if test="reserveMobile != null  and reserveMobile != ''">reserve_mobile = #{reserveMobile},</if>
+            <if test="beginStation != null  and beginStation != ''">begin_station = #{beginStation},</if>
+            <if test="endStation != null  and endStation != ''">end_station = #{endStation},</if>
+            <if test="orderCode != null  and orderCode != ''">order_code = #{orderCode},</if>
+            <if test="orderType != null  and orderType != ''">order_type = #{orderType},</if>
+            <if test="longitude != null  and longitude != ''">longitude = #{longitude},</if>
+            <if test="latitude != null  and latitude != ''">latitude = #{latitude},</if>
+            <if test="driverId != null  and driverId != ''">driver_id = #{driverId},</if>
+            <if test="endLongitude != null  and endLongitude != ''">end_longitude = #{endLongitude},</if>
+            <if test="endLatitude != null  and endLatitude != ''">end_latitude = #{endLatitude},</if>
+            <if test="passengerNum != null  and passengerNum != ''">passenger_num = #{passengerNum},</if>
+            <if test="siteType != null  and siteType != ''">site_type = #{siteType},</if>
+            <if test="receptionNum != null  and receptionNum != ''">reception_num = #{receptionNum},</if>
+            <if test="receptionTime != null  and receptionTime != ''">reception_time = #{receptionTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTRentalcarsMessageById" parameterType="Long">
+        delete from t_rentalcars_message where id = #{id}
+    </delete>
+
+    <delete id="deleteTRentalcarsMessageByIds" parameterType="String">
+        delete from t_rentalcars_message where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateBusIdByIds">
+        update t_rentalcars_message a,t_taxi_order b set a.bus_id=#{busId},a.reception_num = #{receptionNum},
+        a.reception_time = #{receptionTime} where a.order_code=b.order_code AND b.id in (${ids})
+    </update>
+
+
+    <update id="updateBusIdByOrderCode">
+        update t_rentalcars_message a,t_taxi_order b set a.bus_id=#{busId} where a.order_code=b.order_code AND b.order_code=#{orderCode}
+    </update>
+
+    <update id="updatePassengerNum">
+        update t_rentalcars_message a,t_taxi_order b set a.passenger_num=a.passenger_num-#{passengerNum} where a.order_code=b.order_code AND b.order_code=#{orderCode}
+    </update>
+
+</mapper>

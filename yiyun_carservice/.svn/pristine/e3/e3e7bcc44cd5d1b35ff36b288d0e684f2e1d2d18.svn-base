@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiyun.yiyuncarservice.mapper.CPointsHistoryMapper">
+
+    <select id="getPointsList" resultType="java.util.Map">
+        SELECT a.order_code orderCode,a.use_id useId,a.order_type orderType,a.change_time changeTime,
+        CASE
+        a.chang_type
+        WHEN '1' THEN
+        '订单支付返还'
+        WHEN '2' THEN
+        '订单支付抵扣'
+        WHEN '3' THEN
+        '订单退款返还'
+        WHEN '4' THEN
+        '订单评价增加'
+        WHEN '5' THEN
+        '订单取消返还'
+        WHEN '6' THEN
+        '支付失败获取返还'
+        ELSE '订单退款扣除返还'
+        END AS changeType,
+        CASE
+        b.order_type
+        WHEN '1' THEN
+        '洗车'
+        WHEN '2' THEN
+        '养护'
+        WHEN '3' THEN
+        '维修'
+        WHEN '4' THEN
+        '检测'
+        WHEN '5' THEN
+        '驾培'
+        WHEN '6' THEN
+        '保险' ELSE '救援'
+        END AS orderType,
+        a.points changePonits
+        FROM
+        c_points_history a,c_order b
+        WHERE
+        a.order_code=b.order_code
+        AND a.user_id = #{cm.userId}
+        <if test="cm.changeType != null and cm.changeType != ''">
+            AND a.chang_type = #{cm.changeType}
+        </if>
+        <if test="cm.orderType != null and cm.orderType != ''">
+            AND b.order_type = #{cm.orderType}
+        </if>
+        <if test="cm.beginTime != null and cm.beginTime != ''">
+            AND b.change_time &gt;=#{beginTime}
+        </if>
+        <if test="cm.endTime != null and cm.endTime != ''">
+            AND b.change_time &lt;=#{endTime}
+        </if>
+        ORDER BY a.change_time DESC
+    </select>
+
+
+</mapper>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.shop.mapper.CShopMapper">
+    
+    <resultMap type="CShop" id="CShopResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="name"    column="name"    />
+        <result property="address"    column="address"    />
+        <result property="phone"    column="phone"    />
+        <result property="tel"    column="tel"    />
+        <result property="workContent"    column="work_content"    />
+        <result property="workTime"    column="work_time"    />
+        <result property="lonLat"    column="lon_lat"    />
+        <result property="score"    column="score"    />
+        <result property="num"    column="num"    />
+        <result property="points"    column="points"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="coverPic"    column="cover_pic"    />
+        <result property="shopTopPics"    column="shop_top_pics"    />
+        <result property="selfShop"    column="self_shop"    />
+        <result property="shopOrder"    column="shop_order"    />
+        <result property="serviceType"    column="service_type"    />
+        <result property="chargePerson"    column="charge_person"    />
+        <result property="shopType"    column="shop_type"    />
+        <result property="shopTags"    column="shop_tags"    />
+        <result property="canUsePoints"    column="can_use_points"    />
+        <result property="serviceRange"    column="service_range"    />
+        <result property="userName"    column="user_name"    />
+        <result property="juli"    column="juli"    />
+        <result property="checkreult"    column="checkreult"    />
+        <result property="shopmaintype"    column="shopmaintype"    />
+        <result property="shoprank"    column="shoprank"    />
+        <result property="shopcredit"    column="shopcredit"    />
+        <collection  property="shopGoodsList"   javaType="java.util.List" resultMap="shopGoodsResult" />
+    </resultMap>
+    <resultMap type="CShopGoods" id="shopGoodsResult">
+        <result property="id"    column="goods_id"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="goodsType"    column="goods_type"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="payPrice"    column="pay_price"    />
+        <result property="price"    column="price"    />
+        <result property="serviceStandard"    column="service_standard"    />
+        <result property="saleNum"    column="sale_num"    />
+        <result property="topPicUrl"    column="top_pic_url"    />
+        <result property="picUrl"    column="pic_url"    />
+        <result property="onShelf"    column="on_shelf"    />
+        <result property="goodsOrder"    column="goods_order"    />
+    </resultMap>
+
+    <sql id="selectCShopVo">
+        select s.id, s.user_id,s.dept_id, s.name, s.address, s.phone, s.tel, s.work_content, s.work_time, s.lon_lat, s.score, s.num, s.points, s.is_delete, s.is_show, s.create_by, s.create_time, s.update_by, s.update_time, s.cover_pic, s.shop_top_pics, s.self_shop, s.shop_order, s.service_type, s.charge_person, s.shop_type, s.shop_tags, s.can_use_points, s.service_range,
+        u.user_name,s.checkreult,s.shopmaintype,s.shoprank,s.shopcredit
+        from c_shop s left join sys_user u on u.user_id = s.user_id
+    </sql>
+
+    <select id="selectCShopList" parameterType="CShop" resultMap="CShopResult">
+        <include refid="selectCShopVo"/>
+        <where>
+            and s.is_delete = 0
+            <if test="name != null  and name != ''"> and s.name like concat('%', #{name}, '%')</if>
+            <if test="address != null  and address != ''"> and s.address like concat('%', #{address}, '%')</if>
+            <if test="phone != null  and phone != ''"> and s.phone like concat('%', #{phone}, '%')</if>
+            <if test="tel != null  and tel != ''"> and s.tel like concat('%', #{tel}, '%')</if>
+            <if test="workContent != null  and workContent != ''"> and s.work_content like concat('%', #{workContent}, '%')</if>
+            <if test="workTime != null  and workTime != ''"> and s.work_time = #{workTime}</if>
+            <if test="score != null "> and s.score = #{score}</if>
+            <if test="num != null "> and s.num = #{num}</if>
+            <if test="points != null "> and s.points = #{points}</if>
+            <if test="isShow != null  and isShow != ''"> and s.is_show = #{isShow}</if>
+            <if test="coverPic != null  and coverPic != ''"> and s.cover_pic = #{coverPic}</if>
+            <if test="shopTopPics != null  and shopTopPics != ''"> and s.shop_top_pics = #{shopTopPics}</if>
+            <if test="selfShop != null  and selfShop != ''"> and s.self_shop = #{selfShop}</if>
+            <if test="shopOrder != null "> and s.shop_order = #{shopOrder}</if>
+            <if test="serviceType != null  and serviceType != ''">
+                and  find_in_set(#{serviceType},s.service_type)
+            </if>
+            <if test="chargePerson != null  and chargePerson != ''"> and s.charge_person = #{chargePerson}</if>
+            <if test="shopType != null  and shopType != ''"> and s.shop_type = #{shopType}</if>
+            <if test="shopTags != null  and shopTags != ''"> and s.shop_tags like concat('%', #{shopTags}, '%')</if>
+            <if test="canUsePoints != null  and canUsePoints != ''"> and s.can_use_points = #{canUsePoints}</if>
+            <if test="serviceRange != null  and serviceRange != ''"> and s.service_range = #{serviceRange}</if>
+            <if test="checkreult != null  and checkreult != ''"> and s.checkreult = #{checkreult}</if>
+            <if test="deptId != null and deptId != 0">
+                AND (s.dept_id = #{deptId} OR s.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+            </if>
+            <if test="shoprank != null  and shoprank != ''"> and s.shoprank = #{shoprank}</if>
+            <if test="shopcredit != null  and shopcredit != ''"> and s.shopcredit = #{shopcredit}</if>
+        </where>
+        <!-- 数据范围过滤 -->
+        ${dataScope}
+        /*默认排序*/
+        order by s.shop_order,s.score desc
+    </select>
+    <select id="selectShopListOrderByJuli" parameterType="CShop" resultMap="CShopResult">
+      select s.id, s.user_id, s.name, s.address, s.phone, s.tel, s.work_content, s.work_time, s.lon_lat, s.score, s.num, s.points, s.is_delete, s.is_show, s.create_by, s.create_time, s.update_by, s.update_time, s.cover_pic, s.shop_top_pics, s.self_shop, s.shop_order, s.service_type, s.charge_person, s.shop_type, s.shop_tags, s.can_use_points, s.service_range
+        <if test="lat !=null and lat!='' and lon !=null and lon!=''">
+            ,ROUND(
+            6378.138 * 2 * ASIN(
+            SQRT(
+            POW(
+            SIN(
+            (
+            #{lat} * PI() / 180 - SUBSTRING_INDEX(s.lon_lat,',',-1) * PI() / 180
+            ) / 2
+            ),
+            2
+            ) + COS(#{lat} * PI() / 180) * COS(SUBSTRING_INDEX(s.lon_lat,',',-1) * PI() / 180) * POW(
+            SIN(
+            (
+            #{lon} * PI() / 180 - SUBSTRING_INDEX(s.lon_lat,',',1) * PI() / 180
+            ) / 2
+            ),
+            2
+            )
+            )
+            ) * 1000
+            ) AS juli
+        </if>
+        from c_shop s
+        <where>
+            and s.is_delete = 0
+            and s.is_show = 1
+            and s.checkreult = 2
+            <if test="userId != null "> and s.user_id = #{userId}</if>
+            <if test="name != null  and name != ''"> and s.name like concat('%', #{name}, '%')</if>
+            <if test="address != null  and address != ''"> and s.address like concat('%', #{address}, '%')</if>
+            <if test="phone != null  and phone != ''"> and s.phone like concat('%', #{phone}, '%')</if>
+            <if test="tel != null  and tel != ''"> and s.tel like concat('%', #{tel}, '%')</if>
+            <if test="workContent != null  and workContent != ''"> and s.work_content like concat('%', #{workContent}, '%')</if>
+            <if test="workTime != null  and workTime != ''"> and s.work_time = #{workTime}</if>
+            <if test="score != null "> and s.score = #{score}</if>
+            <if test="num != null "> and s.num = #{num}</if>
+            <if test="points != null "> and s.points = #{points}</if>
+            <if test="coverPic != null  and coverPic != ''"> and s.cover_pic = #{coverPic}</if>
+            <if test="shopTopPics != null  and shopTopPics != ''"> and s.shop_top_pics = #{shopTopPics}</if>
+            <if test="selfShop != null  and selfShop != ''"> and s.self_shop = #{selfShop}</if>
+            <if test="shopOrder != null "> and s.shop_order = #{shopOrder}</if>
+            <if test="serviceType != null  and serviceType != ''">
+                and  find_in_set(#{serviceType},s.service_type)
+            </if>
+            <if test="chargePerson != null  and chargePerson != ''"> and s.charge_person = #{chargePerson}</if>
+            <if test="shopType != null  and shopType != ''"> and s.shop_type = #{shopType}</if>
+            <if test="shopTags != null  and shopTags != ''"> and s.shop_tags like concat('%', #{shopTags}, '%')</if>
+            <if test="canUsePoints != null  and canUsePoints != ''"> and s.can_use_points = #{canUsePoints}</if>
+            <if test="serviceRange != null  and serviceRange != ''"> and s.service_range = #{serviceRange}</if>
+            <if test="keyWords != null  and keyWords != ''">
+                and (s.work_content like concat('%', #{keyWords}, '%')
+                or  s.name like concat('%', #{keyWords}, '%'))
+            </if>
+        </where>
+        /*默认排序*/
+        <if test="orderBy == 1 or orderBy == null or orderBy == ''">
+            order by s.shop_order
+        </if>
+        <if test="orderBy == 2">
+            order by s.score desc,s.shop_order
+        </if>
+        <if test="orderBy == 3 and lat !=null and lat!='' and lon !=null and lon!=''">
+            order by juli
+        </if>
+    </select>
+    <select id="selectCShopById" parameterType="Long" resultMap="CShopResult">
+        <include refid="selectCShopVo"/>
+        where s.id = #{id}
+    </select>
+
+    <select id="selectCShopByUserId" parameterType="Long" resultMap="CShopResult">
+        <include refid="selectCShopVo"/>
+        where s.user_id = #{userId}
+    </select>
+
+    <select id="selectCountByDeptId" resultType="int">
+        select count(*) from c_shop
+        where dept_id = #{deptId} and is_delete = 0
+    </select>
+    <insert id="insertCShop" parameterType="CShop" useGeneratedKeys="true" keyProperty="id">
+        insert into c_shop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="deptId != null ">dept_id,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="address != null  and address != ''">address,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="tel != null  and tel != ''">tel,</if>
+            <if test="workContent != null  and workContent != ''">work_content,</if>
+            <if test="workTime != null  and workTime != ''">work_time,</if>
+            <if test="lonLat != null  and lonLat != ''">lon_lat,</if>
+            <if test="score != null ">score,</if>
+            <if test="num != null ">num,</if>
+            <if test="points != null ">points,</if>
+            <if test="isDelete != null  and isDelete != ''">is_delete,</if>
+            <if test="isShow != null  and isShow != ''">is_show,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="coverPic != null  and coverPic != ''">cover_pic,</if>
+            <if test="shopTopPics != null  and shopTopPics != ''">shop_top_pics,</if>
+            <if test="selfShop != null  and selfShop != ''">self_shop,</if>
+            <if test="shopOrder != null ">shop_order,</if>
+            <if test="serviceType != null  and serviceType != ''">service_type,</if>
+            <if test="chargePerson != null  and chargePerson != ''">charge_person,</if>
+            <if test="shopType != null  and shopType != ''">shop_type,</if>
+            <if test="shopTags != null  and shopTags != ''">shop_tags,</if>
+            <if test="canUsePoints != null  and canUsePoints != ''">can_use_points,</if>
+            <if test="serviceRange != null  and serviceRange != ''">service_range,</if>
+            <if test="checkreult != null  and checkreult != ''">checkreult,</if>
+            <if test="shopmaintype != null  and shopmaintype != ''">shopmaintype,</if>
+            <if test="shoprank != null  and shoprank != ''">shoprank,</if>
+            <if test="shopcredit != null  and shopcredit != ''">shopcredit,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="deptId != null ">#{deptId},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="tel != null  and tel != ''">#{tel},</if>
+            <if test="workContent != null  and workContent != ''">#{workContent},</if>
+            <if test="workTime != null  and workTime != ''">#{workTime},</if>
+            <if test="lonLat != null  and lonLat != ''">#{lonLat},</if>
+            <if test="score != null ">#{score},</if>
+            <if test="num != null ">#{num},</if>
+            <if test="points != null ">#{points},</if>
+            <if test="isDelete != null  and isDelete != ''">#{isDelete},</if>
+            <if test="isShow != null  and isShow != ''">#{isShow},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="coverPic != null  and coverPic != ''">#{coverPic},</if>
+            <if test="shopTopPics != null  and shopTopPics != ''">#{shopTopPics},</if>
+            <if test="selfShop != null  and selfShop != ''">#{selfShop},</if>
+            <if test="shopOrder != null ">#{shopOrder},</if>
+            <if test="serviceType != null  and serviceType != ''">#{serviceType},</if>
+            <if test="chargePerson != null  and chargePerson != ''">#{chargePerson},</if>
+            <if test="shopType != null  and shopType != ''">#{shopType},</if>
+            <if test="shopTags != null  and shopTags != ''">#{shopTags},</if>
+            <if test="canUsePoints != null  and canUsePoints != ''">#{canUsePoints},</if>
+            <if test="serviceRange != null  and serviceRange != ''">#{serviceRange},</if>
+            <if test="checkreult != null  and checkreult != ''">#{checkreult},</if>
+            <if test="shopmaintype != null  and shopmaintype != ''">#{shopmaintype},</if>
+            <if test="shoprank != null  and shoprank != ''">#{shoprank},</if>
+            <if test="shopcredit != null  and shopcredit != ''">#{shopcredit},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCShop" parameterType="CShop">
+        update c_shop
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="deptId != null ">dept_id = #{deptId},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="address != null  and address != ''">address = #{address},</if>
+            <if test="phone != null  and phone != ''">phone = #{phone},</if>
+            <if test="tel != null  and tel != ''">tel = #{tel},</if>
+            <if test="workContent != null  and workContent != ''">work_content = #{workContent},</if>
+            <if test="workTime != null  and workTime != ''">work_time = #{workTime},</if>
+            <if test="lonLat != null  and lonLat != ''">lon_lat = #{lonLat},</if>
+            <if test="score != null ">score = #{score},</if>
+            <if test="num != null ">num = #{num},</if>
+            <if test="points != null ">points = #{points},</if>
+            <if test="isDelete != null  and isDelete != ''">is_delete = #{isDelete},</if>
+            <if test="isShow != null  and isShow != ''">is_show = #{isShow},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="coverPic != null  and coverPic != ''">cover_pic = #{coverPic},</if>
+            <if test="shopTopPics != null  and shopTopPics != ''">shop_top_pics = #{shopTopPics},</if>
+            <if test="selfShop != null  and selfShop != ''">self_shop = #{selfShop},</if>
+            <if test="shopOrder != null ">shop_order = #{shopOrder},</if>
+            <if test="serviceType != null">service_type = #{serviceType},</if>
+            <if test="chargePerson != null  and chargePerson != ''">charge_person = #{chargePerson},</if>
+            <if test="shopType != null  and shopType != ''">shop_type = #{shopType},</if>
+            <if test="shopTags != null">shop_tags = #{shopTags},</if>
+            <if test="canUsePoints != null  and canUsePoints != ''">can_use_points = #{canUsePoints},</if>
+            <if test="serviceRange != null  and serviceRange != ''">service_range = #{serviceRange},</if>
+            <if test="checkreult != null  and checkreult != ''">checkreult = #{checkreult},</if>
+            <if test="shopmaintype != null  and shopmaintype != ''">shopmaintype = #{shopmaintype},</if>
+            <if test="shoprank != null  and shoprank != ''">shoprank = #{shoprank},</if>
+            <if test="shopcredit != null  and shopcredit != ''">shopcredit = #{shopcredit},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteCShopById" parameterType="Long">
+        update  c_shop set is_delete = '1' where id = #{id}
+    </update>
+
+    <update id="deleteCShopByIds" parameterType="String">
+        update  c_shop set is_delete = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <delete id="deleteUserByIds" parameterType="String">
+        delete  from sys_user where user_id in (
+        select user_id from c_shop where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        )
+    </delete>
+    <select id="getNameCount" resultType="int">
+        select count(*) from c_shop where name = #{name}
+        and is_delete = 0
+    </select>
+    <select id="getBusinessIDByDeptID" resultType="java.lang.Long" parameterType="java.lang.Long">
+        select id
+        from c_shop
+        WHERE dept_Id = #{deptID}
+
+    </select>
+</mapper>

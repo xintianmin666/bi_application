@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TDriverInfoMapper">
+
+    <resultMap type="TDriverInfo" id="TDriverInfoResult">
+        <result property="driverId"    column="driver_id"    />
+        <result property="name"    column="name"    />
+        <result property="phone"    column="phone"    />
+        <result property="driverLicenseNo"    column="driver_license_no"    />
+        <result property="state"    column="state"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <result property="modifyUserId"    column="modify_user_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="jobLicenseNo"    column="job_license_no"    />
+        <result property="driverLicenseTerm"    column="driver_license_term"    />
+        <result property="jobLicenseTerm"    column="job_license_term"    />
+        <result property="belong"    column="belong"    />
+        <result property="password"    column="password"    />
+        <result property="vehicleId"    column="vehicle_id"    />
+        <result property="driverLicenseUrl"    column="driver_license_url"    />
+        <result property="jobLicenseUrl"    column="job_license_url"    />
+        <result property="idCardFront"    column="id_card_front"    />
+        <result property="idCardBack"    column="id_card_back"    />
+        <result property="checkStatus"    column="check_status"    />
+        <result property="disableEndTime"    column="disable_end_time"    />
+        <result property="erpDriverId"    column="erp_driver_id"    />
+        <result property="fOpenId"    column="F_OpenId"    />
+        <association property="vehicleInfo"    column="vehicle_id" javaType="TVehicleInfo" resultMap="TVehicleInfoResult" />
+    </resultMap>
+    <resultMap type="TVehicleInfo" id="TVehicleInfoResult">
+        <id     property="vehicleId"   column="vehicle_id"     />
+        <result property="carryMax"    column="carry_max"    />
+        <result property="licenseTagno"    column="license_tagno"    />
+        <result property="vehicleState"    column="vehicle_state"    />
+        <result property="productionCompany"    column="production_company"    />
+        <result property="purpose"    column="purpose"    />
+        <result property="type"    column="type"    />
+        <result property="specifications"    column="specifications"    />
+        <result property="supportEquipment"    column="support_equipment"    />
+        <result property="belong"    column="belong"    />
+        <result property="taxiLicenseUrl"    column="taxi_license_url"    />
+        <result property="taxiLicenseNo"    column="taxi_license_no"    />
+        <result property="drivingLicenseUrl"    column="driving_license_url"    />
+    </resultMap>
+
+    <sql id="selectTDriverInfoVo">
+        select d.driver_id, d.name, d.phone, d.driver_license_no, d.state, d.remark, d.create_time, d.create_user_id, d.modify_time, d.modify_user_id, d.dept_id, d.job_license_no, d.driver_license_term, d.job_license_term, d.belong, d.password, d.vehicle_id, d.driver_license_url, d.job_license_url, d.id_card_front, d.id_card_back, d.check_status,d.disable_end_time,d.erp_driver_id,
+        v.carry_max,v.license_tagno,v.vehicle_state,v.production_company,v.purpose,v.type,v.specifications,v.support_equipment,v.belong,v.taxi_license_url,v.taxi_license_no,v.driving_license_url,
+        dp.dept_name
+        from t_driver_info d  left join sys_dept dp on d.dept_id = dp.dept_id
+        left join t_vehicle_info v on d.vehicle_id = v.vehicle_id
+    </sql>
+
+    <sql id="selectTDriverInfoVo1">
+        select d.driver_id, d.name, d.phone, d.driver_license_no, d.state, d.remark, d.create_time, d.create_user_id, d.modify_time, d.modify_user_id, d.dept_id, d.job_license_no, d.driver_license_term, d.job_license_term, d.belong, d.password, d.vehicle_id, d.driver_license_url, d.job_license_url, d.id_card_front, d.id_card_back, d.check_status,d.disable_end_time,d.erp_driver_id,
+        v.carry_max,v.license_tagno,v.vehicle_state,v.production_company,v.purpose,v.type,v.specifications,v.support_equipment,v.belong,v.taxi_license_url,v.taxi_license_no,v.driving_license_url,
+        dp.dept_name,ed.F_OpenId
+        from t_driver_info d  left join sys_dept dp on d.dept_id = dp.dept_id
+        left join t_vehicle_info v on d.vehicle_id = v.vehicle_id
+        left join erp_driver_info ed on ed.F_DriverId = d.erp_driver_id
+    </sql>
+
+    <select id="selectTDriverInfoByErpId" resultMap="TDriverInfoResult">
+        <include refid="selectTDriverInfoVo1"/>
+        where d.erp_driver_id = #{erpDriverId}
+    </select>
+    <select id="selectTDriverInfoList" parameterType="TDriverInfo" resultMap="TDriverInfoResult">
+        <include refid="selectTDriverInfoVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and d.name like concat('%', #{name}, '%')</if>
+            <if test="phone != null  and phone != ''"> and d.phone = #{phone}</if>
+            <if test="driverLicenseNo != null  and driverLicenseNo != ''"> and d.driver_license_no like concat('%', #{driverLicenseNo}, '%')</if>
+            <if test="state != null  and state != ''"> and d.state = #{state}</if>
+            <if test="createUserId != null  and createUserId != ''"> and d.create_user_id = #{createUserId}</if>
+            <if test="modifyTime != null "> and d.modify_time = #{modifyTime}</if>
+            <if test="modifyUserId != null  and modifyUserId != ''"> and d.modify_user_id = #{modifyUserId}</if>
+            <if test="deptId != null  and deptId != ''"> and d.dept_id = #{deptId}</if>
+            <if test="jobLicenseNo != null  and jobLicenseNo != ''"> and d.job_license_no = #{jobLicenseNo}</if>
+            <if test="driverLicenseTerm != null  and driverLicenseTerm != ''"> and d.driver_license_term = #{driverLicenseTerm}</if>
+            <if test="jobLicenseTerm != null  and jobLicenseTerm != ''"> and d.job_license_term = #{jobLicenseTerm}</if>
+            <if test="belong != null  and belong != ''"> and d.belong = #{belong}</if>
+            <if test="password != null  and password != ''"> and d.password = #{password}</if>
+            <if test="vehicleId != null  and vehicleId != ''"> and d.vehicle_id = #{vehicleId}</if>
+            <if test="driverLicenseUrl != null  and driverLicenseUrl != ''"> and d.driver_license_url = #{driverLicenseUrl}</if>
+            <if test="jobLicenseUrl != null  and jobLicenseUrl != ''"> and d.job_license_url = #{jobLicenseUrl}</if>
+            <if test="taxiLicenseNo != null  and taxiLicenseNo != ''"> and d.taxi_license_no = #{taxiLicenseNo}</if>
+            <if test="taxiLicenseUrl != null  and taxiLicenseUrl != ''"> and d.taxi_license_url = #{taxiLicenseUrl}</if>
+            <if test="idCardFront != null  and idCardFront != ''"> and d.id_card_front = #{idCardFront}</if>
+            <if test="idCardBack != null  and idCardBack != ''"> and d.id_card_back = #{idCardBack}</if>
+            <if test="checkStatus != null  and checkStatus != ''"> and d.check_status = #{checkStatus}</if>
+            <if test="erpDriverId != null  and erpDriverId != ''"> and d.erp_driver_id = #{erpDriverId}</if>
+            <if test="deptId != null and deptId != 0">
+                AND (d.dept_id = #{deptId} OR d.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+            </if>
+            <!-- 数据范围过滤 -->
+            ${dataScope}
+        </where>
+    </select>
+
+    <select id="selectTDriverInfoById" parameterType="String" resultMap="TDriverInfoResult">
+        <include refid="selectTDriverInfoVo1"/>
+        where d.driver_id = #{driverId}
+    </select>
+
+    <insert id="insertTDriverInfo" parameterType="TDriverInfo">
+        insert into t_driver_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="driverId != null  and driverId != ''">driver_id,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="driverLicenseNo != null  and driverLicenseNo != ''">driver_license_no,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createUserId != null  and createUserId != ''">create_user_id,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+            <if test="modifyUserId != null  and modifyUserId != ''">modify_user_id,</if>
+            <if test="deptId != null  and deptId != ''">dept_id,</if>
+            <if test="jobLicenseNo != null  and jobLicenseNo != ''">job_license_no,</if>
+            <if test="driverLicenseTerm != null  and driverLicenseTerm != ''">driver_license_term,</if>
+            <if test="jobLicenseTerm != null  and jobLicenseTerm != ''">job_license_term,</if>
+            <if test="belong != null  and belong != ''">belong,</if>
+            <if test="password != null  and password != ''">password,</if>
+            <if test="vehicleId != null  and vehicleId != ''">vehicle_id,</if>
+            <if test="driverLicenseUrl != null  and driverLicenseUrl != ''">driver_license_url,</if>
+            <if test="jobLicenseUrl != null  and jobLicenseUrl != ''">job_license_url,</if>
+            <if test="taxiLicenseNo != null  and taxiLicenseNo != ''">taxi_license_no,</if>
+            <if test="taxiLicenseUrl != null  and taxiLicenseUrl != ''">taxi_license_url,</if>
+            <if test="idCardFront != null  and idCardFront != ''">id_card_front,</if>
+            <if test="idCardBack != null  and idCardBack != ''">id_card_back,</if>
+            <if test="checkStatus != null  and checkStatus != ''">check_status,</if>
+            <if test="disableEndTime != null">disable_end_time,</if>
+            <if test="erpDriverId != null">erp_driver_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="driverId != null  and driverId != ''">#{driverId},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="driverLicenseNo != null  and driverLicenseNo != ''">#{driverLicenseNo},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createUserId != null  and createUserId != ''">#{createUserId},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+            <if test="modifyUserId != null  and modifyUserId != ''">#{modifyUserId},</if>
+            <if test="deptId != null  and deptId != ''">#{deptId},</if>
+            <if test="jobLicenseNo != null  and jobLicenseNo != ''">#{jobLicenseNo},</if>
+            <if test="driverLicenseTerm != null  and driverLicenseTerm != ''">#{driverLicenseTerm},</if>
+            <if test="jobLicenseTerm != null  and jobLicenseTerm != ''">#{jobLicenseTerm},</if>
+            <if test="belong != null  and belong != ''">#{belong},</if>
+            <if test="password != null  and password != ''">#{password},</if>
+            <if test="vehicleId != null  and vehicleId != ''">#{vehicleId},</if>
+            <if test="driverLicenseUrl != null  and driverLicenseUrl != ''">#{driverLicenseUrl},</if>
+            <if test="jobLicenseUrl != null  and jobLicenseUrl != ''">#{jobLicenseUrl},</if>
+            <if test="taxiLicenseNo != null  and taxiLicenseNo != ''">#{taxiLicenseNo},</if>
+            <if test="taxiLicenseUrl != null  and taxiLicenseUrl != ''">#{taxiLicenseUrl},</if>
+            <if test="idCardFront != null  and idCardFront != ''">#{idCardFront},</if>
+            <if test="idCardBack != null  and idCardBack != ''">#{idCardBack},</if>
+            <if test="checkStatus != null  and checkStatus != ''">#{checkStatus},</if>
+            <if test="disableEndTime != null">#{disableEndTime},</if>
+            <if test="erpDriverId != null">#{erpDriverId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTDriverInfo" parameterType="TDriverInfo">
+        update t_driver_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="phone != null  and phone != ''">phone = #{phone},</if>
+            <if test="driverLicenseNo != null  and driverLicenseNo != ''">driver_license_no = #{driverLicenseNo},</if>
+            <if test="state != null  and state != ''">state = #{state},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createUserId != null  and createUserId != ''">create_user_id = #{createUserId},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+            <if test="modifyUserId != null  and modifyUserId != ''">modify_user_id = #{modifyUserId},</if>
+            <if test="deptId != null  and deptId != ''">dept_id = #{deptId},</if>
+            <if test="jobLicenseNo != null  and jobLicenseNo != ''">job_license_no = #{jobLicenseNo},</if>
+            <if test="driverLicenseTerm != null  and driverLicenseTerm != ''">driver_license_term = #{driverLicenseTerm},</if>
+            <if test="jobLicenseTerm != null  and jobLicenseTerm != ''">job_license_term = #{jobLicenseTerm},</if>
+            <if test="belong != null  and belong != ''">belong = #{belong},</if>
+            <if test="password != null  and password != ''">password = #{password},</if>
+            <if test="vehicleId != null  and vehicleId != ''">vehicle_id = #{vehicleId},</if>
+            <if test="driverLicenseUrl != null  and driverLicenseUrl != ''">driver_license_url = #{driverLicenseUrl},</if>
+            <if test="jobLicenseUrl != null  and jobLicenseUrl != ''">job_license_url = #{jobLicenseUrl},</if>
+            <if test="taxiLicenseNo != null  and taxiLicenseNo != ''">taxi_license_no = #{taxiLicenseNo},</if>
+            <if test="taxiLicenseUrl != null  and taxiLicenseUrl != ''">taxi_license_url = #{taxiLicenseUrl},</if>
+            <if test="idCardFront != null  and idCardFront != ''">id_card_front = #{idCardFront},</if>
+            <if test="idCardBack != null  and idCardBack != ''">id_card_back = #{idCardBack},</if>
+            <if test="checkStatus != null  and checkStatus != ''">check_status = #{checkStatus},</if>
+            <if test="disableEndTime != null">disable_end_time = #{disableEndTime},</if>
+            <if test="erpDriverId != null">erp_driver_id = #{erpDriverId},</if>
+        </trim>
+        where driver_id = #{driverId}
+    </update>
+
+    <delete id="deleteTDriverInfoById" parameterType="String">
+        delete from t_driver_info where driver_id = #{driverId}
+    </delete>
+
+    <delete id="deleteTDriverInfoByIds" parameterType="String">
+        delete from t_driver_info where driver_id in
+        <foreach item="driverId" collection="array" open="(" separator="," close=")">
+            #{driverId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteErpDriverINfo">
+        delete from erp_driver_info
+    </delete>
+    <insert id="addErpDriverINfo">
+        insert into erp_driver_info
+        (
+        F_DriverId, F_DrivingPermitType, F_UnitId,
+        F_DeptId, F_UnitName, F_DriverName, F_PhoneCode, F_Idcard,F_DriverState,F_OpenId
+        )
+        VALUES
+        <foreach collection="driverArray" item="item" separator=",">
+            (
+            #{item.F_DriverId}, #{item.F_DrivingPermitType}, #{item.F_UnitId},
+           #{item.F_DeptId}, #{item.F_UnitName}, #{item.F_DriverName}, #{item.F_PhoneCode}, #{item.F_Idcard},
+            #{item.F_DriverState},#{item.F_OpenId})
+        </foreach>
+    </insert>
+
+</mapper>

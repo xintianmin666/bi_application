@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiyun.yiyuncarservice.mapper.COrderMapper">
+
+    <select id="getOrderList" resultType="com.yiyun.yiyuncarservice.entity.COrderVo">
+        SELECT a.order_code orderCode,a.order_type orderType,a.create_time createTime,
+        a.order_status orderStatus,
+        CASE
+        a.order_type
+        WHEN '1' THEN
+        '洗车'
+        WHEN '2' THEN
+        '养护'
+        WHEN '3' THEN
+        '维修'
+        WHEN '4' THEN
+        '检测'
+        WHEN '5' THEN
+        '驾培'
+        WHEN '6' THEN
+        '保险' ELSE '救援'
+        END AS orderTypeName,
+        a.order_amount orderAmount,a.user_phone userPhone,a.invite_code inviteCode,a.use_points usePoints,a.add_points
+        addPoints,a.points_amount pointsAmount,a.collect_amount collectAmount,a.cancel_time cancelTime,a.book_time
+        bookTime,a.pay_time payTime,a.refund_time refundTime,a.remark,a.shop_id shopId,a.user_name
+        userName,a.car_no carNo,a.address,a.rescue_name rescueName,a.rescue_mobile rescueMobile,a.rescue_car_no
+        rescueCarNo,a.longitude,a.latitude,a.driver_type driverType,a.shop_name shopName,a.driver_license_front
+        driverLicenseFront,a.driver_license_back driverLicenseBack,b.address shopAddress,b.phone shopPhone,b.lon_lat
+        lonLat,b.score,b.cover_pic coverPic
+        FROM
+        c_order a left join c_shop b on a.shop_id=b.id
+        WHERE
+        a.is_delete = 0
+        AND a.user_id = #{cm.userId}
+        <if test="cm.orderType != null and cm.orderType != ''">
+            AND a.order_type = #{cm.orderType}
+        </if>
+        <if test="cm.orderStatus != null and cm.orderStatus != ''">
+            AND a.order_status = #{cm.orderStatus}
+        </if>
+        ORDER BY a.create_time DESC
+    </select>
+
+
+    <select id="getOrderInfo" resultType="com.yiyun.yiyuncarservice.entity.COrderVo">
+        SELECT a.order_code orderCode,a.order_type orderType,a.create_time createTime,
+        a.order_status orderStatus,
+        CASE
+        a.order_type
+        WHEN '1' THEN
+        '洗车'
+        WHEN '2' THEN
+        '养护'
+        WHEN '3' THEN
+        '维修'
+        WHEN '4' THEN
+        '检测'
+        WHEN '5' THEN
+        '驾培'
+        WHEN '6' THEN
+        '保险' ELSE '救援'
+        END AS orderTypeName,
+        a.order_amount orderAmount,a.user_phone userPhone,a.invite_code inviteCode,a.use_points usePoints,a.add_points
+        addPoints,a.points_amount pointsAmount,a.collect_amount collectAmount,a.cancel_time cancelTime,a.book_time
+        bookTime,a.pay_time payTime,a.refund_time refundTime,a.remark,a.shop_id shopId,a.user_name
+        userName,a.car_no carNo,a.address,a.rescue_name rescueName,a.rescue_mobile rescueMobile,a.rescue_car_no
+        rescueCarNo,a.longitude,a.latitude,CASE WHEN c.id is null or c.id='' then 0 ELSE 1 END AS
+        isEvaluate,a.driver_type driverType,a.shop_name shopName,a.driver_license_front
+        driverLicenseFront,a.driver_license_back driverLicenseBack,b.address shopAddress,b.phone shopPhone,b.lon_lat
+        lonLat,b.score,b.cover_pic coverPic
+        FROM
+        c_order a left join c_evaluate c on
+        a.order_code=c.order_code left join c_shop b
+        on a.shop_id=b.id
+        WHERE
+        a.is_delete = 0
+        <if test="cm.orderCode != null and cm.orderCode != ''">
+            AND a.order_code = #{cm.orderCode}
+        </if>
+    </select>
+
+
+</mapper>

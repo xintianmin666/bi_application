@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.order.mapper.TTaxiOrderMapper">
+
+    <resultMap type="TTaxiOrder" id="TTaxiOrderResult">
+        <result property="id" column="id"/>
+        <result property="beginStation" column="begin_station"/>
+        <result property="endStation" column="end_station"/>
+        <result property="useTime" column="use_time"/>
+        <result property="reserveName" column="reserve_name"/>
+        <result property="reserveId" column="reserve_id"/>
+        <result property="reserveMobile" column="reserve_mobile"/>
+        <result property="createTime" column="create_time"/>
+        <result property="appectTime" column="appect_time"/>
+        <result property="finishTime" column="finish_time"/>
+        <result property="orderCode" column="order_code"/>
+        <result property="orderType" column="order_type"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="orderAmount" column="order_amount"/>
+        <result property="collectAmount" column="collect_amount"/>
+        <result property="driverId" column="driver_id"/>
+        <result property="driverName" column="driver_name"/>
+        <result property="driverPhone" column="driver_phone"/>
+        <result property="driverCarNo" column="driver_car_no"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="productCode" column="product_code"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="type" column="type"/>
+        <result property="productName" column="product_name"/>
+        <result property="useNumber" column="use_number"/>
+        <result property="sellNumber" column="sell_number"/>
+        <result property="seatNum" column="seat_num"/>
+        <result property="busId" column="bus_id"/>
+        <result property="tjzd" column="tjzd"/>
+        <result property="carDes" column="carDes"/>
+        <result property="sellPrice" column="sell_price"/>
+        <result property="useHour" column="useHour"/>
+    </resultMap>
+
+    <sql id="selectTTaxiOrderVo">
+        select id, type,bus_id,sell_price,a.product_name,seat_num,use_number,sell_number,begin_station, end_station, use_time, reserve_name, reserve_id, reserve_mobile, a.create_time, appect_time, finish_time, a.order_code, order_type, order_status, order_amount, collect_amount, driver_id, driver_name, driver_phone, driver_car_no, longitude, latitude,a.product_code,order_num,concat(b.type_name,'_',b.passenger_num,'座','(',b.remark
+,')') carDes,c.tjzd,5 as useHour from t_taxi_order a left join t_vehicle_type b on a.type=b.vcehicle_type_id left join (select c.order_code,GROUP_CONCAT(c.begin_station) tjzd from t_rentalcars_message c where site_type=1 group by c.order_code) c on a.order_code=c.order_code left join t_product d on a.product_code=d.product_id
+    </sql>
+
+    <select id="selectTTaxiOrderList" parameterType="TTaxiOrder" resultMap="TTaxiOrderResult">
+        <include refid="selectTTaxiOrderVo"/>
+        <where>
+            and order_type in ('1','2')
+            <if test="beginStation != null  and beginStation != ''">and begin_station like concat('%', #{beginStation},
+                '%')
+            </if>
+            <if test="endStation != null  and endStation != ''">and end_station like concat('%', #{endStation}, '%')
+            </if>
+            <if test="useTime != null  and useTime != ''">and use_time like concat('%', #{useTime}, '%')</if>
+            <if test="reserveName != null  and reserveName != ''">and reserve_name like concat('%', #{reserveName},
+                '%')
+            </if>
+            <if test="reserveId != null  and reserveId != ''">and reserve_id = #{reserveId}</if>
+            <if test="reserveMobile != null  and reserveMobile != ''">and reserve_mobile like concat('%',
+                #{reserveMobile}, '%')
+            </if>
+            <if test="appectTime != null  and appectTime != ''">and appect_time = #{appectTime}</if>
+            <if test="finishTime != null  and finishTime != ''">and finish_time = #{finishTime}</if>
+            <if test="orderCode != null  and orderCode != ''">and order_code = #{orderCode}</if>
+            <if test="orderType != null  and orderType != ''">and order_type = #{orderType}</if>
+            <if test="orderStatus != null ">and order_status = #{orderStatus}</if>
+            <if test="orderAmount != null ">and order_amount = #{orderAmount}</if>
+            <if test="collectAmount != null ">and collect_amount = #{collectAmount}</if>
+            <if test="driverId != null  and driverId != ''">and driver_id = #{driverId}</if>
+            <if test="driverName != null  and driverName != ''">and driver_name like concat('%', #{driverName}, '%')
+            </if>
+            <if test="driverPhone != null  and driverPhone != ''">and driver_phone like concat('%', #{driverPhone},
+                '%')
+            </if>
+            <if test="driverCarNo != null  and driverCarNo != ''">and driver_car_no like concat('%', #{driverCarNo},
+                '%')
+            </if>
+            <if test="longitude != null  and longitude != ''">and longitude = #{longitude}</if>
+            <if test="latitude != null  and latitude != ''">and latitude = #{latitude}</if>
+        </where>
+    </select>
+
+    <select id="selectTRentalOrderList" parameterType="TTaxiOrder" resultMap="TTaxiOrderResult">
+        <include refid="selectTTaxiOrderVo"/>
+        <where>
+            and order_type in ('3','4','5','6','7','8')
+            <if test="beginStation != null  and beginStation != ''">and begin_station like concat('%', #{beginStation},
+                '%')
+            </if>
+            <if test="endStation != null  and endStation != ''">and end_station like concat('%', #{endStation}, '%')
+            </if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+                AND use_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+                AND use_time &lt;= #{endTime}
+            </if>
+            <if test="reserveName != null  and reserveName != ''">and reserve_name like concat('%', #{reserveName},
+                '%')
+            </if>
+            <if test="reserveId != null  and reserveId != ''">and reserve_id = #{reserveId}</if>
+            <if test="reserveMobile != null  and reserveMobile != ''">and reserve_mobile like concat('%',
+                #{reserveMobile}, '%')
+            </if>
+            <if test="appectTime != null  and appectTime != ''">and appect_time = #{appectTime}</if>
+            <if test="finishTime != null  and finishTime != ''">and finish_time = #{finishTime}</if>
+            <if test="orderCode != null  and orderCode != ''">and order_code = #{orderCode}</if>
+            <if test="orderType != null  and orderType != ''">and order_type = #{orderType}</if>
+            <if test="orderStatus != null ">and order_status = #{orderStatus}</if>
+            <if test="orderAmount != null ">and order_amount = #{orderAmount}</if>
+            <if test="collectAmount != null ">and collect_amount = #{collectAmount}</if>
+            <if test="driverId != null  and driverId != ''">and driver_id = #{driverId}</if>
+            <if test="driverName != null  and driverName != ''">and driver_name like concat('%', #{driverName}, '%')
+            </if>
+            <if test="driverPhone != null  and driverPhone != ''">and driver_phone like concat('%', #{driverPhone},
+                '%')
+            </if>
+            <if test="driverCarNo != null  and driverCarNo != ''">and driver_car_no like concat('%', #{driverCarNo},
+                '%')
+            </if>
+            <if test="longitude != null  and longitude != ''">and longitude = #{longitude}</if>
+            <if test="latitude != null  and latitude != ''">and latitude = #{latitude}</if>
+            <if test="productCode != null  and productCode != ''">and product_code = #{productCode}</if>
+            <if test="orderNum != null  and orderNum != ''">and order_num = #{orderNum}</if>
+            <if test="busId != null  and busId != ''">and bus_id = #{busId}</if>
+            order by order_type desc,product_code desc ,order_status desc,bus_id asc
+        </where>
+    </select>
+
+    <select id="selectWaitList" parameterType="TTaxiOrder" resultMap="TTaxiOrderResult">
+        SELECT * FROM (select a.bus_id,a.order_status,a.id,a.use_time,a.order_type,c.passenger_num
+        seat_num,c.begin_station,c.latitude,
+        c.longitude,a.product_code,a.sell_number,concat(b.type_name,'_',b.passenger_num,
+        '座','(',b.remark,')') carDes,5 as useHour from t_taxi_order a left join t_vehicle_type b on
+        a.type=b.vcehicle_type_id left join t_rentalcars_message c
+        on a.order_code=c.order_code and (c.site_type=1 or c.site_type is null)
+        left join t_product d on a.product_code=d.product_id
+        where a.order_type in ('3','6') and a.order_status='7' and (a.bus_id='' or a.bus_id is null)
+        <if test="productCode != null  and productCode != ''">and a.product_code = #{productCode}</if>
+        <if test="beginStation != null  and beginStation != ''">and c.begin_station like concat('%', #{beginStation},
+            '%')
+        </if>
+        <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+            AND concat(left(a.use_time,10),' ',right(a.use_time,5))&gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+            AND concat(left(a.use_time,10),' ',right(a.use_time,5)) &lt;= #{endTime}
+        </if>
+        <if test="orderType != null  and orderType != ''">and a.order_type = #{orderType}</if>
+        union
+        select a.bus_id,a.order_status,a.id,a.use_time,a.order_type,c.passenger_num seat_num,c.begin_station,c.latitude,
+        c.longitude,a.product_code,a.sell_number,concat(b.type_name,'_',b.passenger_num,
+        '座','(',b.remark,')') carDes,5 as useHour from t_rentalcars_message c,t_taxi_order a left join t_vehicle_type b
+        on
+        a.type=b.vcehicle_type_id
+        left join t_product d on a.product_code=d.product_id
+        where a.order_code=c.order_code and (c.site_type=1 or c.site_type is null) AND c.reception_num=1 AND
+        a.order_type in ('5','7','8') and
+        a.order_status='7' and (a.bus_id='' or a.bus_id is null)
+        <if test="productCode != null  and productCode != ''">and a.product_code = #{productCode}</if>
+        <if test="beginStation != null  and beginStation != ''">and c.begin_station like concat('%', #{beginStation},
+            '%')
+        </if>
+        <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+            AND concat(left(a.use_time,10),' ',right(a.use_time,5)) &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+            AND concat(left(a.use_time,10),' ',right(a.use_time,5)) &lt;= #{endTime}
+        </if>
+        <if test="orderType != null  and orderType != ''">and a.order_type = #{orderType}</if>) a
+        order by a.order_type desc,a.product_code desc ,a.order_status desc,a.bus_id asc
+    </select>
+
+    <select id="selectTTaxiOrderById" parameterType="Long" resultMap="TTaxiOrderResult">
+        <include refid="selectTTaxiOrderVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectTTaxiOrderByOrderCode" parameterType="String" resultMap="TTaxiOrderResult">
+        select id, 'type',bus_id,product_name,sell_price,seat_num,use_number,sell_number,begin_station, end_station, use_time, reserve_name, reserve_id, reserve_mobile, a.create_time, appect_time, finish_time, a.order_code, order_type, order_status, order_amount, collect_amount, driver_id, driver_name, driver_phone, driver_car_no, longitude, latitude,product_code,order_num,concat(b.type_name,'_',b.passenger_num,'座','(',b.remark
+,')') carDes,c.tjzd from t_taxi_order a left join t_vehicle_type b on a.type=b.vcehicle_type_id left join (select c.order_code,GROUP_CONCAT(c.begin_station) tjzd from t_rentalcars_message c group by c.order_code) c on a.order_code=c.order_code
+        where a.order_code = #{orderCode}
+    </select>
+
+    <select id="selectTTaxiOrderByBusId" parameterType="String" resultMap="TTaxiOrderResult">
+        select id, 'type',bus_id,product_name,sell_price,seat_num,use_number,sell_number,begin_station, end_station, use_time, reserve_name, reserve_id, reserve_mobile, a.create_time, appect_time, finish_time, a.order_code, order_type, order_status, order_amount, collect_amount, driver_id, driver_name, driver_phone, driver_car_no, longitude, latitude,product_code,order_num,concat(b.type_name,'_',b.passenger_num,'座','(',b.remark
+,')') carDes,c.tjzd from t_taxi_order a left join t_vehicle_type b on a.type=b.vcehicle_type_id left join (select c.order_code,GROUP_CONCAT(c.begin_station) tjzd from t_rentalcars_message c group by c.order_code) c on a.order_code=c.order_code and a.order_type='4'
+        where a.bus_id = #{busId}
+    </select>
+
+
+    <insert id="insertTTaxiOrder" parameterType="TTaxiOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into t_taxi_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="beginStation != null  and beginStation != ''">begin_station,</if>
+            <if test="endStation != null  and endStation != ''">end_station,</if>
+            <if test="useTime != null  and useTime != ''">use_time,</if>
+            <if test="reserveName != null  and reserveName != ''">reserve_name,</if>
+            <if test="reserveId != null  and reserveId != ''">reserve_id,</if>
+            <if test="reserveMobile != null  and reserveMobile != ''">reserve_mobile,</if>
+            <if test="createTime != null  and createTime != ''">create_time,</if>
+            <if test="appectTime != null  and appectTime != ''">appect_time,</if>
+            <if test="finishTime != null  and finishTime != ''">finish_time,</if>
+            <if test="orderCode != null  and orderCode != ''">order_code,</if>
+            <if test="orderType != null  and orderType != ''">order_type,</if>
+            <if test="orderStatus != null ">order_status,</if>
+            <if test="orderAmount != null ">order_amount,</if>
+            <if test="collectAmount != null ">collect_amount,</if>
+            <if test="driverId != null  and driverId != ''">driver_id,</if>
+            <if test="driverName != null  and driverName != ''">driver_name,</if>
+            <if test="driverPhone != null  and driverPhone != ''">driver_phone,</if>
+            <if test="driverCarNo != null  and driverCarNo != ''">driver_car_no,</if>
+            <if test="longitude != null  and longitude != ''">longitude,</if>
+            <if test="latitude != null  and latitude != ''">latitude,</if>
+            <if test="productCode != null  and productCode != ''">product_code,</if>
+            <if test="orderNum != null  and orderNum != ''">order_num,</if>
+            <if test="productName != null  and productName != ''">product_name,</if>
+            <if test="useNumber != null  and useNumber != ''">use_number,</if>
+            <if test="sellNumber != null  and sellNumber != ''">sell_number,</if>
+            <if test="seatNum != null  and seatNum != ''">seat_num,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="sellPrice != null  and sellPrice != ''">sell_price,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="beginStation != null  and beginStation != ''">#{beginStation},</if>
+            <if test="endStation != null  and endStation != ''">#{endStation},</if>
+            <if test="useTime != null  and useTime != ''">#{useTime},</if>
+            <if test="reserveName != null  and reserveName != ''">#{reserveName},</if>
+            <if test="reserveId != null  and reserveId != ''">#{reserveId},</if>
+            <if test="reserveMobile != null  and reserveMobile != ''">#{reserveMobile},</if>
+            <if test="createTime != null  and createTime != ''">#{createTime},</if>
+            <if test="appectTime != null  and appectTime != ''">#{appectTime},</if>
+            <if test="finishTime != null  and finishTime != ''">#{finishTime},</if>
+            <if test="orderCode != null  and orderCode != ''">#{orderCode},</if>
+            <if test="orderType != null  and orderType != ''">#{orderType},</if>
+            <if test="orderStatus != null ">#{orderStatus},</if>
+            <if test="orderAmount != null ">#{orderAmount},</if>
+            <if test="collectAmount != null ">#{collectAmount},</if>
+            <if test="driverId != null  and driverId != ''">#{driverId},</if>
+            <if test="driverName != null  and driverName != ''">#{driverName},</if>
+            <if test="driverPhone != null  and driverPhone != ''">#{driverPhone},</if>
+            <if test="driverCarNo != null  and driverCarNo != ''">#{driverCarNo},</if>
+            <if test="longitude != null  and longitude != ''">#{longitude},</if>
+            <if test="latitude != null  and latitude != ''">#{latitude},</if>
+            <if test="productCode != null  and productCode != ''">#{productCode},</if>
+            <if test="orderNum != null  and orderNum != ''">#{orderNum},</if>
+            <if test="productName != null  and productName != ''">#{productName},</if>
+            <if test="useNumber != null  and useNumber != ''">#{useNumber},</if>
+            <if test="sellNumber != null  and sellNumber != ''">#{sellNumber},</if>
+            <if test="seatNum != null  and seatNum != ''">#{seatNum},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="sellPrice != null  and sellPrice != ''">#{sellNumber},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTTaxiOrder" parameterType="TTaxiOrder">
+        update t_taxi_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="beginStation != null  and beginStation != ''">begin_station = #{beginStation},</if>
+            <if test="endStation != null  and endStation != ''">end_station = #{endStation},</if>
+            <if test="useTime != null  and useTime != ''">use_time = #{useTime},</if>
+            <if test="reserveName != null  and reserveName != ''">reserve_name = #{reserveName},</if>
+            <if test="reserveId != null  and reserveId != ''">reserve_id = #{reserveId},</if>
+            <if test="reserveMobile != null  and reserveMobile != ''">reserve_mobile = #{reserveMobile},</if>
+            <if test="createTime != null  and createTime != ''">create_time = #{createTime},</if>
+            <if test="appectTime != null  and appectTime != ''">appect_time = #{appectTime},</if>
+            <if test="finishTime != null  and finishTime != ''">finish_time = #{finishTime},</if>
+            <if test="orderCode != null  and orderCode != ''">order_code = #{orderCode},</if>
+            <if test="orderType != null  and orderType != ''">order_type = #{orderType},</if>
+            <if test="orderStatus != null ">order_status = #{orderStatus},</if>
+            <if test="orderAmount != null ">order_amount = #{orderAmount},</if>
+            <if test="collectAmount != null ">collect_amount = #{collectAmount},</if>
+            <if test="driverId != null  and driverId != ''">driver_id = #{driverId},</if>
+            <if test="driverName != null  and driverName != ''">driver_name = #{driverName},</if>
+            <if test="driverPhone != null  and driverPhone != ''">driver_phone = #{driverPhone},</if>
+            <if test="driverCarNo != null  and driverCarNo != ''">driver_car_no = #{driverCarNo},</if>
+            <if test="longitude != null  and longitude != ''">longitude = #{longitude},</if>
+            <if test="latitude != null  and latitude != ''">latitude = #{latitude},</if>
+            <if test="productCode != null  and productCode != ''">product_code = #{productCode},</if>
+            <if test="orderNum != null  and orderNum != ''">order_num = #{orderNum},</if>
+            <if test="productName != null  and productName != ''">product_name = #{productName},</if>
+            <if test="useNumber != null  and useNumber != ''">use_number = #{useNumber},</if>
+            <if test="seatNum != null  and seatNum != ''">seat_num = #{seatNum},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTTaxiOrderById" parameterType="Long">
+        delete from t_taxi_order where id = #{id}
+    </delete>
+
+    <delete id="deleteTTaxiOrderByIds" parameterType="String">
+        delete from t_taxi_order where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateOrderPrice" parameterType="TTaxiOrder">
+    update t_taxi_order set order_amount=#{orderAmount},collect_amount=#{orderAmount} where order_code=#{orderCode}
+    </update>
+
+    <update id="updateOrderBusId">
+        update t_taxi_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="driverId != null  and driverId != ''">driver_id = #{driverId},</if>
+            <if test="driverName != null  and driverName != ''">driver_name = #{driverName},</if>
+            <if test="driverPhone != null  and driverPhone != ''">driver_phone = #{driverPhone},</if>
+            <if test="driverCarNo != null  and driverCarNo != ''">driver_car_no = #{driverCarNo},</if>
+            <if test="busId != null  and busId != ''">bus_id = #{busId},</if>
+        </trim>
+        where id in (${ids})
+    </update>
+
+    <update id="updateOrderStatus" parameterType="String">
+    update t_taxi_order set order_status=7 where order_code=#{orderCode}
+    </update>
+
+    <update id="updateOrderForBusId">
+        update t_taxi_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="driverId != null  and driverId != ''">driver_id = #{driverId},</if>
+            <if test="driverName != null  and driverName != ''">driver_name = #{driverName},</if>
+            <if test="driverPhone != null  and driverPhone != ''">driver_phone = #{driverPhone},</if>
+            <if test="driverCarNo != null  and driverCarNo != ''">driver_car_no = #{driverCarNo},</if>
+        </trim>
+        where bus_id = #{busId}
+    </update>
+
+    <update id="delByBusId" parameterType="String">
+    update t_taxi_order a,t_rentalcars_message b set b.bus_id=null,
+    b.reception_num=null,b.reception_time=null,a.bus_id=null,
+    a.driver_id=null,a.driver_name=null,a.driver_phone=null,
+    a.driver_car_no=null where a.order_code=b.order_code
+    and a.bus_id = #{busId}
+    </update>
+
+    <select id="getCanUseOrderList" parameterType="TTaxiOrder" resultMap="TTaxiOrderResult">
+        select
+        a.bus_id,a.order_status,a.id,a.use_time,a.order_type,
+        a.seat_num,a.begin_station,a.end_station,
+        a.reserve_name,a.reserve_mobile
+        from t_taxi_order a
+        where a.order_type in ('3','6') and a.order_status='7' and (a.bus_id='' or a.bus_id is null)
+        <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+            AND concat(left(a.use_time,10),' ',right(a.use_time,5))&gt;= #{beginTime}
+            AND date_format(a.use_time,'%y%m%d') = date_format(#{beginTime},'%y%m%d')
+        </if>
+        <if test="passengerNum != null  and passengerNum != ''">and a.seat_num &lt;= #{passengerNum}</if>
+        <if test="productCode != null  and productCode != ''">and a.product_code = #{productCode}</if>
+        order by a.seat_num desc,a.use_time asc
+    </select>
+
+</mapper>

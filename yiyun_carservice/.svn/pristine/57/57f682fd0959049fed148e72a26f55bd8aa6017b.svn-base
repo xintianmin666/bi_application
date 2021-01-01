@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TRefundRuleDetailMapper">
+    
+    <resultMap type="TRefundRuleDetail" id="TRefundRuleDetailResult">
+        <result property="refundRuleDetailId"    column="refund_rule_detail_id"    />
+        <result property="refundRuleId"    column="refund_rule_id"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="refundCharge"    column="refund_charge"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectTRefundRuleDetailVo">
+        select refund_rule_detail_id, refund_rule_id, start_date, end_date, refund_charge, create_user_id, create_time from t_refund_rule_detail
+    </sql>
+
+    <select id="selectTRefundRuleDetailList" parameterType="TRefundRuleDetail" resultMap="TRefundRuleDetailResult">
+        <include refid="selectTRefundRuleDetailVo"/>
+        <where>  
+            <if test="refundRuleId != null "> and refund_rule_id = #{refundRuleId}</if>
+            <if test="startDate != null "> and start_date = #{startDate}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+            <if test="refundCharge != null "> and refund_charge = #{refundCharge}</if>
+            <if test="createUserId != null "> and create_user_id = #{createUserId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTRefundRuleDetailById" parameterType="Long" resultMap="TRefundRuleDetailResult">
+        <include refid="selectTRefundRuleDetailVo"/>
+        where refund_rule_detail_id = #{refundRuleDetailId}
+    </select>
+        
+    <insert id="insertTRefundRuleDetail" parameterType="TRefundRuleDetail">
+        insert into t_refund_rule_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="refundRuleDetailId != null ">refund_rule_detail_id,</if>
+            <if test="refundRuleId != null ">refund_rule_id,</if>
+            <if test="startDate != null ">start_date,</if>
+            <if test="endDate != null ">end_date,</if>
+            <if test="refundCharge != null ">refund_charge,</if>
+            <if test="createUserId != null ">create_user_id,</if>
+            <if test="createTime != null ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="refundRuleDetailId != null ">#{refundRuleDetailId},</if>
+            <if test="refundRuleId != null ">#{refundRuleId},</if>
+            <if test="startDate != null ">#{startDate},</if>
+            <if test="endDate != null ">#{endDate},</if>
+            <if test="refundCharge != null ">#{refundCharge},</if>
+            <if test="createUserId != null ">#{createUserId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTRefundRuleDetail" parameterType="TRefundRuleDetail">
+        update t_refund_rule_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="refundRuleId != null ">refund_rule_id = #{refundRuleId},</if>
+            <if test="startDate != null ">start_date = #{startDate},</if>
+            <if test="endDate != null ">end_date = #{endDate},</if>
+            <if test="refundCharge != null ">refund_charge = #{refundCharge},</if>
+            <if test="createUserId != null ">create_user_id = #{createUserId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+        </trim>
+        where refund_rule_detail_id = #{refundRuleDetailId}
+    </update>
+
+    <delete id="deleteTRefundRuleDetailById" parameterType="Long">
+        delete from t_refund_rule_detail where refund_rule_detail_id = #{refundRuleDetailId}
+    </delete>
+
+    <delete id="deleteTRefundRuleDetailByIds" parameterType="String">
+        delete from t_refund_rule_detail where refund_rule_detail_id in 
+        <foreach item="refundRuleDetailId" collection="array" open="(" separator="," close=")">
+            #{refundRuleDetailId}
+        </foreach>
+    </delete>
+    
+</mapper>

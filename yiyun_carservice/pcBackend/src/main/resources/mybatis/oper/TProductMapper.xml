@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TProductMapper">
+    
+    <resultMap type="TProduct" id="TProductResult">
+        <result property="productId"    column="product_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="productCode"    column="product_code"    />
+        <result property="productPicTob"    column="product_pic_tob"    />
+        <result property="productPicToc"    column="product_pic_toc"    />
+        <result property="productDetail"    column="product_detail"    />
+        <result property="lineType"    column="line_type"    />
+        <result property="startSiteId"    column="start_site_id"    />
+        <result property="endSiteId"    column="end_site_id"    />
+        <result property="runTime"    column="run_time"    />
+        <result property="mileage"    column="mileage"    />
+        <result property="bookingGuide"    column="booking_guide"    />
+        <result property="startingDistance"    column="starting_distance"    />
+        <result property="startingPrice"    column="starting_price"    />
+        <result property="outOfPrice"    column="out_of_price"    />
+        <result property="nightServiceTime"    column="night_service_time"    />
+        <result property="nightServiceCharge"    column="night_service_charge"    />
+        <result property="waitingTimeoutCharge"    column="waiting_timeout_charge"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="isSale"    column="is_sale"    />
+        <result property="pchePrice"    column="pche_price"    />
+        <result property="bchePrice"    column="bche_price"    />
+        <result property="startCity"    column="start_city"    />
+        <result property="endCity"    column="end_city"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="beginTime"    column="begin_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="departureFrequency"    column="departure_frequency"    />
+        <result property="bcChargeType"    column="bc_charge_type"    />
+        <collection  property="productPriceList"   javaType="java.util.List" resultMap="productPriceResult" />
+        <collection  property="productSiteList"   javaType="java.util.List" resultMap="TProductSiteResult" />
+    </resultMap>
+    <resultMap type="TProduct" id="TProductResult1">
+        <result property="productId"    column="product_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="productCode"    column="product_code"    />
+        <result property="productPicTob"    column="product_pic_tob"    />
+        <result property="productPicToc"    column="product_pic_toc"    />
+        <result property="productDetail"    column="product_detail"    />
+        <result property="lineType"    column="line_type"    />
+        <result property="startSiteId"    column="start_site_id"    />
+        <result property="endSiteId"    column="end_site_id"    />
+        <result property="runTime"    column="run_time"    />
+        <result property="mileage"    column="mileage"    />
+        <result property="bookingGuide"    column="booking_guide"    />
+        <result property="startingDistance"    column="starting_distance"    />
+        <result property="startingPrice"    column="starting_price"    />
+        <result property="outOfPrice"    column="out_of_price"    />
+        <result property="nightServiceTime"    column="night_service_time"    />
+        <result property="nightServiceCharge"    column="night_service_charge"    />
+        <result property="waitingTimeoutCharge"    column="waiting_timeout_charge"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="isSale"    column="is_sale"    />
+        <result property="pchePrice"    column="pche_price"    />
+        <result property="bchePrice"    column="bche_price"    />
+        <result property="startCity"    column="start_city"    />
+        <result property="endCity"    column="end_city"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="beginTime"    column="begin_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="departureFrequency"    column="departure_frequency"    />
+        <result property="bcChargeType"    column="bc_charge_type"    />
+    </resultMap>
+
+    <resultMap type="TProductPrice" id="productPriceResult">
+        <id property="productPriceId"    column="product_price_id"    />
+        <result property="carSeatNo"    column="car_seat_no"    />
+        <result property="carType"    column="car_type"    />
+        <result property="highSpeedSetting"    column="high_speed_setting"    />
+        <result property="pchePermission"    column="pche_permission"    />
+        <result property="bchePermission"    column="bche_permission"    />
+        <result property="pcheTocPrice"    column="pche_toc_price"    />
+        <result property="pcheTobPrice"    column="pche_tob_price"    />
+        <result property="bcheTocPrice"    column="bche_toc_price"    />
+        <result property="bcheTobPrice"    column="bche_tob_price"    />
+        <!-- column是传的参数, select是调用的查询 -->
+        <association property="vehicleType" column="car_type" select="getVehicleTypeByCarType"/>
+    </resultMap>
+
+    <resultMap type="TProductSite" id="TProductSiteResult">
+        <id property="productSiteId"    column="product_site_id"    />
+        <result property="siteInfoId"    column="site_info_id"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="siteType"    column="site_type"    />
+        <result property="useSiteFence"    column="use_site_fence"    />
+        <!-- column是传的参数, select是调用的查询 -->
+        <association property="siteInfo" column="site_info_id" select="getSiteById"/>
+    </resultMap>
+    <resultMap type="TSiteInfo" id="TSiteInfoResult">
+        <result property="siteId"    column="site_id"    />
+        <result property="cityId"    column="city_id"    />
+        <result property="siteCode"    column="site_code"    />
+        <result property="siteName"    column="site_name"    />
+        <result property="sitePy"    column="site_py"    />
+        <result property="siteSp"    column="site_sp"    />
+        <result property="siteType"    column="site_type"    />
+        <result property="siteLevel"    column="site_level"    />
+        <result property="siteRadius"    column="site_radius"    />
+        <result property="siteFence"    column="site_fence"    />
+        <result property="lng"    column="lng"    />
+        <result property="lat"    column="lat"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+    <resultMap type="TVehicleType" id="TVehicleTypeResult">
+        <result property="capacityMax"    column="capacity_max"    />
+        <result property="passengerNum"    column="passenger_num"    />
+        <result property="noSeatChildNum"    column="no_seat_child_num"    />
+        <result property="suitcaseNumRemark"    column="suitcase_num_remark"    />
+        <result property="remark"    column="remark"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="pincheMin"    column="pinche_min"    />
+        <result property="carPicUrl"    column="car_pic_url"    />
+    </resultMap>
+    <resultMap type="TVehicleType" id="TVehicleTypeResult1">
+        <result property="vcehicleTypeId"    column="vcehicle_type_id"    />
+        <result property="capacityMax"    column="capacity_max"    />
+        <result property="passengerNum"    column="passenger_num"    />
+        <result property="noSeatChildNum"    column="no_seat_child_num"    />
+        <result property="suitcaseNumRemark"    column="suitcase_num_remark"    />
+        <result property="remark"    column="remark"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="pincheMin"    column="pinche_min"    />
+        <result property="carPicUrl"    column="car_pic_url"    />
+        <result property="pcheTocPrice"    column="pche_toc_price"    />
+        <result property="pcheTobPrice"    column="pche_tob_price"    />
+        <result property="bcheTocPrice"    column="bche_toc_price"    />
+        <result property="bcheTobPrice"    column="bche_tob_price"    />
+    </resultMap>
+    <select id="getSiteById" resultMap="TSiteInfoResult">
+    SELECT * FROM t_site_info WHERE site_id=#{site_info_id}
+    </select>
+
+    <select id="getVehicleTypeByCarType" resultMap="TVehicleTypeResult">
+    SELECT * FROM t_vehicle_type where vcehicle_type_id = #{car_type} order by passenger_num
+    </select>
+
+    <sql id="selectTProductVo">
+        select product_id, product_name, product_code, product_pic_tob, product_pic_toc, product_detail, line_type, start_site_id, end_site_id, run_time, mileage, booking_guide, starting_distance, starting_price, out_of_price,
+       night_service_time, night_service_charge, waiting_timeout_charge, create_id, create_time,is_sale,pche_price,bche_price,start_city,end_city,dept_id,begin_time,end_time,departure_frequency,bc_charge_type from t_product p
+    </sql>
+    <sql id="selectTProductVo1">
+        select a.product_id, a.product_name, a.product_code, a.product_pic_tob, a.product_pic_toc, a.product_detail, a.line_type, a.start_site_id, a.end_site_id, a.run_time, a.mileage, a.booking_guide, a.starting_distance, a.starting_price, a.out_of_price,
+        a.night_service_time, a.night_service_charge, a.waiting_timeout_charge, a.create_id, a.create_time,a.is_sale,a.pche_price,a.bche_price,a.start_city,a.end_city,a.dept_id,
+        a.begin_time,a.end_time,a.departure_frequency,a.bc_charge_type,
+        b.product_price_id,b.car_type,b.car_seat_no,b.high_speed_setting,b.pche_permission,b.bche_permission,b.pche_toc_price,b.pche_tob_price,b.bche_toc_price,b.bche_tob_price,
+        c.product_site_id,c.site_info_id,c.order_num,c.site_type,c.use_site_fence
+
+        from t_product a left join t_product_price b on a.product_id = b.product_id
+        left join t_product_site c on a.product_id = c.t_product_id
+    </sql>
+
+    <select id="selectTProductList" parameterType="TProduct" resultMap="TProductResult">
+        <include refid="selectTProductVo"/>
+        <where>  
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+            <if test="productCode != null  and productCode != ''"> and product_code = #{productCode}</if>
+            <if test="productPicTob != null  and productPicTob != ''"> and product_pic_tob = #{productPicTob}</if>
+            <if test="productPicToc != null  and productPicToc != ''"> and product_pic_toc = #{productPicToc}</if>
+            <if test="productDetail != null  and productDetail != ''"> and product_detail = #{productDetail}</if>
+            <if test="lineType != null  and lineType != ''"> and line_type = #{lineType}</if>
+            <if test="startSiteId != null  and startSiteId != ''"> and start_site_id = #{startSiteId}</if>
+            <if test="endSiteId != null  and endSiteId != ''"> and end_site_id = #{endSiteId}</if>
+            <if test="runTime != null  and runTime != ''"> and run_time = #{runTime}</if>
+            <if test="mileage != null  and mileage != ''"> and mileage = #{mileage}</if>
+            <if test="bookingGuide != null  and bookingGuide != ''"> and booking_guide = #{bookingGuide}</if>
+            <if test="startingDistance != null "> and starting_distance = #{startingDistance}</if>
+            <if test="startingPrice != null "> and starting_price = #{startingPrice}</if>
+            <if test="outOfPrice != null "> and out_of_price = #{outOfPrice}</if>
+            <if test="nightServiceTime != null  and nightServiceTime != ''"> and night_service_time = #{nightServiceTime}</if>
+            <if test="nightServiceCharge != null "> and night_service_charge = #{nightServiceCharge}</if>
+            <if test="waitingTimeoutCharge != null "> and waiting_timeout_charge = #{waitingTimeoutCharge}</if>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="isSale != null  and isSale != ''"> and is_sale = #{isSale}</if>
+            <if test="pchePrice != null "> and pche_price = #{pchePrice}</if>
+            <if test="bchePrice != null "> and bche_price = #{bchePrice}</if>
+            <if test="startCity != null "> and start_city = #{startCity}</if>
+            <if test="endCity != null "> and end_city = #{endCity}</if>
+            <if test="deptId != null and deptId != 0">
+                AND (dept_id = #{deptId} OR dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+            </if>
+            <!-- 数据范围过滤 -->
+            ${dataScope}
+        </where>
+    </select>
+    
+    <select id="selectTProductById" parameterType="Long" resultMap="TProductResult">
+        <include refid="selectTProductVo1"/>
+        where a.product_id = #{productId}
+        order by c.order_num
+    </select>
+        
+    <insert id="insertTProduct" parameterType="TProduct" useGeneratedKeys="true" keyProperty="productId">
+        insert into t_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productName != null  and productName != ''">product_name,</if>
+            <if test="productCode != null  and productCode != ''">product_code,</if>
+            <if test="productPicTob != null  and productPicTob != ''">product_pic_tob,</if>
+            <if test="productPicToc != null  and productPicToc != ''">product_pic_toc,</if>
+            <if test="productDetail != null  and productDetail != ''">product_detail,</if>
+            <if test="lineType != null  and lineType != ''">line_type,</if>
+            <if test="startSiteId != null  and startSiteId != ''">start_site_id,</if>
+            <if test="endSiteId != null  and endSiteId != ''">end_site_id,</if>
+            <if test="runTime != null  and runTime != ''">run_time,</if>
+            <if test="mileage != null  and mileage != ''">mileage,</if>
+            <if test="bookingGuide != null  and bookingGuide != ''">booking_guide,</if>
+            <if test="startingDistance != null ">starting_distance,</if>
+            <if test="startingPrice != null ">starting_price,</if>
+            <if test="outOfPrice != null ">out_of_price,</if>
+            <if test="nightServiceTime != null  and nightServiceTime != ''">night_service_time,</if>
+            <if test="nightServiceCharge != null ">night_service_charge,</if>
+            <if test="waitingTimeoutCharge != null ">waiting_timeout_charge,</if>
+            <if test="createId != null ">create_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="isSale != null  and isSale != ''">is_sale,</if>
+            <if test="pchePrice != null ">pche_price,</if>
+            <if test="bchePrice != null ">bche_price,</if>
+            <if test="startCity != null ">start_city,</if>
+            <if test="endCity != null ">end_city,</if>
+            <if test="deptId != null ">dept_id,</if>
+            <if test="beginTime != null ">begin_time,</if>
+            <if test="endTime != null ">end_time,</if>
+            <if test="departureFrequency != null ">departure_frequency,</if>
+            <if test="bcChargeType != null ">bc_charge_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productName != null  and productName != ''">#{productName},</if>
+            <if test="productCode != null  and productCode != ''">#{productCode},</if>
+            <if test="productPicTob != null  and productPicTob != ''">#{productPicTob},</if>
+            <if test="productPicToc != null  and productPicToc != ''">#{productPicToc},</if>
+            <if test="productDetail != null  and productDetail != ''">#{productDetail},</if>
+            <if test="lineType != null  and lineType != ''">#{lineType},</if>
+            <if test="startSiteId != null  and startSiteId != ''">#{startSiteId},</if>
+            <if test="endSiteId != null  and endSiteId != ''">#{endSiteId},</if>
+            <if test="runTime != null  and runTime != ''">#{runTime},</if>
+            <if test="mileage != null  and mileage != ''">#{mileage},</if>
+            <if test="bookingGuide != null  and bookingGuide != ''">#{bookingGuide},</if>
+            <if test="startingDistance != null ">#{startingDistance},</if>
+            <if test="startingPrice != null ">#{startingPrice},</if>
+            <if test="outOfPrice != null ">#{outOfPrice},</if>
+            <if test="nightServiceTime != null  and nightServiceTime != ''">#{nightServiceTime},</if>
+            <if test="nightServiceCharge != null ">#{nightServiceCharge},</if>
+            <if test="waitingTimeoutCharge != null ">#{waitingTimeoutCharge},</if>
+            <if test="createId != null ">#{createId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="isSale != null  and isSale != ''">#{isSale},</if>
+            <if test="pchePrice != null ">#{pchePrice},</if>
+            <if test="bchePrice != null ">#{bchePrice},</if>
+            <if test="startCity != null ">#{startCity},</if>
+            <if test="endCity != null ">#{endCity},</if>
+            <if test="deptId != null ">#{deptId},</if>
+            <if test="beginTime != null ">#{beginTime},</if>
+            <if test="endTime != null ">#{endTime},</if>
+            <if test="departureFrequency != null ">#{departureFrequency},</if>
+            <if test="bcChargeType != null ">#{bcChargeType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTProduct" parameterType="TProduct">
+        update t_product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productName != null  and productName != ''">product_name = #{productName},</if>
+            <if test="productCode != null  and productCode != ''">product_code = #{productCode},</if>
+            <if test="productPicTob != null  and productPicTob != ''">product_pic_tob = #{productPicTob},</if>
+            <if test="productPicToc != null  and productPicToc != ''">product_pic_toc = #{productPicToc},</if>
+            <if test="productDetail != null  and productDetail != ''">product_detail = #{productDetail},</if>
+            <if test="lineType != null  and lineType != ''">line_type = #{lineType},</if>
+            <if test="startSiteId != null  and startSiteId != ''">start_site_id = #{startSiteId},</if>
+            <if test="endSiteId != null  and endSiteId != ''">end_site_id = #{endSiteId},</if>
+            <if test="runTime != null  and runTime != ''">run_time = #{runTime},</if>
+            <if test="mileage != null  and mileage != ''">mileage = #{mileage},</if>
+            <if test="bookingGuide != null  and bookingGuide != ''">booking_guide = #{bookingGuide},</if>
+            <if test="startingDistance != null ">starting_distance = #{startingDistance},</if>
+            <if test="startingPrice != null ">starting_price = #{startingPrice},</if>
+            <if test="outOfPrice != null ">out_of_price = #{outOfPrice},</if>
+            <if test="nightServiceTime != null  and nightServiceTime != ''">night_service_time = #{nightServiceTime},</if>
+            <if test="nightServiceCharge != null ">night_service_charge = #{nightServiceCharge},</if>
+            <if test="waitingTimeoutCharge != null ">waiting_timeout_charge = #{waitingTimeoutCharge},</if>
+            <if test="createId != null ">create_id = #{createId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="isSale != null  and isSale != ''">is_sale = #{isSale},</if>
+            <if test="pchePrice != null ">pche_price = #{pchePrice},</if>
+            <if test="bchePrice != null ">bche_price = #{bchePrice},</if>
+            <if test="startCity != null ">start_city = #{startCity},</if>
+            <if test="endCity != null ">end_city = #{endCity},</if>
+            <if test="deptId != null ">dept_id = #{deptId},</if>
+            <if test="beginTime != null ">begin_time = #{beginTime},</if>
+            <if test="endTime != null ">end_time = #{endTime},</if>
+            <if test="departureFrequency != null ">departure_frequency = #{departureFrequency},</if>
+            <if test="bcChargeType != null ">bc_charge_type = #{bcChargeType},</if>
+        </trim>
+        where product_id = #{productId}
+    </update>
+
+    <delete id="deleteTProductById" parameterType="Long">
+        delete from t_product where product_id = #{productId}
+    </delete>
+
+    <delete id="deleteTProductByIds" parameterType="String">
+        delete from t_product where product_id in 
+        <foreach item="productId" collection="array" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </delete>
+
+    <select id="getProductListByStartAndEndCityId" resultMap="TProductResult">
+        select * from t_product p
+        where (select si.city_id from t_product_site ps left join t_site_info si on ps.site_info_id = si.site_id where ps.t_product_id = p.product_id order by ps.order_num limit 1) = #{startCityId}
+        and (select si.city_id from t_product_site ps left join t_site_info si on ps.site_info_id = si.site_id where ps.t_product_id = p.product_id order by ps.order_num desc limit 1) = #{endCityId}
+    </select>
+    <select id="selectProductListByStartAndEndCity" resultMap="TProductResult1">
+        select * from t_product where
+        is_sale = 1
+        <if test="startCity !=null and startCity!=''">
+            and end_city = #{endCity}
+        </if>
+        <if test="endCity !=null and endCity!=''">
+            and line_type = #{lineType}
+        </if>
+        <if test="lineType !=null and lineType!=''">
+            and line_type = #{lineType}
+        </if>
+    </select>
+
+    <select id="getProductCarTypeByProductId" resultMap="TVehicleTypeResult1">
+         SELECT t.*,p.pche_toc_price,p.pche_tob_price,p.bche_toc_price,p.bche_tob_price FROM
+         t_product_price p left join t_vehicle_type t on t.vcehicle_type_id = p.car_type
+         where p.product_id = #{0} and t.vcehicle_type_id !='' order by t.passenger_num,p.pche_toc_price
+    </select>
+
+    <select id="getBestBcheGoods" resultMap="TVehicleTypeResult1">
+         SELECT t.*,p.pche_toc_price,p.pche_tob_price,p.bche_toc_price,p.bche_tob_price FROM
+         t_product_price p left join t_vehicle_type t on t.vcehicle_type_id = p.car_type
+         left join t_product tp on tp.product_id = p.product_id
+         where p.product_id = #{productId} and t.vcehicle_type_id !=''and tp.bc_charge_type =1
+         and t.pinche_min &lt;= #{passengerNum} and t.passenger_num>=#{passengerNum}
+          order by t.passenger_num,p.bche_toc_price
+    </select>
+</mapper>

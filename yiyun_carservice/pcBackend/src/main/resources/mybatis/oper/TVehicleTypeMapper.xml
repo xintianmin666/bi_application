@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TVehicleTypeMapper">
+    
+    <resultMap type="TVehicleType" id="TVehicleTypeResult">
+        <result property="vcehicleTypeId"    column="vcehicle_type_id"    />
+        <result property="capacityMax"    column="capacity_max"    />
+        <result property="passengerNum"    column="passenger_num"    />
+        <result property="noSeatChildNum"    column="no_seat_child_num"    />
+        <result property="suitcaseNumRemark"    column="suitcase_num_remark"    />
+        <result property="remark"    column="remark"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="carPicUrl"    column="car_pic_url"    />
+        <result property="pincheMin"    column="pinche_min"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <result property="modifyUserId"    column="modify_user_id"    />
+        <result property="isvaliable"    column="isvaliable"    />
+    </resultMap>
+
+    <sql id="selectTVehicleTypeVo">
+        select vcehicle_type_id, capacity_max, passenger_num, no_seat_child_num, suitcase_num_remark, remark, type_name, car_pic_url, pinche_min, create_time, create_user_id, modify_time, modify_user_id, isvaliable from t_vehicle_type
+    </sql>
+
+    <select id="selectTVehicleTypeList" parameterType="TVehicleType" resultMap="TVehicleTypeResult">
+        <include refid="selectTVehicleTypeVo"/>
+        <where>  
+            <if test="capacityMax != null "> and capacity_max = #{capacityMax}</if>
+            <if test="passengerNum != null "> and passenger_num = #{passengerNum}</if>
+            <if test="noSeatChildNum != null "> and no_seat_child_num = #{noSeatChildNum}</if>
+            <if test="suitcaseNumRemark != null  and suitcaseNumRemark != ''"> and suitcase_num_remark = #{suitcaseNumRemark}</if>
+            <if test="typeName != null  and typeName != ''"> and type_name like concat('%', #{typeName}, '%')</if>
+            <if test="carPicUrl != null  and carPicUrl != ''"> and car_pic_url = #{carPicUrl}</if>
+            <if test="pincheMin != null "> and pinche_min = #{pincheMin}</if>
+            <if test="createUserId != null  and createUserId != ''"> and create_user_id = #{createUserId}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+            <if test="modifyUserId != null  and modifyUserId != ''"> and modify_user_id = #{modifyUserId}</if>
+            <if test="isvaliable != null  and isvaliable != ''"> and isvaliable = #{isvaliable}</if>
+        </where>
+        order by capacity_max
+    </select>
+    
+    <select id="selectTVehicleTypeById" parameterType="Long" resultMap="TVehicleTypeResult">
+        <include refid="selectTVehicleTypeVo"/>
+        where vcehicle_type_id = #{vcehicleTypeId}
+    </select>
+        
+    <insert id="insertTVehicleType" parameterType="TVehicleType" useGeneratedKeys="true" keyProperty="vcehicleTypeId">
+        insert into t_vehicle_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="capacityMax != null ">capacity_max,</if>
+            <if test="passengerNum != null ">passenger_num,</if>
+            <if test="noSeatChildNum != null ">no_seat_child_num,</if>
+            <if test="suitcaseNumRemark != null  and suitcaseNumRemark != ''">suitcase_num_remark,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="typeName != null  and typeName != ''">type_name,</if>
+            <if test="carPicUrl != null  and carPicUrl != ''">car_pic_url,</if>
+            <if test="pincheMin != null ">pinche_min,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createUserId != null  and createUserId != ''">create_user_id,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+            <if test="modifyUserId != null  and modifyUserId != ''">modify_user_id,</if>
+            <if test="isvaliable != null  and isvaliable != ''">isvaliable,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="capacityMax != null ">#{capacityMax},</if>
+            <if test="passengerNum != null ">#{passengerNum},</if>
+            <if test="noSeatChildNum != null ">#{noSeatChildNum},</if>
+            <if test="suitcaseNumRemark != null  and suitcaseNumRemark != ''">#{suitcaseNumRemark},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="typeName != null  and typeName != ''">#{typeName},</if>
+            <if test="carPicUrl != null  and carPicUrl != ''">#{carPicUrl},</if>
+            <if test="pincheMin != null ">#{pincheMin},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createUserId != null  and createUserId != ''">#{createUserId},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+            <if test="modifyUserId != null  and modifyUserId != ''">#{modifyUserId},</if>
+            <if test="isvaliable != null  and isvaliable != ''">#{isvaliable},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTVehicleType" parameterType="TVehicleType">
+        update t_vehicle_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="capacityMax != null ">capacity_max = #{capacityMax},</if>
+            <if test="passengerNum != null ">passenger_num = #{passengerNum},</if>
+            <if test="noSeatChildNum != null ">no_seat_child_num = #{noSeatChildNum},</if>
+            <if test="suitcaseNumRemark != null  and suitcaseNumRemark != ''">suitcase_num_remark = #{suitcaseNumRemark},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="typeName != null  and typeName != ''">type_name = #{typeName},</if>
+            <if test="carPicUrl != null  and carPicUrl != ''">car_pic_url = #{carPicUrl},</if>
+            <if test="pincheMin != null ">pinche_min = #{pincheMin},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createUserId != null  and createUserId != ''">create_user_id = #{createUserId},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+            <if test="modifyUserId != null  and modifyUserId != ''">modify_user_id = #{modifyUserId},</if>
+            <if test="isvaliable != null  and isvaliable != ''">isvaliable = #{isvaliable},</if>
+        </trim>
+        where vcehicle_type_id = #{vcehicleTypeId}
+    </update>
+
+    <delete id="deleteTVehicleTypeById" parameterType="Long">
+        delete from t_vehicle_type where vcehicle_type_id = #{vcehicleTypeId}
+    </delete>
+
+    <delete id="deleteTVehicleTypeByIds" parameterType="String">
+        delete from t_vehicle_type where vcehicle_type_id in 
+        <foreach item="vcehicleTypeId" collection="array" open="(" separator="," close=")">
+            #{vcehicleTypeId}
+        </foreach>
+    </delete>
+    
+</mapper>

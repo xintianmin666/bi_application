@@ -1,0 +1,271 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+
+	"pages": [{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": false
+			}
+		
+		},
+		{
+			"path": "pages/my/setting",
+			"style": {
+				"navigationBarTitleText": "设置",
+				"enablePullDownRefresh": false
+			}
+		
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false,
+				"backgroundColor": "#FFFFFF"
+			}
+
+		},
+		{
+		    "path" : "pages/my/changeInfo",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "修改密码",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+			"path": "pages/login/code",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}
+        ,{
+            "path" : "pages/my/carNum",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "车牌管理",
+                "enablePullDownRefresh": false,
+				"backgroundColor":"#ededed"
+            }
+            
+        },
+		{
+            "path" : "pages/my/invite",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+		{
+			"path": "pages/orders/order",
+			"style": {
+				"navigationBarTitleText": "订单",
+				"enablePullDownRefresh": true
+			}
+		}
+		,{
+			"path" : "pages/home/maintenance",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": true
+			}
+		}
+		,{
+			"path" : "pages/home/shopDetail",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "店铺详情",
+				"enablePullDownRefresh": false
+			}
+		}
+		,{
+			"path" : "pages/home/insurance/insurance",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "车保险",
+				"enablePullDownRefresh": false
+			}
+		}
+		,{
+			"path" : "pages/home/drivingLicense/drivingLicense",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "学驾驶",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path" : "pages/home/oneKeyRescue/oneKeyRescue",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "一键救援",
+				"enablePullDownRefresh": false
+			}
+			
+		}
+		,{
+			"path" : "pages/home/oneKeyRescue/rescueRecords/rescueRecords",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "救援记录",
+				"enablePullDownRefresh": true
+			}
+			
+		}
+		,{
+			"path" : "pages/home/oneKeyRescue/rescueDetails/rescueDetails",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "救援详情",
+				"enablePullDownRefresh": false
+			}
+		} ,{
+			"path" : "pages/home/oneKeyRescue/payment/payment",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "支付订单",
+				"enablePullDownRefresh": false
+			}
+		}
+		,{
+			"path" : "pages/home/scrap/scrap",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "报废预约",
+				"enablePullDownRefresh": false
+			}
+			
+		}
+		,{
+			"path" : "pages/home/goodsDetail",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "产品详情",
+				"enablePullDownRefresh": false
+			}
+			
+		}
+		,{
+			"path" : "pages/home/pay",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "待付款",
+				"enablePullDownRefresh": false
+			}
+			
+		}
+		,{
+			"path" : "pages/home/shopLocation",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "店铺位置",
+				"enablePullDownRefresh": false
+			}
+			
+		}
+		,{
+			"path" : "pages/home/checkEvaluate",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "全部评价",
+				"enablePullDownRefresh": false
+			}
+			
+		}
+		,{
+			"path" : "pages/home/reserveTime",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "填写预约资料",
+				"enablePullDownRefresh": false
+			}
+			
+		}
+		,{
+			"path" : "pages/orders/orderDetail",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+			
+		}
+        ,{
+            "path" : "pages/home/progress",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/home/progressDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+
+	"subPackages": [
+
+	],
+	"preloadRule": {
+		
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "易车行",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#FFFFFF"
+	},
+	"tabBar": {
+		"color": "#909399",
+		"selectedColor": "#5f9df1",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/home/home",
+				"iconPath": "static/uview/example/icn_home_tabbar_home_nor.png",
+				"selectedIconPath": "static/uview/example/icn_home_tabbar_home_sel.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/orders/order",
+				"iconPath": "static/uview/example/icn_home_tabbar_order_nor.png",
+				"selectedIconPath": "static/uview/example/icn_home_tabbar_order_sel.png",
+				"text": "订单"
+			},
+			{
+				"pagePath": "pages/my/my",
+				"iconPath": "static/uview/example/icn_home_tabbar_my_nor.png",
+				"selectedIconPath": "static/uview/example/icn_home_tabbar_my_sel.png",
+				"text": "我的"
+			}
+		]
+	},
+	"usingComponts": true,
+	"condition": { //模式配置，仅开发期间生效
+
+	}
+}

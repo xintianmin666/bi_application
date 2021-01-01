@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.shop.mapper.CEvaluateMapper">
+    
+    <resultMap type="CEvaluate" id="CEvaluateResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="evaluateContent"    column="evaluate_content"    />
+        <result property="orderCode"    column="order_code"    />
+        <result property="starRating"    column="star_rating"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="shopName"    column="shop_name"    />
+        <result property="nickName"    column="nick_name"    />
+    </resultMap>
+
+    <sql id="selectCEvaluateVo">
+        select e.id, e.user_id, e.create_time, e.is_delete, e.evaluate_content, e.order_code, e.star_rating, e.shop_id, e.nick_name,
+        s.name shop_name,s.dept_id
+        from c_evaluate e left join c_shop s on e.shop_id = s.id
+    </sql>
+
+    <select id="selectCEvaluateList" parameterType="CEvaluate" resultMap="CEvaluateResult">
+        <include refid="selectCEvaluateVo"/>
+        <where>
+            and e.is_delete = 0
+            <if test="userId != null  and userId != ''"> and e.user_id = #{userId}</if>
+            <if test="evaluateContent != null  and evaluateContent != ''"> and e.evaluate_content = #{evaluateContent}</if>
+            <if test="orderCode != null  and orderCode != ''"> and e.order_code = #{orderCode}</if>
+            <if test="starRating != null "> and e.star_rating = #{starRating}</if>
+            <if test="shopId != null  and shopId != ''"> and e.shop_id = #{shopId}</if>
+            <if test="nickName != null  and nickName != ''"> and e.nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="shopName != null  and shopName != ''"> and s.name like concat('%', #{shopName}, '%')</if>
+        </where>
+        <!-- 数据范围过滤 -->
+        ${dataScope}
+    </select>
+    <select id="getByShopId"  resultMap="CEvaluateResult">
+        <include refid="selectCEvaluateVo"/>
+        <where>
+            and e.is_delete = 0
+            and e.shop_id = #{shopId}
+        </where>
+    </select>
+    
+    <select id="selectCEvaluateById" parameterType="Long" resultMap="CEvaluateResult">
+        <include refid="selectCEvaluateVo"/>
+        where e.id = #{id}
+    </select>
+        
+    <insert id="insertCEvaluate" parameterType="CEvaluate" useGeneratedKeys="true" keyProperty="id">
+        insert into c_evaluate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null  and userId != ''">user_id,</if>
+            <if test="createTime != null  and createTime != ''">create_time,</if>
+            <if test="isDelete != null ">is_delete,</if>
+            <if test="evaluateContent != null  and evaluateContent != ''">evaluate_content,</if>
+            <if test="orderCode != null  and orderCode != ''">order_code,</if>
+            <if test="starRating != null ">star_rating,</if>
+            <if test="shopId != null  and shopId != ''">shop_id,</if>
+            <if test="nickName != null  and nickName != ''">nick_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null  and userId != ''">#{userId},</if>
+            <if test="createTime != null  and createTime != ''">#{createTime},</if>
+            <if test="isDelete != null ">#{isDelete},</if>
+            <if test="evaluateContent != null  and evaluateContent != ''">#{evaluateContent},</if>
+            <if test="orderCode != null  and orderCode != ''">#{orderCode},</if>
+            <if test="starRating != null ">#{starRating},</if>
+            <if test="shopId != null  and shopId != ''">#{shopId},</if>
+            <if test="nickName != null  and nickName != ''">#{nickName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCEvaluate" parameterType="CEvaluate">
+        update c_evaluate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  and userId != ''">user_id = #{userId},</if>
+            <if test="createTime != null  and createTime != ''">create_time = #{createTime},</if>
+            <if test="isDelete != null ">is_delete = #{isDelete},</if>
+            <if test="evaluateContent != null  and evaluateContent != ''">evaluate_content = #{evaluateContent},</if>
+            <if test="orderCode != null  and orderCode != ''">order_code = #{orderCode},</if>
+            <if test="starRating != null ">star_rating = #{starRating},</if>
+            <if test="shopId != null  and shopId != ''">shop_id = #{shopId},</if>
+            <if test="nickName != null  and nickName != ''">nick_name = #{nickName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteCEvaluateById" parameterType="Long">
+        update  c_evaluate  set is_delete = 1 where id = #{id}
+    </update>
+
+    <update id="deleteCEvaluateByIds" parameterType="String">
+        update  c_evaluate set is_delete = 1  where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    
+</mapper>

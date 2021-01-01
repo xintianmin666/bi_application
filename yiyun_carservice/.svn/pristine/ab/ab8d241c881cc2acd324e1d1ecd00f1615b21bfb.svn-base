@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.business.mapper.COrderGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.carservice.project.business.domain.COrderGoods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_describe" jdbcType="VARCHAR" property="productDescribe" />
+    <result column="discount_amount" jdbcType="DECIMAL" property="discountAmount" />
+    <result column="coupon_amount" jdbcType="DECIMAL" property="couponAmount" />
+    <result column="points_amount" jdbcType="DECIMAL" property="pointsAmount" />
+    <result column="collect_amount" jdbcType="DECIMAL" property="collectAmount" />
+    <result column="order_type" jdbcType="VARCHAR" property="orderType" />
+    <result column="pay_status" jdbcType="VARCHAR" property="payStatus" />
+    <result column="pay_time" jdbcType="VARCHAR" property="payTime" />
+    <result column="refund_time" jdbcType="VARCHAR" property="refundTime" />
+    <result column="product_amount" jdbcType="DECIMAL" property="productAmount" />
+    <result column="verify_code" jdbcType="VARCHAR" property="verifyCode" />
+    <result column="use_points" jdbcType="DECIMAL" property="usePoints" />
+    <result column="add_points" jdbcType="DECIMAL" property="addPoints" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_code, product_code, product_name, product_describe, discount_amount, coupon_amount, 
+    points_amount, collect_amount, order_type, pay_status, pay_time, refund_time, product_amount, 
+    verify_code, use_points, add_points
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from c_order_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from c_order_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.carservice.project.business.domain.COrderGoods">
+    insert into c_order_goods (id, order_code, product_code, 
+      product_name, product_describe, discount_amount, 
+      coupon_amount, points_amount, collect_amount, 
+      order_type, pay_status, pay_time, 
+      refund_time, product_amount, verify_code, 
+      use_points, add_points)
+    values (#{id,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, #{productCode,jdbcType=VARCHAR}, 
+      #{productName,jdbcType=VARCHAR}, #{productDescribe,jdbcType=VARCHAR}, #{discountAmount,jdbcType=DECIMAL}, 
+      #{couponAmount,jdbcType=DECIMAL}, #{pointsAmount,jdbcType=DECIMAL}, #{collectAmount,jdbcType=DECIMAL}, 
+      #{orderType,jdbcType=VARCHAR}, #{payStatus,jdbcType=VARCHAR}, #{payTime,jdbcType=VARCHAR}, 
+      #{refundTime,jdbcType=VARCHAR}, #{productAmount,jdbcType=DECIMAL}, #{verifyCode,jdbcType=VARCHAR}, 
+      #{usePoints,jdbcType=DECIMAL}, #{addPoints,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.carservice.project.business.domain.COrderGoods">
+    insert into c_order_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderCode != null">
+        order_code,
+      </if>
+      <if test="productCode != null">
+        product_code,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="productDescribe != null">
+        product_describe,
+      </if>
+      <if test="discountAmount != null">
+        discount_amount,
+      </if>
+      <if test="couponAmount != null">
+        coupon_amount,
+      </if>
+      <if test="pointsAmount != null">
+        points_amount,
+      </if>
+      <if test="collectAmount != null">
+        collect_amount,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="payStatus != null">
+        pay_status,
+      </if>
+      <if test="payTime != null">
+        pay_time,
+      </if>
+      <if test="refundTime != null">
+        refund_time,
+      </if>
+      <if test="productAmount != null">
+        product_amount,
+      </if>
+      <if test="verifyCode != null">
+        verify_code,
+      </if>
+      <if test="usePoints != null">
+        use_points,
+      </if>
+      <if test="addPoints != null">
+        add_points,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderCode != null">
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null">
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productDescribe != null">
+        #{productDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="discountAmount != null">
+        #{discountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="couponAmount != null">
+        #{couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="pointsAmount != null">
+        #{pointsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="collectAmount != null">
+        #{collectAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="payStatus != null">
+        #{payStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null">
+        #{payTime,jdbcType=VARCHAR},
+      </if>
+      <if test="refundTime != null">
+        #{refundTime,jdbcType=VARCHAR},
+      </if>
+      <if test="productAmount != null">
+        #{productAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="verifyCode != null">
+        #{verifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="usePoints != null">
+        #{usePoints,jdbcType=DECIMAL},
+      </if>
+      <if test="addPoints != null">
+        #{addPoints,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.carservice.project.business.domain.COrderGoods">
+    update c_order_goods
+    <set>
+      <if test="orderCode != null">
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null">
+        product_code = #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productDescribe != null">
+        product_describe = #{productDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="discountAmount != null">
+        discount_amount = #{discountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="couponAmount != null">
+        coupon_amount = #{couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="pointsAmount != null">
+        points_amount = #{pointsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="collectAmount != null">
+        collect_amount = #{collectAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null">
+        pay_time = #{payTime,jdbcType=VARCHAR},
+      </if>
+      <if test="refundTime != null">
+        refund_time = #{refundTime,jdbcType=VARCHAR},
+      </if>
+      <if test="productAmount != null">
+        product_amount = #{productAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="verifyCode != null">
+        verify_code = #{verifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="usePoints != null">
+        use_points = #{usePoints,jdbcType=DECIMAL},
+      </if>
+      <if test="addPoints != null">
+        add_points = #{addPoints,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.carservice.project.business.domain.COrderGoods">
+    update c_order_goods
+    set order_code = #{orderCode,jdbcType=VARCHAR},
+      product_code = #{productCode,jdbcType=VARCHAR},
+      product_name = #{productName,jdbcType=VARCHAR},
+      product_describe = #{productDescribe,jdbcType=VARCHAR},
+      discount_amount = #{discountAmount,jdbcType=DECIMAL},
+      coupon_amount = #{couponAmount,jdbcType=DECIMAL},
+      points_amount = #{pointsAmount,jdbcType=DECIMAL},
+      collect_amount = #{collectAmount,jdbcType=DECIMAL},
+      order_type = #{orderType,jdbcType=VARCHAR},
+      pay_status = #{payStatus,jdbcType=VARCHAR},
+      pay_time = #{payTime,jdbcType=VARCHAR},
+      refund_time = #{refundTime,jdbcType=VARCHAR},
+      product_amount = #{productAmount,jdbcType=DECIMAL},
+      verify_code = #{verifyCode,jdbcType=VARCHAR},
+      use_points = #{usePoints,jdbcType=DECIMAL},
+      add_points = #{addPoints,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectCOrderGoodsByOrderCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from c_order_goods
+    where order_code = #{orderCode,jdbcType=VARCHAR}
+
+  </select>
+
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TOperCityInfoMapper">
+    
+    <resultMap type="TOperCityInfo" id="TOperCityInfoResult">
+        <result property="operCityId"    column="oper_city_id"    />
+        <result property="operCityName"    column="oper_city_name"    />
+        <result property="operCityCode"    column="oper_city_code"    />
+        <result property="operCityPinyin"    column="oper_city_pinyin"    />
+        <result property="operCitySp"    column="oper_city_sp"    />
+        <result property="areaParentCode"    column="area_parent_code"    />
+        <result property="areaCode"    column="area_code"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <result property="modifyUserId"    column="modify_user_id"    />
+        <result property="isvaliable"    column="isvaliable"    />
+    </resultMap>
+
+    <sql id="selectTOperCityInfoVo">
+        select oper_city_id, oper_city_name, oper_city_code, oper_city_pinyin,oper_city_sp, area_parent_code,area_code, remark, create_time, create_user_id, modify_time, modify_user_id, isvaliable from t_oper_city_info
+    </sql>
+
+    <select id="selectTOperCityInfoList" parameterType="TOperCityInfo" resultMap="TOperCityInfoResult">
+        <include refid="selectTOperCityInfoVo"/>
+        <where>  
+            <if test="operCityName != null  and operCityName != ''"> and oper_city_name like concat('%', #{operCityName}, '%')</if>
+            <if test="operCityCode != null  and operCityCode != ''"> and oper_city_code = #{operCityCode}</if>
+            <if test="operCitySp != null  and operCitySp != ''"> and oper_city_sp like concat('%', #{operCitySp}, '%')</if>
+            <if test="operCityPinyin != null  and operCityPinyin != ''"> and oper_city_pinyin like concat('%', #{operCityPinyin}, '%')</if>
+            <if test="areaParentCode != null  and areaParentCode != ''"> and area_parent_code = #{areaParentCode}</if>
+            <if test="areaCode != null  and areaCode != ''"> and area_code = #{areaCode}</if>
+            <if test="createUserId != null "> and create_user_id = #{createUserId}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+            <if test="modifyUserId != null "> and modify_user_id = #{modifyUserId}</if>
+            <if test="isvaliable != null  and isvaliable != ''"> and isvaliable = #{isvaliable}</if>
+        </where>
+        order by oper_city_pinyin
+    </select>
+    
+    <select id="selectTOperCityInfoById" parameterType="Long" resultMap="TOperCityInfoResult">
+        <include refid="selectTOperCityInfoVo"/>
+        where oper_city_id = #{operCityId}
+    </select>
+        
+    <insert id="insertTOperCityInfo" parameterType="TOperCityInfo" useGeneratedKeys="true" keyProperty="operCityId">
+        insert into t_oper_city_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="operCityName != null  and operCityName != ''">oper_city_name,</if>
+            <if test="operCityCode != null  and operCityCode != ''">oper_city_code,</if>
+            <if test="operCitySp != null  and operCitySp != ''">oper_city_sp,</if>
+            <if test="operCityPinyin != null  and operCityPinyin != ''">oper_city_pinyin,</if>
+            <if test="areaCode != null  and areaCode != ''">area_code,</if>
+            <if test="areaParentCode != null  and areaParentCode != ''">area_parent_code,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createUserId != null ">create_user_id,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+            <if test="modifyUserId != null ">modify_user_id,</if>
+            <if test="isvaliable != null  and isvaliable != ''">isvaliable,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="operCityName != null  and operCityName != ''">#{operCityName},</if>
+            <if test="operCityCode != null  and operCityCode != ''">#{operCityCode},</if>
+            <if test="operCitySp != null  and operCitySp != ''">#{operCitySp},</if>
+            <if test="operCityPinyin != null  and operCityPinyin != ''">#{operCityPinyin},</if>
+            <if test="areaCode != null  and areaCode != ''">#{areaCode},</if>
+            <if test="areaParentCode != null  and areaParentCode != ''">#{areaParentCode},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createUserId != null ">#{createUserId},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+            <if test="modifyUserId != null ">#{modifyUserId},</if>
+            <if test="isvaliable != null  and isvaliable != ''">#{isvaliable},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTOperCityInfo" parameterType="TOperCityInfo">
+        update t_oper_city_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="operCityName != null  and operCityName != ''">oper_city_name = #{operCityName},</if>
+            <if test="operCityCode != null  and operCityCode != ''">oper_city_code = #{operCityCode},</if>
+            <if test="operCitySp != null  and operCitySp != ''">oper_city_sp = #{operCitySp},</if>
+            <if test="operCityPinyin != null  and operCityPinyin != ''">oper_city_pinyin = #{operCityPinyin},</if>
+            <if test="areaCode != null  and areaCode != ''">area_code = #{areaCode},</if>
+            <if test="areaParentCode != null  and areaParentCode != ''">area_parent_code = #{areaParentCode},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createUserId != null ">create_user_id = #{createUserId},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+            <if test="modifyUserId != null ">modify_user_id = #{modifyUserId},</if>
+            <if test="isvaliable != null  and isvaliable != ''">isvaliable = #{isvaliable},</if>
+        </trim>
+        where oper_city_id = #{operCityId}
+    </update>
+
+    <delete id="deleteTOperCityInfoById" parameterType="Long">
+        delete from t_oper_city_info where oper_city_id = #{operCityId}
+    </delete>
+
+    <delete id="deleteTOperCityInfoByIds" parameterType="String">
+        delete from t_oper_city_info where oper_city_id in 
+        <foreach item="operCityId" collection="array" open="(" separator="," close=")">
+            #{operCityId}
+        </foreach>
+    </delete>
+    
+</mapper>

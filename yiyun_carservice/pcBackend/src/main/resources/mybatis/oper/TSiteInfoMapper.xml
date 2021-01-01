@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TSiteInfoMapper">
+    
+    <resultMap type="TSiteInfo" id="TSiteInfoResult">
+        <result property="siteId"    column="site_id"    />
+        <result property="cityId"    column="city_id"    />
+        <result property="cityName"    column="city_name"    />
+        <result property="siteCode"    column="site_code"    />
+        <result property="siteName"    column="site_name"    />
+        <result property="sitePy"    column="site_py"    />
+        <result property="siteSp"    column="site_sp"    />
+        <result property="siteType"    column="site_type"    />
+        <result property="siteLevel"    column="site_level"    />
+        <result property="siteRadius"    column="site_radius"    />
+        <result property="siteFence"    column="site_fence"    />
+        <result property="lng"    column="lng"    />
+        <result property="lat"    column="lat"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTSiteInfoVo">
+        select site_id, city_id, site_code, site_name, site_py, site_sp, site_type, site_level, site_radius, site_fence, lng, lat, create_id, create_time, update_id, update_time from t_site_info
+    </sql>
+    <sql id="selectTSiteInfoVo1">
+        select s.site_id, s.city_id, s.site_code, s.site_name, s.site_py, s.site_sp, s.site_type, s.site_level, s.site_radius, s.site_fence, s.lng, s.lat, s.create_id, s.create_time, s.update_id, s.update_time,
+        c.oper_city_name city_name
+        from t_site_info s left join t_oper_city_info c on s.city_id = c.oper_city_id
+    </sql>
+
+    <select id="selectTSiteInfoList" parameterType="TSiteInfo" resultMap="TSiteInfoResult">
+        <include refid="selectTSiteInfoVo1"/>
+        <where>  
+            <if test="cityId != null "> and s.city_id = #{cityId}</if>
+            <if test="siteCode != null  and siteCode != ''"> and s.site_code = #{siteCode}</if>
+            <if test="siteName != null  and siteName != ''"> and s.site_name like concat('%', #{siteName}, '%')</if>
+            <if test="sitePy != null  and sitePy != ''"> and s.site_py = #{sitePy}</if>
+            <if test="siteSp != null  and siteSp != ''"> and s.site_sp = #{siteSp}</if>
+            <if test="siteType != null  and siteType != ''"> and s.site_type = #{siteType}</if>
+            <if test="siteLevel != null  and siteLevel != ''"> and s.site_level = #{siteLevel}</if>
+            <if test="siteRadius != null  and siteRadius != ''"> and s.site_radius = #{siteRadius}</if>
+            <if test="siteFence != null  and siteFence != ''"> and s.site_fence = #{siteFence}</if>
+            <if test="lng != null  and lng != ''"> and s.lng = #{lng}</if>
+            <if test="lat != null  and lat != ''"> and s.lat = #{lat}</if>
+            <if test="createId != null "> and s.create_id = #{createId}</if>
+            <if test="updateId != null "> and s.update_id = #{updateId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTSiteInfoById" parameterType="Long" resultMap="TSiteInfoResult">
+        <include refid="selectTSiteInfoVo"/>
+        where site_id = #{siteId}
+    </select>
+        
+    <insert id="insertTSiteInfo" parameterType="TSiteInfo" useGeneratedKeys="true" keyProperty="siteId">
+        insert into t_site_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cityId != null ">city_id,</if>
+            <if test="siteCode != null  and siteCode != ''">site_code,</if>
+            <if test="siteName != null  and siteName != ''">site_name,</if>
+            <if test="sitePy != null  and sitePy != ''">site_py,</if>
+            <if test="siteSp != null  and siteSp != ''">site_sp,</if>
+            <if test="siteType != null  and siteType != ''">site_type,</if>
+            <if test="siteLevel != null  and siteLevel != ''">site_level,</if>
+            <if test="siteRadius != null  and siteRadius != ''">site_radius,</if>
+            <if test="siteFence != null  and siteFence != ''">site_fence,</if>
+            <if test="lng != null  and lng != ''">lng,</if>
+            <if test="lat != null  and lat != ''">lat,</if>
+            <if test="createId != null ">create_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateId != null ">update_id,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cityId != null ">#{cityId},</if>
+            <if test="siteCode != null  and siteCode != ''">#{siteCode},</if>
+            <if test="siteName != null  and siteName != ''">#{siteName},</if>
+            <if test="sitePy != null  and sitePy != ''">#{sitePy},</if>
+            <if test="siteSp != null  and siteSp != ''">#{siteSp},</if>
+            <if test="siteType != null  and siteType != ''">#{siteType},</if>
+            <if test="siteLevel != null  and siteLevel != ''">#{siteLevel},</if>
+            <if test="siteRadius != null  and siteRadius != ''">#{siteRadius},</if>
+            <if test="siteFence != null  and siteFence != ''">#{siteFence},</if>
+            <if test="lng != null  and lng != ''">#{lng},</if>
+            <if test="lat != null  and lat != ''">#{lat},</if>
+            <if test="createId != null ">#{createId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateId != null ">#{updateId},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTSiteInfo" parameterType="TSiteInfo">
+        update t_site_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cityId != null ">city_id = #{cityId},</if>
+            <if test="siteCode != null  and siteCode != ''">site_code = #{siteCode},</if>
+            <if test="siteName != null  and siteName != ''">site_name = #{siteName},</if>
+            <if test="sitePy != null  and sitePy != ''">site_py = #{sitePy},</if>
+            <if test="siteSp != null  and siteSp != ''">site_sp = #{siteSp},</if>
+            <if test="siteType != null  and siteType != ''">site_type = #{siteType},</if>
+            <if test="siteLevel != null  and siteLevel != ''">site_level = #{siteLevel},</if>
+            <if test="siteRadius != null  and siteRadius != ''">site_radius = #{siteRadius},</if>
+            <if test="siteFence != null  and siteFence != ''">site_fence = #{siteFence},</if>
+            <if test="lng != null  and lng != ''"> lng = #{lng},</if>
+            <if test="lat != null  and lat != ''"> lat = #{lat},</if>
+            <if test="createId != null ">create_id = #{createId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateId != null ">update_id = #{updateId},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where site_id = #{siteId}
+    </update>
+
+    <delete id="deleteTSiteInfoById" parameterType="Long">
+        delete from t_site_info where site_id = #{siteId}
+    </delete>
+
+    <delete id="deleteTSiteInfoByIds" parameterType="String">
+        delete from t_site_info where site_id in 
+        <foreach item="siteId" collection="array" open="(" separator="," close=")">
+            #{siteId}
+        </foreach>
+    </delete>
+    
+</mapper>

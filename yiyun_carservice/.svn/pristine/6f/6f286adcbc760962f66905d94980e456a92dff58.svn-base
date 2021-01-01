@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TVehicleInfoMapper">
+
+    <resultMap type="TVehicleInfo" id="TVehicleInfoResult">
+        <result property="vehicleId" column="vehicle_id"/>
+        <result property="carryMax" column="carry_max"/>
+        <result property="licenseTagno" column="license_tagno"/>
+        <result property="vehicleState" column="vehicle_state"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="modifyUserId" column="modify_user_id"/>
+        <result property="productionCompany" column="production_company"/>
+        <result property="purpose" column="purpose"/>
+        <result property="type" column="type"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="specifications" column="specifications"/>
+        <result property="supportEquipment" column="support_equipment"/>
+        <result property="belong" column="belong"/>
+        <result property="driverId" column="driver_id"/>
+        <result property="driverName" column="driver_name"/>
+        <result property="driverPhone" column="driver_phone"/>
+        <result property="gjCarId" column="gj_car_id"/>
+        <association property="dept" column="dept_id" javaType="SysDept" resultMap="deptResult"/>
+        <association property="vehicleType" column="type" select="getVehicleTypeByCarType"/>
+    </resultMap>
+    <resultMap type="TVehicleInfo" id="TVehicleInfoResult1">
+        <result property="vehicleId" column="vehicle_id"/>
+        <result property="carryMax" column="carry_max"/>
+        <result property="licenseTagno" column="license_tagno"/>
+        <result property="vehicleState" column="vehicle_state"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="modifyUserId" column="modify_user_id"/>
+        <result property="productionCompany" column="production_company"/>
+        <result property="purpose" column="purpose"/>
+        <result property="type" column="type"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="specifications" column="specifications"/>
+        <result property="supportEquipment" column="support_equipment"/>
+        <result property="belong" column="belong"/>
+        <result property="driverId" column="driver_id"/>
+        <result property="driverName" column="driver_name"/>
+        <result property="driverPhone" column="driver_phone"/>
+        <result property="gjCarId" column="gj_car_id"/>
+    </resultMap>
+    <resultMap id="deptResult" type="SysDept">
+        <id property="deptId" column="dept_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="leader" column="leader"/>
+        <result property="status" column="dept_status"/>
+    </resultMap>
+    <resultMap type="TVehicleType" id="TVehicleTypeResult">
+        <result property="capacityMax" column="capacity_max"/>
+        <result property="passengerNum" column="passenger_num"/>
+        <result property="noSeatChildNum" column="no_seat_child_num"/>
+        <result property="suitcaseNumRemark" column="suitcase_num_remark"/>
+        <result property="remark" column="remark"/>
+        <result property="typeName" column="type_name"/>
+        <result property="pincheMin" column="pinche_min"/>
+    </resultMap>
+    <select id="getVehicleTypeByCarType" resultMap="TVehicleTypeResult">
+    SELECT * FROM t_vehicle_type where vcehicle_type_id = #{type}
+    </select>
+
+    <sql id="selectTVehicleInfoVo">
+        select v.vehicle_id, v.carry_max, v.license_tagno, v.vehicle_state, v.remark,
+        v.create_time, v.create_user_id, v.modify_time, v.modify_user_id, v.production_company,
+        v.purpose, v.type, v.dept_id, v.specifications, v.support_equipment, v.belong,v.driver_id,v.gj_car_id,
+        d.dept_name,dr.name driver_name,dr.phone driver_phone
+        from t_vehicle_info v left join sys_dept d on v.dept_id = d.dept_id
+        left join t_driver_info dr on v.driver_id = dr.driver_id
+    </sql>
+
+    <select id="selectTVehicleInfoList" parameterType="TVehicleInfo" resultMap="TVehicleInfoResult">
+        <include refid="selectTVehicleInfoVo"/>
+        <where>
+            <if test="carryMax != null ">and v.carry_max = #{carryMax}</if>
+            <if test="licenseTagno != null  and licenseTagno != ''">and v.license_tagno like concat('%',
+                #{licenseTagno}, '%')
+            </if>
+            <if test="vehicleState != null  and vehicleState != ''">and v.vehicle_state = #{vehicleState}</if>
+            <if test="productionCompany != null  and productionCompany != ''">and v.production_company like concat('%',
+                #{productionCompany}, '%')
+            </if>
+            <if test="purpose != null  and purpose != ''">and v.purpose = #{purpose}</if>
+            <if test="type != null  and type != ''">and v.type = #{type}</if>
+            <if test="specifications != null  and specifications != ''">and v.specifications = #{specifications}</if>
+            <if test="supportEquipment != null  and supportEquipment != ''">and v.support_equipment =
+                #{supportEquipment}
+            </if>
+            <if test="belong != null  and belong != ''">and v.belong = #{belong}</if>
+            <if test="deptId != null and deptId != 0">
+                AND (v.dept_id = #{deptId} OR v.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET
+                (#{deptId},ancestors) ))
+            </if>
+            <if test="driverName != null  and driverName != ''">and dr.name like concat('%',
+                #{driverName}, '%')
+            </if>
+            <!-- 数据范围过滤 -->
+            ${dataScope}
+        </where>
+    </select>
+
+    <select id="selectTVehicleInfoListNotin" resultMap="TVehicleInfoResult">
+        <include refid="selectTVehicleInfoVo"/>
+        <where>
+            and v.vehicle_state = 1
+            <if test="vehiclePlateNo != null  and vehiclePlateNo!=''">
+                and v.license_tagno like concat('%',#{vehiclePlateNo},'%')
+            </if>
+
+            <if test="list != null  and list.size()>0">
+                and v.vehicle_id not in
+                <foreach item="item" collection="list" open="(" separator="," close=")">
+                #{item.vehiclePlateNo.vehicleInfoId}
+                </foreach>
+            </if>
+
+            <!-- 数据范围过滤 -->
+            ${dataScope}
+        </where>
+    </select>
+
+    <select id="selectTVehicleInfoById" parameterType="String" resultMap="TVehicleInfoResult">
+        <include refid="selectTVehicleInfoVo"/>
+        where v.vehicle_id = #{vehicleId}
+    </select>
+
+    <insert id="insertTVehicleInfo" parameterType="TVehicleInfo">
+        insert into t_vehicle_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null  and vehicleId != ''">vehicle_id,</if>
+            <if test="carryMax != null ">carry_max,</if>
+            <if test="licenseTagno != null  and licenseTagno != ''">license_tagno,</if>
+            <if test="vehicleState != null  and vehicleState != ''">vehicle_state,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createUserId != null ">create_user_id,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+            <if test="modifyUserId != null ">modify_user_id,</if>
+            <if test="productionCompany != null  and productionCompany != ''">production_company,</if>
+            <if test="purpose != null  and purpose != ''">purpose,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="deptId != null  and deptId != ''">dept_id,</if>
+            <if test="specifications != null  and specifications != ''">specifications,</if>
+            <if test="supportEquipment != null  and supportEquipment != ''">support_equipment,</if>
+            <if test="belong != null  and belong != ''">belong,</if>
+            <if test="driverId != null  and driverId != ''">driver_id,</if>
+            <if test="gjCarId != null  and gjCarId != ''">gj_car_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null  and vehicleId != ''">#{vehicleId},</if>
+            <if test="carryMax != null ">#{carryMax},</if>
+            <if test="licenseTagno != null  and licenseTagno != ''">#{licenseTagno},</if>
+            <if test="vehicleState != null  and vehicleState != ''">#{vehicleState},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createUserId != null ">#{createUserId},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+            <if test="modifyUserId != null ">#{modifyUserId},</if>
+            <if test="productionCompany != null  and productionCompany != ''">#{productionCompany},</if>
+            <if test="purpose != null  and purpose != ''">#{purpose},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="deptId != null  and deptId != ''">#{deptId},</if>
+            <if test="specifications != null  and specifications != ''">#{specifications},</if>
+            <if test="supportEquipment != null  and supportEquipment != ''">#{supportEquipment},</if>
+            <if test="belong != null  and belong != ''">#{belong},</if>
+            <if test="driverId != null  and driverId != ''">#{driverId},</if>
+            <if test="gjCarId != null  and gjCarId != ''">#{gjCarId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTVehicleInfo" parameterType="TVehicleInfo">
+        update t_vehicle_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="carryMax != null ">carry_max = #{carryMax},</if>
+            <if test="licenseTagno != null  and licenseTagno != ''">license_tagno = #{licenseTagno},</if>
+            <if test="vehicleState != null  and vehicleState != ''">vehicle_state = #{vehicleState},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createUserId != null ">create_user_id = #{createUserId},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+            <if test="modifyUserId != null ">modify_user_id = #{modifyUserId},</if>
+            <if test="productionCompany != null  and productionCompany != ''">production_company =
+                #{productionCompany},
+            </if>
+            <if test="purpose != null  and purpose != ''">purpose = #{purpose},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="deptId != null  and deptId != ''">dept_id = #{deptId},</if>
+            <if test="specifications != null  and specifications != ''">specifications = #{specifications},</if>
+            <if test="supportEquipment != null  and supportEquipment != ''">support_equipment = #{supportEquipment},
+            </if>
+            <if test="belong != null  and belong != ''">belong = #{belong},</if>
+            <if test="driverId != null  and driverId != ''">driver_id = #{driverId},</if>
+            <if test="gjCarId != null  and gjCarId != ''">gj_car_id = #{gjCarId},</if>
+        </trim>
+        where vehicle_id = #{vehicleId}
+    </update>
+
+    <delete id="deleteTVehicleInfoById" parameterType="String">
+        delete from t_vehicle_info where vehicle_id = #{vehicleId}
+    </delete>
+
+    <delete id="deleteTVehicleInfoByIds" parameterType="String">
+        delete from t_vehicle_info where vehicle_id in
+        <foreach item="vehicleId" collection="array" open="(" separator="," close=")">
+            #{vehicleId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteErpCarINfo">
+        delete from erp_car_info
+    </delete>
+    <insert id="addErpCarINfo">
+        insert into erp_car_info
+        (
+        F_Id, F_PlateNo, F_UnitId,
+        F_VehicleType, F_SeatNo,F_CarryNo, F_BrandName, F_State
+        )
+        VALUES
+        <foreach collection="carArray" item="item" separator=",">
+            (
+            #{item.F_Id}, #{item.F_PlateNo}, #{item.F_UnitId},
+            #{item.F_VehicleType}, #{item.F_SeatNo}, #{item.F_CarryNo}, #{item.F_BrandName}, #{item.F_State}
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectTVehicleInfoByLicenseTagno" resultMap="TVehicleInfoResult1">
+        select * from t_vehicle_info
+        where license_tagno = #{0}
+    </select>
+</mapper>

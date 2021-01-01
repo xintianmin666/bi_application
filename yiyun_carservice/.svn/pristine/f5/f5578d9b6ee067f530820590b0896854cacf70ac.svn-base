@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TDispatchOrderMapper">
+    
+    <resultMap type="TDispatchOrder" id="TDispatchOrderResult">
+        <result property="dispatchOrderId"    column="dispatch_order_id"    />
+        <result property="dispatchOrdercode"    column="dispatch_ordercode"    />
+        <result property="userCarNum"    column="user_car_num"    />
+        <result property="taskStartTime"    column="task_start_time"    />
+        <result property="taskEndTime"    column="task_end_time"    />
+        <result property="lineName"    column="line_name"    />
+        <result property="taskType"    column="task_type"    />
+        <result property="taskStatus"    column="task_status"    />
+        <result property="realPrice"    column="real_price"    />
+        <result property="price"    column="price"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="modifyTime"    column="modify_time"    />
+        <result property="modifyUserId"    column="modify_user_id"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectTDispatchOrderVo">
+        select dispatch_order_id, dispatch_ordercode, user_car_num, task_start_time, task_end_time, line_name, task_type, task_status, real_price, price, create_time, create_user_id, modify_time, modify_user_id, remark from t_dispatch_order
+    </sql>
+
+    <select id="selectTDispatchOrderList" parameterType="TDispatchOrder" resultMap="TDispatchOrderResult">
+        <include refid="selectTDispatchOrderVo"/>
+        <where>  
+            <if test="dispatchOrdercode != null  and dispatchOrdercode != ''"> and dispatch_ordercode = #{dispatchOrdercode}</if>
+            <if test="userCarNum != null "> and user_car_num = #{userCarNum}</if>
+            <if test="taskStartTime != null "> and task_start_time = #{taskStartTime}</if>
+            <if test="taskEndTime != null "> and task_end_time = #{taskEndTime}</if>
+            <if test="lineName != null  and lineName != ''"> and line_name like concat('%', #{lineName}, '%')</if>
+            <if test="taskType != null "> and task_type = #{taskType}</if>
+            <if test="taskStatus != null "> and task_status = #{taskStatus}</if>
+            <if test="realPrice != null "> and real_price = #{realPrice}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="createUserId != null "> and create_user_id = #{createUserId}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+            <if test="modifyUserId != null "> and modify_user_id = #{modifyUserId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTDispatchOrderById" parameterType="String" resultMap="TDispatchOrderResult">
+        <include refid="selectTDispatchOrderVo"/>
+        where dispatch_order_id = #{dispatchOrderId}
+    </select>
+        
+    <insert id="insertTDispatchOrder" parameterType="TDispatchOrder">
+        insert into t_dispatch_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dispatchOrderId != null  and dispatchOrderId != ''">dispatch_order_id,</if>
+            <if test="dispatchOrdercode != null  and dispatchOrdercode != ''">dispatch_ordercode,</if>
+            <if test="userCarNum != null ">user_car_num,</if>
+            <if test="taskStartTime != null ">task_start_time,</if>
+            <if test="taskEndTime != null ">task_end_time,</if>
+            <if test="lineName != null  and lineName != ''">line_name,</if>
+            <if test="taskType != null ">task_type,</if>
+            <if test="taskStatus != null ">task_status,</if>
+            <if test="realPrice != null ">real_price,</if>
+            <if test="price != null ">price,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createUserId != null ">create_user_id,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+            <if test="modifyUserId != null ">modify_user_id,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dispatchOrderId != null  and dispatchOrderId != ''">#{dispatchOrderId},</if>
+            <if test="dispatchOrdercode != null  and dispatchOrdercode != ''">#{dispatchOrdercode},</if>
+            <if test="userCarNum != null ">#{userCarNum},</if>
+            <if test="taskStartTime != null ">#{taskStartTime},</if>
+            <if test="taskEndTime != null ">#{taskEndTime},</if>
+            <if test="lineName != null  and lineName != ''">#{lineName},</if>
+            <if test="taskType != null ">#{taskType},</if>
+            <if test="taskStatus != null ">#{taskStatus},</if>
+            <if test="realPrice != null ">#{realPrice},</if>
+            <if test="price != null ">#{price},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createUserId != null ">#{createUserId},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+            <if test="modifyUserId != null ">#{modifyUserId},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTDispatchOrder" parameterType="TDispatchOrder">
+        update t_dispatch_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dispatchOrdercode != null  and dispatchOrdercode != ''">dispatch_ordercode = #{dispatchOrdercode},</if>
+            <if test="userCarNum != null ">user_car_num = #{userCarNum},</if>
+            <if test="taskStartTime != null ">task_start_time = #{taskStartTime},</if>
+            <if test="taskEndTime != null ">task_end_time = #{taskEndTime},</if>
+            <if test="lineName != null  and lineName != ''">line_name = #{lineName},</if>
+            <if test="taskType != null ">task_type = #{taskType},</if>
+            <if test="taskStatus != null ">task_status = #{taskStatus},</if>
+            <if test="realPrice != null ">real_price = #{realPrice},</if>
+            <if test="price != null ">price = #{price},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createUserId != null ">create_user_id = #{createUserId},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+            <if test="modifyUserId != null ">modify_user_id = #{modifyUserId},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where dispatch_order_id = #{dispatchOrderId}
+    </update>
+
+    <delete id="deleteTDispatchOrderById" parameterType="String">
+        delete from t_dispatch_order where dispatch_order_id = #{dispatchOrderId}
+    </delete>
+
+    <delete id="deleteTDispatchOrderByIds" parameterType="String">
+        delete from t_dispatch_order where dispatch_order_id in 
+        <foreach item="dispatchOrderId" collection="array" open="(" separator="," close=")">
+            #{dispatchOrderId}
+        </foreach>
+    </delete>
+    
+</mapper>

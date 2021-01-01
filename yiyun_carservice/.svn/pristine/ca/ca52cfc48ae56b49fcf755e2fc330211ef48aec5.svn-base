@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TProductSiteMapper">
+    
+    <resultMap type="TProductSite" id="TProductSiteResult">
+        <result property="productSiteId"    column="product_site_id"    />
+        <result property="tProductId"    column="t_product_id"    />
+        <result property="siteInfoId"    column="site_info_id"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="siteType"    column="site_type"    />
+        <result property="useSiteFence"    column="use_site_fence"    />
+        <!-- column是传的参数, select是调用的查询 -->
+        <association property="siteInfo" column="site_info_id" select="getSiteById"/>
+    </resultMap>
+    <resultMap type="TSiteInfo" id="TSiteInfoResult">
+        <result property="siteId"    column="site_id"    />
+        <result property="cityId"    column="city_id"    />
+        <result property="cityName"    column="oper_city_name"    />
+        <result property="siteCode"    column="site_code"    />
+        <result property="siteName"    column="site_name"    />
+        <result property="sitePy"    column="site_py"    />
+        <result property="siteSp"    column="site_sp"    />
+        <result property="siteType"    column="site_type"    />
+        <result property="siteLevel"    column="site_level"    />
+        <result property="siteRadius"    column="site_radius"    />
+        <result property="siteFence"    column="site_fence"    />
+        <result property="lng"    column="lng"    />
+        <result property="lat"    column="lat"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+    <select id="getSiteById" resultMap="TSiteInfoResult">
+    SELECT s.*,c.oper_city_name FROM t_site_info s left join t_oper_city_info c on s.city_id = c.oper_city_id WHERE site_id=#{site_info_id}
+    </select>
+
+    <sql id="selectTProductSiteVo">
+        select product_site_id, t_product_id, site_info_id, order_num, site_type, use_site_fence from t_product_site
+    </sql>
+
+    <select id="selectTProductSiteList" parameterType="TProductSite" resultMap="TProductSiteResult">
+        <include refid="selectTProductSiteVo"/>
+        <where>  
+            <if test="tProductId != null "> and t_product_id = #{tProductId}</if>
+            <if test="siteInfoId != null "> and site_info_id = #{siteInfoId}</if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+            <if test="siteType != null "> and site_type = #{siteType}</if>
+            <if test="useSiteFence != null  and useSiteFence != ''"> and use_site_fence = #{useSiteFence}</if>
+        </where>
+        order by order_num
+    </select>
+    
+    <select id="selectTProductSiteById" parameterType="Long" resultMap="TProductSiteResult">
+        <include refid="selectTProductSiteVo"/>
+        where product_site_id = #{productSiteId}
+    </select>
+        
+    <insert id="insertTProductSite" parameterType="TProductSite" useGeneratedKeys="true" keyProperty="productSiteId">
+        insert into t_product_site
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tProductId != null ">t_product_id,</if>
+            <if test="siteInfoId != null ">site_info_id,</if>
+            <if test="orderNum != null ">order_num,</if>
+            <if test="siteType != null ">site_type,</if>
+            <if test="useSiteFence != null  and useSiteFence != ''">use_site_fence,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tProductId != null ">#{tProductId},</if>
+            <if test="siteInfoId != null ">#{siteInfoId},</if>
+            <if test="orderNum != null ">#{orderNum},</if>
+            <if test="siteType != null ">#{siteType},</if>
+            <if test="useSiteFence != null  and useSiteFence != ''">#{useSiteFence},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTProductSite" parameterType="TProductSite">
+        update t_product_site
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tProductId != null ">t_product_id = #{tProductId},</if>
+            <if test="siteInfoId != null ">site_info_id = #{siteInfoId},</if>
+            <if test="orderNum != null ">order_num = #{orderNum},</if>
+            <if test="siteType != null ">site_type = #{siteType},</if>
+            <if test="useSiteFence != null  and useSiteFence != ''">use_site_fence = #{useSiteFence},</if>
+        </trim>
+        where product_site_id = #{productSiteId}
+    </update>
+
+    <delete id="deleteTProductSiteById" parameterType="Long">
+        delete from t_product_site where product_site_id = #{productSiteId}
+    </delete>
+
+    <delete id="deleteTProductSiteByIds" parameterType="String">
+        delete from t_product_site where product_site_id in 
+        <foreach item="productSiteId" collection="array" open="(" separator="," close=")">
+            #{productSiteId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTProductSiteByProductId" parameterType="Long">
+        delete from t_product_site
+       where t_product_id = #{productId}
+    </delete>
+    
+</mapper>

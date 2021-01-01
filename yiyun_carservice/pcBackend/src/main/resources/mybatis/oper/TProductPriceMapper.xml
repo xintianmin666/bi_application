@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TProductPriceMapper">
+    
+    <resultMap type="TProductPrice" id="TProductPriceResult">
+        <result property="productPriceId"    column="product_price_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="carSeatNo"    column="car_seat_no"    />
+        <result property="carType"    column="car_type"    />
+        <result property="highSpeedSetting"    column="high_speed_setting"    />
+        <result property="pchePermission"    column="pche_permission"    />
+        <result property="bchePermission"    column="bche_permission"    />
+        <result property="pcheTocPrice"    column="pche_toc_price"    />
+        <result property="pcheTobPrice"    column="pche_tob_price"    />
+        <result property="bcheTocPrice"    column="bche_toc_price"    />
+        <result property="bcheTobPrice"    column="bche_tob_price"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectTProductPriceVo">
+        select product_price_id, product_id, car_seat_no,car_type, high_speed_setting, pche_permission, bche_permission, pche_toc_price, pche_tob_price, bche_toc_price, bche_tob_price, create_id, create_time from t_product_price
+    </sql>
+
+    <select id="selectTProductPriceList" parameterType="TProductPrice" resultMap="TProductPriceResult">
+        <include refid="selectTProductPriceVo"/>
+        <where>  
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="carSeatNo != null "> and car_seat_no = #{carSeatNo}</if>
+            <if test="carType != null "> and car_type = #{carType}</if>
+            <if test="highSpeedSetting != null  and highSpeedSetting != ''"> and high_speed_setting = #{highSpeedSetting}</if>
+            <if test="pchePermission != null  and pchePermission != ''"> and pche_permission = #{pchePermission}</if>
+            <if test="bchePermission != null  and bchePermission != ''"> and bche_permission = #{bchePermission}</if>
+            <if test="pcheTocPrice != null "> and pche_toc_price = #{pcheTocPrice}</if>
+            <if test="pcheTobPrice != null "> and pche_tob_price = #{pcheTobPrice}</if>
+            <if test="bcheTocPrice != null "> and bche_toc_price = #{bcheTocPrice}</if>
+            <if test="bcheTobPrice != null "> and bche_tob_price = #{bcheTobPrice}</if>
+            <if test="createId != null "> and create_id = #{createId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTProductPriceById" parameterType="Long" resultMap="TProductPriceResult">
+        <include refid="selectTProductPriceVo"/>
+        where product_price_id = #{productPriceId}
+    </select>
+        
+    <insert id="insertTProductPrice" parameterType="TProductPrice" useGeneratedKeys="true" keyProperty="productPriceId">
+        insert into t_product_price
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null ">product_id,</if>
+            <if test="carSeatNo != null ">car_seat_no,</if>
+            <if test="carType != null ">car_type,</if>
+            <if test="highSpeedSetting != null  and highSpeedSetting != ''">high_speed_setting,</if>
+            <if test="pchePermission != null  and pchePermission != ''">pche_permission,</if>
+            <if test="bchePermission != null  and bchePermission != ''">bche_permission,</if>
+            <if test="pcheTocPrice != null ">pche_toc_price,</if>
+            <if test="pcheTobPrice != null ">pche_tob_price,</if>
+            <if test="bcheTocPrice != null ">bche_toc_price,</if>
+            <if test="bcheTobPrice != null ">bche_tob_price,</if>
+            <if test="createId != null ">create_id,</if>
+            <if test="createTime != null ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null ">#{productId},</if>
+            <if test="carSeatNo != null ">#{carSeatNo},</if>
+            <if test="carType != null ">#{carType},</if>
+            <if test="highSpeedSetting != null  and highSpeedSetting != ''">#{highSpeedSetting},</if>
+            <if test="pchePermission != null  and pchePermission != ''">#{pchePermission},</if>
+            <if test="bchePermission != null  and bchePermission != ''">#{bchePermission},</if>
+            <if test="pcheTocPrice != null ">#{pcheTocPrice},</if>
+            <if test="pcheTobPrice != null ">#{pcheTobPrice},</if>
+            <if test="bcheTocPrice != null ">#{bcheTocPrice},</if>
+            <if test="bcheTobPrice != null ">#{bcheTobPrice},</if>
+            <if test="createId != null ">#{createId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTProductPrice" parameterType="TProductPrice">
+        update t_product_price
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null ">product_id = #{productId},</if>
+            <if test="carSeatNo != null ">car_seat_no = #{carSeatNo},</if>
+            <if test="carType != null ">car_type = #{carType},</if>
+            <if test="highSpeedSetting != null  and highSpeedSetting != ''">high_speed_setting = #{highSpeedSetting},</if>
+            <if test="pchePermission != null  and pchePermission != ''">pche_permission = #{pchePermission},</if>
+            <if test="bchePermission != null  and bchePermission != ''">bche_permission = #{bchePermission},</if>
+            <if test="pcheTocPrice != null ">pche_toc_price = #{pcheTocPrice},</if>
+            <if test="pcheTobPrice != null ">pche_tob_price = #{pcheTobPrice},</if>
+            <if test="bcheTocPrice != null ">bche_toc_price = #{bcheTocPrice},</if>
+            <if test="bcheTobPrice != null ">bche_tob_price = #{bcheTobPrice},</if>
+            <if test="createId != null ">create_id = #{createId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+        </trim>
+        where product_price_id = #{productPriceId}
+    </update>
+
+    <delete id="deleteTProductPriceById" parameterType="Long">
+        delete from t_product_price where product_price_id = #{productPriceId}
+    </delete>
+
+    <delete id="deleteTProductPriceByIds" parameterType="String">
+        delete from t_product_price where product_price_id in 
+        <foreach item="productPriceId" collection="array" open="(" separator="," close=")">
+            #{productPriceId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTProductPriceByProductId" parameterType="Long">
+        delete from t_product_price where product_id = #{productId}
+    </delete>
+    
+</mapper>

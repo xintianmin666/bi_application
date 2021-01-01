@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.customer.mapper.CPromoteMapper">
+    
+    <resultMap type="CPromote" id="CPromoteResult">
+        <result property="id"    column="id"    />
+        <result property="promoteCode"    column="promote_code"    />
+        <result property="promotePhone"    column="promote_phone"    />
+        <result property="promoteName"    column="promote_name"    />
+        <result property="promoteIdcard"    column="promote_idcard"    />
+        <result property="promotePosition"    column="promote_position"    />
+        <result property="isCompany"    column="is_company"    />
+        <result property="source"    column="source"    />
+        <result property="company"    column="company"    />
+        <result property="isDelete"    column="is_delete"    />
+    </resultMap>
+
+    <sql id="selectCPromoteVo">
+        select id, promote_code, promote_phone, promote_name, promote_idcard, promote_position, is_company, source, company,is_delete from c_promote
+    </sql>
+
+    <select id="selectCPromoteList" parameterType="CPromote" resultMap="CPromoteResult">
+        <include refid="selectCPromoteVo"/>
+        <where>
+          and is_delete = 0
+            <if test="promoteCode != null  and promoteCode != ''"> and promote_code like concat('%', #{promoteCode}, '%')</if>
+            <if test="promotePhone != null  and promotePhone != ''"> and promote_phone like concat('%', #{promotePhone}, '%') </if>
+            <if test="promoteName != null  and promoteName != ''"> and promote_name like concat('%', #{promoteName}, '%')</if>
+            <if test="promoteIdcard != null  and promoteIdcard != ''"> and promote_idcard like concat('%',#{promoteIdcard}, '%') </if>
+            <if test="promotePosition != null  and promotePosition != ''"> and promote_position = #{promotePosition}</if>
+            <if test="isCompany != null "> and is_company = #{isCompany}</if>
+            <if test="source != null "> and source = #{source}</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+        </where>
+    </select>
+    
+    <select id="selectCPromoteById" parameterType="Long" resultMap="CPromoteResult">
+        <include refid="selectCPromoteVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectCPromoteByPhone"  resultMap="CPromoteResult">
+        <include refid="selectCPromoteVo"/>
+        where promote_phone = #{promotePhone}
+        and is_delete = 0
+    </select>
+    <select id="selectCPromoteByCode"  resultMap="CPromoteResult">
+        <include refid="selectCPromoteVo"/>
+        where promote_code = #{promoteCode}
+        and is_delete = 0
+    </select>
+        
+    <insert id="insertCPromote" parameterType="CPromote" useGeneratedKeys="true" keyProperty="id">
+        insert into c_promote
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="promoteCode != null  and promoteCode != ''">promote_code,</if>
+            <if test="promotePhone != null  and promotePhone != ''">promote_phone,</if>
+            <if test="promoteName != null  and promoteName != ''">promote_name,</if>
+            <if test="promoteIdcard != null  and promoteIdcard != ''">promote_idcard,</if>
+            <if test="promotePosition != null  and promotePosition != ''">promote_position,</if>
+            <if test="isCompany != null ">is_company,</if>
+            <if test="source != null ">source,</if>
+            <if test="company != null  and company != ''">company,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="promoteCode != null  and promoteCode != ''">#{promoteCode},</if>
+            <if test="promotePhone != null  and promotePhone != ''">#{promotePhone},</if>
+            <if test="promoteName != null  and promoteName != ''">#{promoteName},</if>
+            <if test="promoteIdcard != null  and promoteIdcard != ''">#{promoteIdcard},</if>
+            <if test="promotePosition != null  and promotePosition != ''">#{promotePosition},</if>
+            <if test="isCompany != null ">#{isCompany},</if>
+            <if test="source != null ">#{source},</if>
+            <if test="company != null  and company != ''">#{company},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCPromote" parameterType="CPromote">
+        update c_promote
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="promoteCode != null  and promoteCode != ''">promote_code = #{promoteCode},</if>
+            <if test="promotePhone != null  and promotePhone != ''">promote_phone = #{promotePhone},</if>
+            <if test="promoteName != null  and promoteName != ''">promote_name = #{promoteName},</if>
+            <if test="promoteIdcard != null  and promoteIdcard != ''">promote_idcard = #{promoteIdcard},</if>
+            <if test="promotePosition != null  and promotePosition != ''">promote_position = #{promotePosition},</if>
+            <if test="isCompany != null ">is_company = #{isCompany},</if>
+            <if test="source != null ">source = #{source},</if>
+            <if test="company != null  and company != ''">company = #{company},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteCPromoteById" parameterType="Long">
+        update  c_promote set is_delete = 1 where id = #{id}
+    </update>
+
+    <update id="deleteCPromoteByIds" parameterType="String">
+        update  c_promote set is_delete = 1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    
+</mapper>

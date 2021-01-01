@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TAreaMapper">
+
+    <resultMap type="TArea" id="TAreaResult">
+        <result property="id"    column="id"    />
+        <result property="areaCode"    column="area_code"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="level"    column="level"    />
+        <result property="parentCode"    column="parent_code"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectTAreaVo">
+        select id, area_code, area_name, level, parent_code, remark from t_area
+    </sql>
+
+    <select id="selectTAreaList" parameterType="TArea" resultMap="TAreaResult">
+        <include refid="selectTAreaVo"/>
+        <where>
+            <if test="areaCode != null  and areaCode != ''"> and area_code = #{areaCode}</if>
+            <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="parentCode != null  and parentCode != ''"> and parent_code = #{parentCode}</if>
+        </where>
+        order by area_code
+    </select>
+
+    <select id="selectTAreaById" parameterType="String" resultMap="TAreaResult">
+        <include refid="selectTAreaVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTArea" parameterType="TArea">
+        insert into t_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="areaCode != null  and areaCode != ''">area_code,</if>
+            <if test="areaName != null  and areaName != ''">area_name,</if>
+            <if test="level != null ">level,</if>
+            <if test="parentCode != null  and parentCode != ''">parent_code,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="areaCode != null  and areaCode != ''">#{areaCode},</if>
+            <if test="areaName != null  and areaName != ''">#{areaName},</if>
+            <if test="level != null ">#{level},</if>
+            <if test="parentCode != null  and parentCode != ''">#{parentCode},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTArea" parameterType="TArea">
+        update t_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaCode != null  and areaCode != ''">area_code = #{areaCode},</if>
+            <if test="areaName != null  and areaName != ''">area_name = #{areaName},</if>
+            <if test="level != null ">level = #{level},</if>
+            <if test="parentCode != null  and parentCode != ''">parent_code = #{parentCode},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTAreaById" parameterType="String">
+        delete from t_area where id = #{id}
+    </delete>
+
+    <delete id="deleteTAreaByIds" parameterType="String">
+        delete from t_area where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

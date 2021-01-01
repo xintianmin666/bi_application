@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.business.mapper.COrderMapper">
+  <resultMap id="BaseResultMap" type="com.carservice.project.business.domain.COrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="invite_code" jdbcType="VARCHAR" property="inviteCode" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+    <result column="order_type" jdbcType="VARCHAR" property="orderType" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+    <result column="use_points" jdbcType="DECIMAL" property="usePoints" />
+    <result column="add_points" jdbcType="DECIMAL" property="addPoints" />
+    <result column="pay_type" jdbcType="VARCHAR" property="payType" />
+    <result column="discount_amount" jdbcType="DECIMAL" property="discountAmount" />
+    <result column="coupon_amount" jdbcType="DECIMAL" property="couponAmount" />
+    <result column="points_amount" jdbcType="DECIMAL" property="pointsAmount" />
+    <result column="collect_amount" jdbcType="DECIMAL" property="collectAmount" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="cancel_time" jdbcType="VARCHAR" property="cancelTime" />
+    <result column="book_time" jdbcType="VARCHAR" property="bookTime" />
+    <result column="pay_time" jdbcType="VARCHAR" property="payTime" />
+    <result column="refund_time" jdbcType="VARCHAR" property="refundTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="shop_id" jdbcType="VARCHAR" property="businessId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="car_no" jdbcType="VARCHAR" property="carNo" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="rescue_name" jdbcType="VARCHAR" property="rescueName" />
+    <result column="rescue_mobile" jdbcType="VARCHAR" property="rescueMobile" />
+    <result column="rescue_car_no" jdbcType="VARCHAR" property="rescueCarNo" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+  </resultMap>
+  <resultMap id="BaseResultMap2" type="com.carservice.project.business.domain.COrderGoods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_describe" jdbcType="VARCHAR" property="productDescribe" />
+    <result column="discount_amount" jdbcType="DECIMAL" property="discountAmount" />
+    <result column="coupon_amount" jdbcType="DECIMAL" property="couponAmount" />
+    <result column="points_amount" jdbcType="DECIMAL" property="pointsAmount" />
+    <result column="collect_amount" jdbcType="DECIMAL" property="collectAmount" />
+    <result column="order_type" jdbcType="VARCHAR" property="orderType" />
+    <result column="pay_status" jdbcType="VARCHAR" property="payStatus" />
+    <result column="pay_time" jdbcType="VARCHAR" property="payTime" />
+    <result column="refund_time" jdbcType="VARCHAR" property="refundTime" />
+    <result column="product_amount" jdbcType="DECIMAL" property="productAmount" />
+    <result column="verify_code" jdbcType="VARCHAR" property="verifyCode" />
+    <result column="use_points" jdbcType="DECIMAL" property="usePoints" />
+    <result column="add_points" jdbcType="DECIMAL" property="addPoints" />
+
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="cancel_time" jdbcType="VARCHAR" property="cancelTime" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="book_time" jdbcType="VARCHAR" property="bookTime" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="car_no" jdbcType="VARCHAR" property="carNo" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="rescue_name" jdbcType="VARCHAR" property="rescueName" />
+    <result column="rescue_mobile" jdbcType="VARCHAR" property="rescueMobile" />
+    <result column="rescue_car_no" jdbcType="VARCHAR" property="rescueCarNo" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, invite_code, user_phone, order_code, order_type, order_status, order_amount, 
+    use_points, add_points, pay_type, discount_amount, coupon_amount, points_amount, 
+    collect_amount, user_id, create_time, cancel_time, book_time, pay_time, refund_time, 
+    remark, is_delete, shop_id, user_name, car_no, address, rescue_name, rescue_mobile,
+    rescue_car_no
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from c_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from c_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.carservice.project.business.domain.COrder">
+    insert into c_order (id, invite_code, user_phone, 
+      order_code, order_type, order_status, 
+      order_amount, use_points, add_points, 
+      pay_type, discount_amount, coupon_amount, 
+      points_amount, collect_amount, user_id, 
+      create_time, cancel_time, book_time, 
+      pay_time, refund_time, remark, 
+      is_delete, shop_id, user_name,
+      car_no, address, rescue_name, 
+      rescue_mobile, rescue_car_no)
+    values (#{id,jdbcType=INTEGER}, #{inviteCode,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+      #{orderCode,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, #{orderStatus,jdbcType=VARCHAR}, 
+      #{orderAmount,jdbcType=DECIMAL}, #{usePoints,jdbcType=DECIMAL}, #{addPoints,jdbcType=DECIMAL}, 
+      #{payType,jdbcType=VARCHAR}, #{discountAmount,jdbcType=DECIMAL}, #{couponAmount,jdbcType=DECIMAL}, 
+      #{pointsAmount,jdbcType=DECIMAL}, #{collectAmount,jdbcType=DECIMAL}, #{userId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{cancelTime,jdbcType=VARCHAR}, #{bookTime,jdbcType=VARCHAR}, 
+      #{payTime,jdbcType=VARCHAR}, #{refundTime,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{isDelete,jdbcType=INTEGER}, #{businessId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{carNo,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{rescueName,jdbcType=VARCHAR}, 
+      #{rescueMobile,jdbcType=VARCHAR}, #{rescueCarNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.carservice.project.business.domain.COrder">
+    insert into c_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="inviteCode != null">
+        invite_code,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="orderCode != null">
+        order_code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="orderAmount != null">
+        order_amount,
+      </if>
+      <if test="usePoints != null">
+        use_points,
+      </if>
+      <if test="addPoints != null">
+        add_points,
+      </if>
+      <if test="payType != null">
+        pay_type,
+      </if>
+      <if test="discountAmount != null">
+        discount_amount,
+      </if>
+      <if test="couponAmount != null">
+        coupon_amount,
+      </if>
+      <if test="pointsAmount != null">
+        points_amount,
+      </if>
+      <if test="collectAmount != null">
+        collect_amount,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="cancelTime != null">
+        cancel_time,
+      </if>
+      <if test="bookTime != null">
+        book_time,
+      </if>
+      <if test="payTime != null">
+        pay_time,
+      </if>
+      <if test="refundTime != null">
+        refund_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="businessId != null">
+        shop_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="carNo != null">
+        car_no,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="rescueName != null">
+        rescue_name,
+      </if>
+      <if test="rescueMobile != null">
+        rescue_mobile,
+      </if>
+      <if test="rescueCarNo != null">
+        rescue_car_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="inviteCode != null">
+        #{inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null">
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAmount != null">
+        #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="usePoints != null">
+        #{usePoints,jdbcType=DECIMAL},
+      </if>
+      <if test="addPoints != null">
+        #{addPoints,jdbcType=DECIMAL},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="discountAmount != null">
+        #{discountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="couponAmount != null">
+        #{couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="pointsAmount != null">
+        #{pointsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="collectAmount != null">
+        #{collectAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelTime != null">
+        #{cancelTime,jdbcType=VARCHAR},
+      </if>
+      <if test="bookTime != null">
+        #{bookTime,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null">
+        #{payTime,jdbcType=VARCHAR},
+      </if>
+      <if test="refundTime != null">
+        #{refundTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="businessId != null">
+        #{businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="carNo != null">
+        #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="rescueName != null">
+        #{rescueName,jdbcType=VARCHAR},
+      </if>
+      <if test="rescueMobile != null">
+        #{rescueMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="rescueCarNo != null">
+        #{rescueCarNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.carservice.project.business.domain.COrder">
+    update c_order
+    <set>
+      <if test="inviteCode != null">
+        invite_code = #{inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null">
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAmount != null">
+        order_amount = #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="usePoints != null">
+        use_points = #{usePoints,jdbcType=DECIMAL},
+      </if>
+      <if test="addPoints != null">
+        add_points = #{addPoints,jdbcType=DECIMAL},
+      </if>
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="discountAmount != null">
+        discount_amount = #{discountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="couponAmount != null">
+        coupon_amount = #{couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="pointsAmount != null">
+        points_amount = #{pointsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="collectAmount != null">
+        collect_amount = #{collectAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelTime != null">
+        cancel_time = #{cancelTime,jdbcType=VARCHAR},
+      </if>
+      <if test="bookTime != null">
+        book_time = #{bookTime,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null">
+        pay_time = #{payTime,jdbcType=VARCHAR},
+      </if>
+      <if test="refundTime != null">
+        refund_time = #{refundTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="businessId != null">
+        shop_id = #{businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="carNo != null">
+        car_no = #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="rescueName != null">
+        rescue_name = #{rescueName,jdbcType=VARCHAR},
+      </if>
+      <if test="rescueMobile != null">
+        rescue_mobile = #{rescueMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="rescueCarNo != null">
+        rescue_car_no = #{rescueCarNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.carservice.project.business.domain.COrder">
+    update c_order
+    set invite_code = #{inviteCode,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=VARCHAR},
+      order_amount = #{orderAmount,jdbcType=DECIMAL},
+      use_points = #{usePoints,jdbcType=DECIMAL},
+      add_points = #{addPoints,jdbcType=DECIMAL},
+      pay_type = #{payType,jdbcType=VARCHAR},
+      discount_amount = #{discountAmount,jdbcType=DECIMAL},
+      coupon_amount = #{couponAmount,jdbcType=DECIMAL},
+      points_amount = #{pointsAmount,jdbcType=DECIMAL},
+      collect_amount = #{collectAmount,jdbcType=DECIMAL},
+      user_id = #{userId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      cancel_time = #{cancelTime,jdbcType=VARCHAR},
+      book_time = #{bookTime,jdbcType=VARCHAR},
+      pay_time = #{payTime,jdbcType=VARCHAR},
+      refund_time = #{refundTime,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      shop_id = #{businessId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      car_no = #{carNo,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      rescue_name = #{rescueName,jdbcType=VARCHAR},
+      rescue_mobile = #{rescueMobile,jdbcType=VARCHAR},
+      rescue_car_no = #{rescueCarNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id = "getOrderByBusinessID" parameterType="com.carservice.project.business.domain.COrder" resultMap="BaseResultMap2">
+    SELECT
+     cog.id, cog.order_code, cog.product_code, cog.product_name, cog.product_describe, cog.discount_amount, cog.coupon_amount,
+    cog.points_amount, cog.collect_amount, cog.order_type, cog.pay_status, cog.pay_time, cog.refund_time, cog.product_amount,
+    cog.verify_code, cog.use_points, cog.add_points,co.user_name, co.car_no, co.address, co.rescue_name, co.rescue_mobile,
+    co.rescue_car_no,co.create_time, co.cancel_time, co.book_time,co.user_phone,co.longitude,co.latitude,s.dept_id
+    FROM  c_order_goods cog
+    left join c_order co
+    on co.order_code = cog.order_code
+    left join c_shop s on co.shop_id  = s.id
+
+    where
+    1 = 1
+    <if test="orderType != null and orderType != ''">
+      and cog.order_type = #{orderType,jdbcType=VARCHAR}
+    </if>
+    <if test="orderStatus != null and orderStatus != ''">
+      and cog.pay_status = #{orderStatus,jdbcType=VARCHAR}
+    </if>
+    ${dataScope}
+  </select>
+  <update id="updateByOrderCode" parameterType="com.carservice.project.business.domain.COrder" >
+    update c_order
+    <set>
+      <if test="inviteCode != null">
+        invite_code = #{inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAmount != null">
+        order_amount = #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="usePoints != null">
+        use_points = #{usePoints,jdbcType=DECIMAL},
+      </if>
+      <if test="addPoints != null">
+        add_points = #{addPoints,jdbcType=DECIMAL},
+      </if>
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="discountAmount != null">
+        discount_amount = #{discountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="couponAmount != null">
+        coupon_amount = #{couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="pointsAmount != null">
+        points_amount = #{pointsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="collectAmount != null">
+        collect_amount = #{collectAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelTime != null">
+        cancel_time = #{cancelTime,jdbcType=VARCHAR},
+      </if>
+      <if test="bookTime != null">
+        book_time = #{bookTime,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null">
+        pay_time = #{payTime,jdbcType=VARCHAR},
+      </if>
+      <if test="refundTime != null">
+        refund_time = #{refundTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="businessId != null">
+        shop_id = #{businessId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="carNo != null">
+        car_no = #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="rescueName != null">
+        rescue_name = #{rescueName,jdbcType=VARCHAR},
+      </if>
+      <if test="rescueMobile != null">
+        rescue_mobile = #{rescueMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="rescueCarNo != null">
+        rescue_car_no = #{rescueCarNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where   order_code = #{orderCode,jdbcType=INTEGER}
+
+
+  </update>
+  <select id="getCheckOrderGoods"
+          parameterType="com.carservice.project.business.domain.COrderGoods"
+          resultMap="BaseResultMap2">
+    SELECT
+     cog.id, cog.order_code, cog.product_code, cog.product_name, cog.product_describe, cog.discount_amount, cog.coupon_amount,
+    cog.points_amount, cog.collect_amount, cog.order_type, cog.pay_status, cog.pay_time, cog.refund_time, cog.product_amount,
+    cog.verify_code, cog.use_points, cog.add_points,co.user_name, co.car_no, co.address, co.rescue_name, co.rescue_mobile,
+    co.rescue_car_no,co.create_time, co.cancel_time, co.book_time,co.user_phone
+    FROM c_order co
+    left join c_order_goods cog
+    on co.order_code = cog.order_code
+    where cog.order_code = #{orderCode,jdbcType=VARCHAR}
+    and cog.verify_code = #{verifyCode,jdbcType=VARCHAR}
+
+  </select>
+  <sql id="selectCOrderVo">
+        select co.id, co.invite_code, co.user_phone, co.order_code, co.order_type, co.order_status, co.order_amount, co.use_points, co.add_points, co.pay_type, co.discount_amount,
+        co.coupon_amount, co.points_amount, co.collect_amount, co.user_id, co.create_time, co.cancel_time, co.book_time, co.pay_time, co.refund_time, co.remark, co.is_delete, co.shop_id,
+         co.user_name, co.car_no, co.address, co.rescue_name, co.rescue_mobile, co.rescue_car_no, co.longitude, co.latitude,s.dept_id
+        from c_order co
+        left join c_shop s on co.shop_id  = s.id
+
+    </sql>
+
+  <select id="selectCOrderList" parameterType="COrder" resultMap="BaseResultMap">
+    <include refid="selectCOrderVo"/>
+    <where>
+      1 = 1
+      <if test="userPhone != null  and userPhone != ''"> and user_phone = #{userPhone}</if>
+      <if test="orderCode != null  and orderCode != ''"> and order_code = #{orderCode}</if>
+      <if test="orderType != null  and orderType != ''"> and order_type = #{orderType}</if>
+      <if test="orderStatus != null  and orderStatus != ''"> and order_status = #{orderStatus}</if>
+      <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+    </where>
+    <!-- 数据范围过滤 -->
+    ${dataScope}
+  </select>
+
+</mapper>

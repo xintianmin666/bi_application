@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.customer.mapper.CPointsHistoryMapper">
+    
+    <resultMap type="CPointsHistory" id="CPointsHistoryResult">
+        <result property="id"    column="id"    />
+        <result property="orderCode"    column="order_code"    />
+        <result property="points"    column="points"    />
+        <result property="productName"    column="product_name"    />
+        <result property="changeType"    column="change_type"    />
+        <result property="userId"    column="user_id"    />
+        <result property="changeTime"    column="change_time"    />
+    </resultMap>
+
+    <sql id="selectCPointsHistoryVo">
+        select id, order_code, points, product_name, change_type, user_id, change_time from c_points_history
+    </sql>
+
+    <select id="selectCPointsHistoryList" parameterType="CPointsHistory" resultMap="CPointsHistoryResult">
+        <include refid="selectCPointsHistoryVo"/>
+        <where>  
+            <if test="orderCode != null  and orderCode != ''"> and order_code = #{orderCode}</if>
+            <if test="points != null "> and points = #{points}</if>
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+            <if test="changeType != null  and changeType != ''"> and change_type = #{changeType}</if>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="changeTime != null  and changeTime != ''"> and change_time = #{changeTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectCPointsHistoryById" parameterType="Long" resultMap="CPointsHistoryResult">
+        <include refid="selectCPointsHistoryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCPointsHistory" parameterType="CPointsHistory" useGeneratedKeys="true" keyProperty="id">
+        insert into c_points_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderCode != null  and orderCode != ''">order_code,</if>
+            <if test="points != null ">points,</if>
+            <if test="productName != null  and productName != ''">product_name,</if>
+            <if test="changeType != null  and changeType != ''">change_type,</if>
+            <if test="userId != null  and userId != ''">user_id,</if>
+            <if test="changeTime != null  and changeTime != ''">change_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderCode != null  and orderCode != ''">#{orderCode},</if>
+            <if test="points != null ">#{points},</if>
+            <if test="productName != null  and productName != ''">#{productName},</if>
+            <if test="changeType != null  and changeType != ''">#{changeType},</if>
+            <if test="userId != null  and userId != ''">#{userId},</if>
+            <if test="changeTime != null  and changeTime != ''">#{changeTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCPointsHistory" parameterType="CPointsHistory">
+        update c_points_history
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderCode != null  and orderCode != ''">order_code = #{orderCode},</if>
+            <if test="points != null ">points = #{points},</if>
+            <if test="productName != null  and productName != ''">product_name = #{productName},</if>
+            <if test="changeType != null  and changeType != ''">change_type = #{changeType},</if>
+            <if test="userId != null  and userId != ''">user_id = #{userId},</if>
+            <if test="changeTime != null  and changeTime != ''">change_time = #{changeTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCPointsHistoryById" parameterType="Long">
+        delete from c_points_history where id = #{id}
+    </delete>
+
+    <delete id="deleteCPointsHistoryByIds" parameterType="String">
+        delete from c_points_history where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

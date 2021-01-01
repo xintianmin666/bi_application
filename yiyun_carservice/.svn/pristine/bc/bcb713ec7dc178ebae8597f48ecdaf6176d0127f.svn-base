@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.shop.mapper.CShopGoodsMapper">
+    
+    <resultMap type="CShopGoods" id="CShopGoodsResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="shopName"    column="shop_name"    />
+        <result property="goodsType"    column="goods_type"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="payPrice"    column="pay_price"    />
+        <result property="price"    column="price"    />
+        <result property="serviceStandard"    column="service_standard"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="saleNum"    column="sale_num"    />
+        <result property="topPicUrl"    column="top_pic_url"    />
+        <result property="picUrl"    column="pic_url"    />
+        <result property="onShelf"    column="on_shelf"    />
+        <result property="goodsOrder"    column="goods_order"    />
+    </resultMap>
+
+    <sql id="selectCShopGoodsVo">
+        select g.id, g.create_by, g.create_time, g.update_time, g.update_by, g.shop_id, g.goods_type, g.goods_name, g.pay_price, g.price, g.service_standard, g.is_delete, g.sale_num, g.top_pic_url, g.pic_url, g.on_shelf, g.goods_order,
+        s.name shop_name,s.dept_id
+        from c_shop_goods g left join c_shop s on g.shop_id = s.id
+    </sql>
+
+    <select id="selectCShopGoodsList" parameterType="CShopGoods" resultMap="CShopGoodsResult">
+        <include refid="selectCShopGoodsVo"/>
+        <where>
+            and g.is_delete = 0
+            <if test="shopId != null "> and g.shop_id = #{shopId}</if>
+            <if test="shopName != null "> and s.name like concat('%', #{shopName}, '%')</if>
+            <if test="goodsType != null  and goodsType != ''"> and g.goods_type = #{goodsType}</if>
+            <if test="goodsName != null  and goodsName != ''"> and g.goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="payPrice != null "> and g.pay_price = #{payPrice}</if>
+            <if test="price != null  and price != ''"> and g.price = #{price}</if>
+            <if test="serviceStandard != null  and serviceStandard != ''"> and g.service_standard = #{serviceStandard}</if>
+            <if test="isDelete != null  and isDelete != ''"> and g.is_delete = #{isDelete}</if>
+            <if test="saleNum != null "> and g.sale_num = #{saleNum}</if>
+            <if test="topPicUrl != null  and topPicUrl != ''"> and g.top_pic_url = #{topPicUrl}</if>
+            <if test="picUrl != null  and picUrl != ''"> and g.pic_url = #{picUrl}</if>
+            <if test="onShelf != null "> and g.on_shelf = #{onShelf}</if>
+            <if test="goodsOrder != null "> and g.goods_order = #{goodsOrder}</if>
+        </where>
+        <!-- 数据范围过滤 -->
+        ${dataScope}
+        order by  g.goods_order,g.pay_price
+    </select>
+    
+    <select id="selectCShopGoodsById" parameterType="Long" resultMap="CShopGoodsResult">
+        <include refid="selectCShopGoodsVo"/>
+        where g.id = #{id}
+    </select>
+
+    <select id="selectCShopGoodsByShopId" resultMap="CShopGoodsResult">
+        <include refid="selectCShopGoodsVo"/>
+        where  g.is_delete = 0 and g.on_shelf=1 and g.shop_id = #{shopId}
+        order by g.pay_price,g.goods_order
+    </select>
+    <select id="selectCShopGoodsByShopIds"  resultMap="CShopGoodsResult">
+        <include refid="selectCShopGoodsVo"/>
+        where  g.goods_type = #{goodsType} and g.is_delete = 0 and g.on_shelf=1 and g.shop_id in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        order by g.pay_price,g.goods_order
+    </select>
+        
+    <insert id="insertCShopGoods" parameterType="CShopGoods" useGeneratedKeys="true" keyProperty="id">
+        insert into c_shop_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null  and updateTime != ''">update_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="shopId != null ">shop_id,</if>
+            <if test="goodsType != null  and goodsType != ''">goods_type,</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="payPrice != null ">pay_price,</if>
+            <if test="price != null  and price != ''">price,</if>
+            <if test="serviceStandard != null  and serviceStandard != ''">service_standard,</if>
+            <if test="isDelete != null  and isDelete != ''">is_delete,</if>
+            <if test="saleNum != null ">sale_num,</if>
+            <if test="topPicUrl != null  and topPicUrl != ''">top_pic_url,</if>
+            <if test="picUrl != null  and picUrl != ''">pic_url,</if>
+            <if test="onShelf != null ">on_shelf,</if>
+            <if test="goodsOrder != null ">goods_order,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null  and updateTime != ''">#{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="shopId != null ">#{shopId},</if>
+            <if test="goodsType != null  and goodsType != ''">#{goodsType},</if>
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="payPrice != null ">#{payPrice},</if>
+            <if test="price != null  and price != ''">#{price},</if>
+            <if test="serviceStandard != null  and serviceStandard != ''">#{serviceStandard},</if>
+            <if test="isDelete != null  and isDelete != ''">#{isDelete},</if>
+            <if test="saleNum != null ">#{saleNum},</if>
+            <if test="topPicUrl != null  and topPicUrl != ''">#{topPicUrl},</if>
+            <if test="picUrl != null  and picUrl != ''">#{picUrl},</if>
+            <if test="onShelf != null ">#{onShelf},</if>
+            <if test="goodsOrder != null ">#{goodsOrder},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCShopGoods" parameterType="CShopGoods">
+        update c_shop_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="shopId != null ">shop_id = #{shopId},</if>
+            <if test="goodsType != null  and goodsType != ''">goods_type = #{goodsType},</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="payPrice != null ">pay_price = #{payPrice},</if>
+            <if test="price != null  and price != ''">price = #{price},</if>
+            <if test="serviceStandard != null  and serviceStandard != ''">service_standard = #{serviceStandard},</if>
+            <if test="isDelete != null  and isDelete != ''">is_delete = #{isDelete},</if>
+            <if test="saleNum != null ">sale_num = #{saleNum},</if>
+            <if test="topPicUrl != null  and topPicUrl != ''">top_pic_url = #{topPicUrl},</if>
+            <if test="picUrl != null  and picUrl != ''">pic_url = #{picUrl},</if>
+            <if test="onShelf != null ">on_shelf = #{onShelf},</if>
+            <if test="goodsOrder != null ">goods_order = #{goodsOrder},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteCShopGoodsById" parameterType="Long">
+        update c_shop_goods set is_delete = '1' where id = #{id}
+    </update>
+
+    <update id="deleteCShopGoodsByIds" parameterType="String">
+        update c_shop_goods set is_delete = '1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <update id="addSaleNum" parameterType="com.carservice.project.business.domain.COrderGoods">
+update c_shop_goods
+    set sale_num = sale_num + 1
+    where id = #{productCode,jdbcType=INTEGER}
+
+  </update>
+</mapper>

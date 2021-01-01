@@ -1,0 +1,256 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	// "condition": { //模式配置，仅开发期间生效
+	// 	"current": 0, //当前激活的模式(list 的索引项)
+	// 	"list": [{
+	// 		"name": "test", //模式名称
+	// 		"path": "pages/componentsC/test/index", //启动页面，必选
+	// 		"query": "uuid=c4bba940-f69e-11ea-a419-6bafda9d095e&__id__=1" //启动参数，在页面的onLoad函数里面得到
+	// 	}]
+	// },
+	"pages": [{
+			"path": "pages/login",
+			"style": {
+				"navigationBarTitleText": "用车无忧",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/home",
+			"style": {
+				"navigationBarTitleText": "用车无忧",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "商户中心",
+				"enablePullDownRefresh": false
+			}
+
+		}
+
+		, {
+			"path": "pages/orders/defalutOrder",
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"enablePullDownRefresh": false
+			}
+
+		}
+
+		, {
+			"path": "pages/orders/appointmentOrder",
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/orders/finishOrder",
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/myQRcode",
+			"style": {
+				"navigationBarTitleText": "我的二维码",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/orderAll/orderAll",
+			"style": {
+				"navigationBarTitleText": "查看订单",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/setting/setting",
+			"style": {
+				"navigationBarTitleText": "设置中心",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/quickScan/quickScan",
+			"style": {
+				"navigationBarTitleText": "订单核验",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
+	"subPackages": [{
+		"root": "pages/purchaseCenter",
+		"pages": [{
+				"path": "purchaseCenter",
+				"style": {
+					"navigationBarTitleText": "集中采购",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path": "purchaseCmy/purchaseCmy",
+				"style": {
+					"navigationBarTitleText": "个人中心",
+					"enablePullDownRefresh": false
+				}
+
+			}
+			, {
+				"path": "myInfo/myInfo",
+				"style": {
+					"navigationBarTitleText": "我的信息",
+					"enablePullDownRefresh": false
+				}
+
+			}
+		    ,{
+                    "path" : "myAddress/myAddress",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "我的地址",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "newAddress/newAddress",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "新增地址",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "issueDemand/issueDemand",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "发布需求",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "goodsDetail/goodsDetail",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "商品详情",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "auctionAndBidding/auctionAndBidding",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "拍卖与招标",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "aucAndBidDetail/auction",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "拍卖详情",
+                    "enablePullDownRefresh": false
+                }
+                
+                },{
+                    "path" : "aucAndBidDetail/bidding",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "招标详情",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "mySuppliers/mySuppliers",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "我的供货商列表",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "myCoupon/myCoupon",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "我的优惠券",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "myOrders/myOrders",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "我的订单",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "myCart/myCart",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "myCart",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
+	}],
+	"preloadRule": {
+		"pages/home": {
+			"network": "all",
+			"packages": ["pages/purchaseCenter"]
+		}
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "用车无忧",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#FFFFFF"
+	},
+	"tabBar": {
+		"color": "#909399",
+		"selectedColor": "#303133",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/home",
+				"iconPath": "static/image/list.png",
+				"selectedIconPath": "static/image/listC.png",
+				"text": "订单列表"
+			},
+			{
+				"pagePath": "pages/quickScan/quickScan",
+				"iconPath": "static/image/scan.png",
+				"selectedIconPath": "static/image/scanC.png",
+				"text": "快速核验"
+			},
+			{
+				"pagePath": "pages/my/my",
+				"iconPath": "static/image/center.png",
+				"selectedIconPath": "static/image/centerC.png",
+				"text": "个人中心"
+			}
+		]
+	},
+	"usingComponts": true,
+	"condition": { //模式配置，仅开发期间生效
+
+	}
+}

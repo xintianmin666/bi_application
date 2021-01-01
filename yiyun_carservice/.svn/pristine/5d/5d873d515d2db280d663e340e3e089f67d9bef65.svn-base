@@ -1,0 +1,143 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	// "condition": { //模式配置，仅开发期间生效
+	// 	"current": 0, //当前激活的模式(list 的索引项)
+	// 	"list": [{
+	// 		"name": "test", //模式名称
+	// 		"path": "pages/componentsC/test/index", //启动页面，必选
+	// 		"query": "uuid=c4bba940-f69e-11ea-a419-6bafda9d095e&__id__=1" //启动参数，在页面的onLoad函数里面得到
+	// 	}]
+	// },
+	"pages": [
+		 {
+		 	"path": "pages/login/login",
+		 	"style": {
+		 		"navigationBarTitleText": "宜运开发-B端",
+		 		"enablePullDownRefresh": false
+		 	}
+		 
+		 },
+		 {
+			"path": "pages/home",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": false
+			}
+		},
+		
+		
+		{
+			"path": "pages/login/code",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}
+
+		, {
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"enablePullDownRefresh": false
+			}
+
+		}
+        
+    ],
+	"subPackages": [
+		// {
+		// 	"root": "pages/common",
+		// 	"pages": [
+		// 		// 通用页面 分包存储
+		// 		// {
+		// 		// 	"path": "cityList",
+		// 		// 	"style": {
+		// 		// 		"navigationBarTitleText": "",
+		// 		// 		"enablePullDownRefresh": false
+		// 		// 	}
+		// 		// }
+			  
+  //           ]
+		// }
+			// 	{
+			// 		"root": "pages/library",
+			// 		"pages": [
+			// 			// debounce-节流防抖
+			// 			{
+			// 				"path": "debounce/index",
+			// 				"style": {
+			// 					"navigationBarTitleText": "throttle | debounce-节流防抖"
+			// 				}
+			// 			}
+			// 		]
+			// 	},
+			// 	{
+			// 		"root": "pages/componentsA",
+			// 		"pages": [
+			// 			// parse-富文本解析器
+			// 			{
+			// 				"path": "parse/index",
+			// 				"style": {
+			// 					"navigationBarTitleText": "parse-富文本解析器"
+			// 				}
+			// 			}
+			// 		]
+			// 	},
+			// 	{
+			// 		"root": "pages/componentsB",
+			// 		"pages": [
+			// 			// dropdown-下拉菜单
+			// 			{
+			// 				"path": "dropdown/index",
+			// 				"style": {
+			// 					"navigationBarTitleText": "dropdown-下拉菜单"
+			// 				}
+			// 			}
+			// 		]
+			// 	}
+		],
+		"preloadRule": {
+			"pages/home": {
+				"network": "all",
+				"packages": ["pages/common"]
+			}
+		},
+		"globalStyle": {
+			"navigationBarTextStyle": "black",
+			"navigationBarTitleText": "汽修后市场B端",
+			"navigationBarBackgroundColor": "#FFFFFF",
+			"backgroundColor": "#FFFFFF"
+		},
+		"tabBar": {
+			"color": "#909399",
+			"selectedColor": "#303133",
+			"backgroundColor": "#FFFFFF",
+			"borderStyle": "black",
+			"list": [{
+					"pagePath": "pages/home",
+					"iconPath": "static/uview/example/template.png",
+					"selectedIconPath": "static/uview/example/template_select.png",
+					"text": "首页"
+				},
+				{
+					"pagePath": "pages/login/login",
+					"iconPath": "static/uview/example/component.png",
+					"selectedIconPath": "static/uview/example/component_select.png",
+					"text": "订单"
+				},
+				{
+					"pagePath": "pages/my/my",
+					"iconPath": "static/uview/example/js.png",
+					"selectedIconPath": "static/uview/example/js_select.png",
+					"text": "我的"
+				}
+			]
+		},
+		"usingComponts": true,
+		"condition": { //模式配置，仅开发期间生效
+
+		}
+	}

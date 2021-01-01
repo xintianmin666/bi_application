@@ -1,0 +1,6 @@
+# 生产环境配置
+ENV = 'production'
+
+# 运泰拼包车管理系统/生产环境
+VUE_APP_BASE_API = '/prod-carserviceApi'
+#VUE_APP_BASE_API = 'http://localhost:8888'

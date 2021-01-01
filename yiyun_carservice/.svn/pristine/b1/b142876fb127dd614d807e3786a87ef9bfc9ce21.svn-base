@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TVehicleTaskStatusMapper">
+
+    <resultMap type="TVehicleTaskStatus" id="TVehicleTaskStatusResult">
+        <result property="vehicleTaskStatusId" column="vehicle_task_status_id"/>
+        <result property="dispatchOrdercode" column="dispatch_ordercode"/>
+        <result property="vehicleInfoId" column="vehicle_info_id"/>
+        <result property="vehiclePlateNo" column="vehicle_plate_no"/>
+        <result property="driverId" column="driver_id"/>
+        <result property="driverName" column="driver_name"/>
+        <result property="driverPhone" column="driver_phone"/>
+        <result property="taskStartTime" column="task_start_time"/>
+        <result property="taskEndTime" column="task_end_time"/>
+        <result property="taskStartSiteName" column="task_start_site_name"/>
+        <result property="taskStartSite" column="task_start_site"/>
+        <result property="taskEndSiteName" column="task_end_site_name"/>
+        <result property="taskEndSite" column="task_end_site"/>
+        <result property="taskType" column="task_type"/>
+        <result property="taskStatus" column="task_status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="modifyUserId" column="modify_user_id"/>
+        <result property="remark" column="remark"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="belong" column="belong"/>
+        <result property="carryMax" column="carry_max"/>
+        <result property="vehicleId" column="vehicle__id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="passengerSeatNum" column="passenger_seat_num"/>
+        <result property="remainingSeatNum" column="remaining_seat_num"/>
+        <result property="ninPinNum" column="nin_pin_num"/>
+        <result property="pzNum" column="pz_num"/>
+        <result property="noCancel" column="no_cancel"/>
+        <result property="gjDdId" column="gj_dd_id"/>
+        <result property="lockCar" column="lock_car"/>
+        <result property="lockCarRemark" column="lock_car_remark"/>
+        <association property="tDispatchOrder" column="dispatch_order_id" javaType="TDispatchOrder"
+                     resultMap="TDispatchOrderResult"/>
+    </resultMap>
+    <resultMap type="TDispatchOrder" id="TDispatchOrderResult">
+        <result property="dispatchOrderId" column="dispatch_order_id"/>
+        <result property="dispatchOrdercode" column="dispatch_ordercode"/>
+        <result property="userCarNum" column="user_car_num"/>
+        <result property="taskStartTime" column="task_start_time"/>
+        <result property="taskEndTime" column="task_end_time"/>
+        <result property="lineName" column="line_name"/>
+        <result property="taskType" column="task_type"/>
+        <result property="taskStatus" column="task_status"/>
+        <result property="realPrice" column="real_price"/>
+        <result property="price" column="price"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="modifyUserId" column="modify_user_id"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <resultMap type="TVehicleTaskStatus" id="TVehicleTaskStatusResult1">
+        <result property="vehicleTaskStatusId" column="vehicle_task_status_id"/>
+        <result property="dispatchOrdercode" column="dispatch_ordercode"/>
+        <result property="vehicleInfoId" column="vehicle_info_id"/>
+        <result property="vehiclePlateNo" column="vehicle_plate_no"/>
+        <result property="driverId" column="driver_id"/>
+        <result property="driverName" column="driver_name"/>
+        <result property="driverPhone" column="driver_phone"/>
+        <result property="taskStartTime" column="task_start_time"/>
+        <result property="taskEndTime" column="task_end_time"/>
+        <result property="taskStartSiteName" column="task_start_site_name"/>
+        <result property="taskStartSite" column="task_start_site"/>
+        <result property="taskEndSiteName" column="task_end_site_name"/>
+        <result property="taskEndSite" column="task_end_site"/>
+        <result property="taskType" column="task_type"/>
+        <result property="taskStatus" column="task_status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="modifyUserId" column="modify_user_id"/>
+        <result property="remark" column="remark"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="belong" column="belong"/>
+        <result property="carryMax" column="carry_max"/>
+        <result property="vehicleId" column="vehicle__id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="passengerSeatNum" column="passenger_seat_num"/>
+        <result property="remainingSeatNum" column="remaining_seat_num"/>
+        <result property="ninPinNum" column="nin_pin_num"/>
+        <result property="pzNum" column="pz_num"/>
+        <result property="noCancel" column="no_cancel"/>
+        <result property="gjDdId" column="gj_dd_id"/>
+        <result property="lockCar" column="lock_car"/>
+        <result property="lockCarRemark" column="lock_car_remark"/>
+    </resultMap>
+
+    <sql id="selectTVehicleTaskStatusVo">
+        select vs.vehicle_task_status_id, vs.dispatch_ordercode, vs.vehicle_info_id,
+         vs.driver_id, vs.driver_name, vs.driver_phone,
+         vs.task_start_time, vs.task_end_time, vs.task_start_site_name,
+         vs.task_start_site, vs.task_end_site_name, vs.task_end_site, vs.task_type,
+         vs.task_status, vs.create_time, vs.create_user_id, vs.modify_time,
+         vs.modify_user_id, vs.remark,vs.product_id,vs.product_name,vs.passenger_seat_num,
+         vs.remaining_seat_num,vs.nin_pin_num,vs.pz_num,vs.no_cancel,vs.gj_dd_id,vs.lock_car,vs.lock_car_remark,
+         v.dept_id,v.belong,v.carry_max,d.dept_name,
+         v.vehicle_id,v.license_tagno vehicle_plate_no
+        from t_vehicle_info v
+        left join sys_dept d on v.dept_id = d.dept_id
+        left join t_vehicle_task_status vs on vs.vehicle_info_id = v.vehicle_id
+    </sql>
+
+    <sql id="selectTVehicleTaskStatusVo1">
+        select vs.vehicle_task_status_id, vs.dispatch_ordercode, vs.vehicle_info_id,
+         vs.driver_id, vs.driver_name, vs.driver_phone,
+         vs.task_start_time, vs.task_end_time, vs.task_start_site_name,
+         vs.task_start_site, vs.task_end_site_name, vs.task_end_site, vs.task_type,
+         vs.task_status, vs.create_time, vs.create_user_id, vs.modify_time,
+         vs.modify_user_id, vs.remark,vs.product_id,vs.product_name,vs.passenger_seat_num,
+         vs.remaining_seat_num,vs.nin_pin_num,vs.pz_num,vs.no_cancel,vs.gj_dd_id,vs.lock_car,vs.lock_car_remark,
+
+         v.dept_id,v.belong,v.carry_max,d.dept_name,
+         v.vehicle_id,v.license_tagno vehicle_plate_no,do.dispatch_order_id,
+         do.user_car_num,do.line_name,do.price
+        from t_vehicle_task_status vs
+        left join t_dispatch_order do on vs.dispatch_ordercode = do.dispatch_ordercode
+        left join t_vehicle_info v on vs.vehicle_info_id = v.vehicle_id
+        left join sys_dept d on v.dept_id = d.dept_id
+    </sql>
+
+    <sql id="selectTVehicleTaskStatusVo2">
+        select vs.vehicle_task_status_id, vs.dispatch_ordercode, vs.vehicle_info_id,
+         vs.driver_id, vs.driver_name, vs.driver_phone,vs.vehicle_plate_no,
+         vs.task_start_time, vs.task_end_time, vs.task_start_site_name,
+         vs.task_start_site, vs.task_end_site_name, vs.task_end_site, vs.task_type,
+         vs.task_status, vs.create_time, vs.create_user_id, vs.modify_time,
+         vs.modify_user_id, vs.remark,vs.product_id,vs.product_name,vs.passenger_seat_num,vs.remaining_seat_num,
+         vs.nin_pin_num,vs.pz_num,vs.no_cancel,vs.gj_dd_id,vs.lock_car,vs.lock_car_remark
+        from t_vehicle_task_status vs
+    </sql>
+
+    <sql id="selectTVehicleTaskStatusVo3">
+        select vehicle_task_status_id, dispatch_ordercode, vehicle_info_id, vehicle_plate_no, driver_id, driver_name, driver_phone, task_start_time, task_end_time, task_start_site_name, task_start_site, task_end_site_name, task_end_site, task_type, task_status, create_time, create_user_id, modify_time, modify_user_id, remark, product_id, product_name, passenger_seat_num, remaining_seat_num, nin_pin_num, pz_num, no_cancel from t_vehicle_task_status where task_status in (1,2)
+    </sql>
+
+    <select id="selectTVehicleTaskStatusList2" parameterType="TVehicleTaskStatus" resultMap="TVehicleTaskStatusResult">
+        <include refid="selectTVehicleTaskStatusVo3"/>
+        <where>
+            <if test="dispatchOrdercode != null  and dispatchOrdercode != ''">and dispatch_ordercode =
+                #{dispatchOrdercode}
+            </if>
+            <if test="vehicleInfoId != null  and vehicleInfoId != ''">and vehicle_info_id = #{vehicleInfoId}</if>
+            <if test="vehiclePlateNo != null  and vehiclePlateNo != ''">and vehicle_plate_no = #{vehiclePlateNo}</if>
+            <if test="driverId != null  and driverId != ''">and driver_id = #{driverId}</if>
+            <if test="driverName != null  and driverName != ''">and driver_name like concat('%', #{driverName}, '%')
+            </if>
+            <if test="driverPhone != null  and driverPhone != ''">and driver_phone = #{driverPhone}</if>
+            <!--<if test="taskStartTime != null ">and task_start_time = #{taskStartTime}</if>-->
+            <!--<if test="taskEndTime != null ">and task_end_time = #{taskEndTime}</if>-->
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+                AND task_start_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+                AND task_start_time &lt;= #{endTime}
+            </if>
+            <if test="taskStartSiteName != null  and taskStartSiteName != ''">and task_start_site_name like concat('%',
+                #{taskStartSiteName}, '%')
+            </if>
+            <if test="taskStartSite != null  and taskStartSite != ''">and task_start_site = #{taskStartSite}</if>
+            <if test="taskEndSiteName != null  and taskEndSiteName != ''">and task_end_site_name like concat('%',
+                #{taskEndSiteName}, '%')
+            </if>
+            <if test="taskEndSite != null  and taskEndSite != ''">and task_end_site = #{taskEndSite}</if>
+            <if test="taskType != null ">and task_type = #{taskType}</if>
+            <if test="taskStatus != null ">and task_status = #{taskStatus}</if>
+            <if test="createUserId != null ">and create_user_id = #{createUserId}</if>
+            <if test="modifyTime != null ">and modify_time = #{modifyTime}</if>
+            <if test="modifyUserId != null ">and modify_user_id = #{modifyUserId}</if>
+            <if test="productId != null ">and product_id = #{productId}</if>
+            <if test="productName != null  and productName != ''">and product_name like concat('%', #{productName},
+                '%')
+            </if>
+            <if test="passengerSeatNum != null ">and passenger_seat_num = #{passengerSeatNum}</if>
+            <if test="remainingSeatNum != null ">and remaining_seat_num &gt;= #{remainingSeatNum}</if>
+            <if test="ninPinNum != null ">and nin_pin_num = #{ninPinNum}</if>
+            <if test="pzNum != null ">and pz_num = #{pzNum}</if>
+            <if test="noCancel != null  and noCancel != ''">and no_cancel = #{noCancel}</if>
+        </where>
+    </select>
+
+
+    <select id="selectTVehicleTaskStatusList1" parameterType="TVehicleTaskStatus" resultMap="TVehicleTaskStatusResult">
+        <include refid="selectTVehicleTaskStatusVo2"/>
+        <where>
+            <if test="dispatchOrdercode != null  and dispatchOrdercode != ''">and vs.dispatch_ordercode =
+                #{dispatchOrdercode}
+            </if>
+            <if test="vehicleInfoId != null  and vehicleInfoId != ''">and vs.vehicle_info_id = #{vehicleInfoId}</if>
+            <if test="vehiclePlateNo != null  and vehiclePlateNo != ''">and vs.vehicle_plate_no = #{vehiclePlateNo}</if>
+            <if test="driverId != null  and driverId != ''">and vs.driver_id = #{driverId}</if>
+            <if test="driverName != null  and driverName != ''">and vs.driver_name like concat('%', #{driverName},
+                '%')
+            </if>
+            <if test="driverPhone != null  and driverPhone != ''">and vs.driver_phone = #{driverPhone}</if>
+            <if test="taskStartTime != null ">and vs.task_start_time &gt; #{taskStartTime}</if>
+            <if test="taskEndTime != null ">and vs.task_end_time &lt; #{taskEndTime}</if>
+            <if test="taskStartSiteName != null  and taskStartSiteName != ''">and vs.task_start_site_name like
+                concat('%', #{taskStartSiteName}, '%')
+            </if>
+            <if test="taskStartSite != null  and taskStartSite != ''">and vs.task_start_site = #{taskStartSite}</if>
+            <if test="taskEndSiteName != null  and taskEndSiteName != ''">and vs.task_end_site_name like concat('%',
+                #{taskEndSiteName}, '%')
+            </if>
+            <if test="taskEndSite != null  and taskEndSite != ''">and vs.task_end_site = #{taskEndSite}</if>
+            <if test="taskType != null ">and vs.task_type = #{taskType}</if>
+            <if test="taskStatus != null ">and vs.task_status = #{taskStatus}</if>
+            <if test="createUserId != null ">and vs.create_user_id = #{createUserId}</if>
+            <if test="modifyTime != null ">and vs.modify_time = #{modifyTime}</if>
+            <if test="modifyUserId != null ">and vs.modify_user_id = #{modifyUserId}</if>
+            <if test="belong != null ">and v.belong = #{belong}</if>
+            <if test="carryMax != null ">and v.carry_max = #{carryMax}</if>
+            <if test="deptId != null and deptId != 0">
+                AND (v.dept_id = #{deptId} OR v.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET
+                (#{deptId},ancestors) ))
+            </if>
+            <if test="productId != null ">and product_id = #{productId}</if>
+            <if test="productName != null  and productName != ''">and product_name like concat('%', #{productName},
+                '%')
+            </if>
+            <if test="passengerSeatNum != null ">and passenger_seat_num = #{passengerSeatNum}</if>
+            <if test="remainingSeatNum != null ">and remaining_seat_num = #{remainingSeatNum}</if>
+            <if test="ninPinNum != null ">and nin_pin_num = #{ninPinNum}</if>
+            <if test="pzNum != null ">and pz_num = #{pzNum}</if>
+            <if test="noCancel != null  and noCancel != ''">and no_cancel = #{noCancel}</if>
+            <if test="lockCar != null  and lockCar != ''">and lock_car = #{lockCar}</if>
+        </where>
+    </select>
+
+    <select id="selectTVehicleTaskStatusList" parameterType="TVehicleTaskStatus" resultMap="TVehicleTaskStatusResult">
+        <include refid="selectTVehicleTaskStatusVo"/>
+        <where>
+            <if test="dispatchOrdercode != null  and dispatchOrdercode != ''">and vs.dispatch_ordercode =
+                #{dispatchOrdercode}
+            </if>
+            <if test="vehicleInfoId != null  and vehicleInfoId != ''">and vs.vehicle_info_id = #{vehicleInfoId}</if>
+            <if test="vehiclePlateNo != null  and vehiclePlateNo != ''">and vs.vehicle_plate_no = #{vehiclePlateNo}</if>
+            <if test="driverId != null  and driverId != ''">and vs.driver_id = #{driverId}</if>
+            <if test="driverName != null  and driverName != ''">and vs.driver_name like concat('%', #{driverName},
+                '%')
+            </if>
+            <if test="driverPhone != null  and driverPhone != ''">and vs.driver_phone = #{driverPhone}</if>
+            <if test="taskStartTime != null ">and vs.task_start_time &gt; #{taskStartTime}</if>
+            <if test="taskEndTime != null ">and vs.task_end_time &lt; #{taskEndTime}</if>
+            <if test="taskStartSiteName != null  and taskStartSiteName != ''">and vs.task_start_site_name like
+                concat('%', #{taskStartSiteName}, '%')
+            </if>
+            <if test="taskStartSite != null  and taskStartSite != ''">and vs.task_start_site = #{taskStartSite}</if>
+            <if test="taskEndSiteName != null  and taskEndSiteName != ''">and vs.task_end_site_name like concat('%',
+                #{taskEndSiteName}, '%')
+            </if>
+            <if test="taskEndSite != null  and taskEndSite != ''">and vs.task_end_site = #{taskEndSite}</if>
+            <if test="taskType != null ">and vs.task_type = #{taskType}</if>
+            <if test="taskStatus != null ">and vs.task_status = #{taskStatus}</if>
+            <if test="createUserId != null ">and vs.create_user_id = #{createUserId}</if>
+            <if test="modifyTime != null ">and vs.modify_time = #{modifyTime}</if>
+            <if test="modifyUserId != null ">and vs.modify_user_id = #{modifyUserId}</if>
+            <if test="belong != null ">and v.belong = #{belong}</if>
+            <if test="carryMax != null ">and v.carry_max = #{carryMax}</if>
+            <if test="deptId != null and deptId != 0">
+                AND (v.dept_id = #{deptId} OR v.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET
+                (#{deptId},ancestors) ))
+            </if>
+            <if test="productId != null ">and product_id = #{productId}</if>
+            <if test="productName != null  and productName != ''">and product_name like concat('%', #{productName},
+                '%')
+            </if>
+            <if test="passengerSeatNum != null ">and passenger_seat_num = #{passengerSeatNum}</if>
+            <if test="remainingSeatNum != null ">and remaining_seat_num = #{remainingSeatNum}</if>
+            <if test="ninPinNum != null ">and nin_pin_num = #{ninPinNum}</if>
+            <if test="pzNum != null ">and pz_num = #{pzNum}</if>
+            <if test="noCancel != null  and noCancel != ''">and no_cancel = #{noCancel}</if>
+            <if test="lockCar != null  and lockCar != ''">and lock_car = #{lockCar}</if>
+        </where>
+    </select>
+
+    <select id="selectTVehicleTaskStatusById" parameterType="String" resultMap="TVehicleTaskStatusResult">
+        <include refid="selectTVehicleTaskStatusVo1"/>
+        where vehicle_task_status_id = #{vehicleTaskStatusId}
+    </select>
+
+    <select id="selectTVehicleTaskStatusByDispatchOrdercode" resultMap="TVehicleTaskStatusResult">
+        <include refid="selectTVehicleTaskStatusVo2"/>
+        where dispatch_ordercode = #{dispatchOrdercode}
+    </select>
+
+    <!--查询未完成的班次，目的是查找已占用驾驶员和车辆任务-->
+    <select id="selectTVehicleTaskStatusListByTime" parameterType="String" resultMap="TVehicleTaskStatusResult">
+        <include refid="selectTVehicleTaskStatusVo2"/>
+        where (task_start_time &lt;= #{startTime} and task_end_time &gt;= #{startTime})
+        or (task_start_time &lt;= #{endTime} and task_end_time &gt;= #{endTime})
+        or (task_start_time &gt;= #{startTime} and task_end_time &lt;= #{endTime})
+        and task_status in (1,2,3)
+    </select>
+    <!--查询未发班可以拼车的班次-->
+    <select id="selectTVehicleTask" parameterType="String" resultMap="TVehicleTaskStatusResult">
+        <include refid="selectTVehicleTaskStatusVo2"/>
+        where product_id = #{productId} and remaining_seat_num &gt;= #{passengerNum}
+        and (date_add(task_start_time, interval -30 minute) &lt;= #{useCarStartTime} and date_add(task_start_time,
+        interval 30 minute) &gt;= #{useCarStartTime})
+        and task_type in (4,3) and task_status in (1,2)
+    </select>
+    <insert id="insertTVehicleTaskStatus" parameterType="TVehicleTaskStatus">
+        insert into t_vehicle_task_status
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleTaskStatusId != null  and vehicleTaskStatusId != ''">vehicle_task_status_id,</if>
+            <if test="dispatchOrdercode != null  and dispatchOrdercode != ''">dispatch_ordercode,</if>
+            <if test="vehicleInfoId != null  and vehicleInfoId != ''">vehicle_info_id,</if>
+            <if test="vehiclePlateNo != null  and vehiclePlateNo != ''">vehicle_plate_no,</if>
+            <if test="driverId != null  and driverId != ''">driver_id,</if>
+            <if test="driverName != null  and driverName != ''">driver_name,</if>
+            <if test="driverPhone != null  and driverPhone != ''">driver_phone,</if>
+            <if test="taskStartTime != null ">task_start_time,</if>
+            <if test="taskEndTime != null ">task_end_time,</if>
+            <if test="taskStartSiteName != null  and taskStartSiteName != ''">task_start_site_name,</if>
+            <if test="taskStartSite != null  and taskStartSite != ''">task_start_site,</if>
+            <if test="taskEndSiteName != null  and taskEndSiteName != ''">task_end_site_name,</if>
+            <if test="taskEndSite != null  and taskEndSite != ''">task_end_site,</if>
+            <if test="taskType != null ">task_type,</if>
+            <if test="taskStatus != null ">task_status,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createUserId != null ">create_user_id,</if>
+            <if test="modifyTime != null ">modify_time,</if>
+            <if test="modifyUserId != null ">modify_user_id,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="productId != null ">product_id,</if>
+            <if test="productName != null  and productName != ''">product_name,</if>
+            <if test="passengerSeatNum != null ">passenger_seat_num,</if>
+            <if test="remainingSeatNum != null ">remaining_seat_num,</if>
+            <if test="ninPinNum != null ">nin_pin_num,</if>
+            <if test="pzNum != null ">pz_num,</if>
+            <if test="noCancel != null  and noCancel != ''">no_cancel,</if>
+            <if test="gjDdId != null  and gjDdId != ''">gj_dd_id,</if>
+            <if test="taskCreatTime != null  and taskCreatTime != ''">task_creat_time,</if>
+            <if test="taskAcceptTime != null  and taskAcceptTime != ''">task_accept_time,</if>
+            <if test="lockCar != null  and lockCar != ''">lock_car,</if>
+            <if test="lockCarRemark != null  and lockCarRemark != ''">lock_car_remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleTaskStatusId != null  and vehicleTaskStatusId != ''">#{vehicleTaskStatusId},</if>
+            <if test="dispatchOrdercode != null  and dispatchOrdercode != ''">#{dispatchOrdercode},</if>
+            <if test="vehicleInfoId != null  and vehicleInfoId != ''">#{vehicleInfoId},</if>
+            <if test="vehiclePlateNo != null  and vehiclePlateNo != ''">#{vehiclePlateNo},</if>
+            <if test="driverId != null  and driverId != ''">#{driverId},</if>
+            <if test="driverName != null  and driverName != ''">#{driverName},</if>
+            <if test="driverPhone != null  and driverPhone != ''">#{driverPhone},</if>
+            <if test="taskStartTime != null ">#{taskStartTime},</if>
+            <if test="taskEndTime != null ">#{taskEndTime},</if>
+            <if test="taskStartSiteName != null  and taskStartSiteName != ''">#{taskStartSiteName},</if>
+            <if test="taskStartSite != null  and taskStartSite != ''">#{taskStartSite},</if>
+            <if test="taskEndSiteName != null  and taskEndSiteName != ''">#{taskEndSiteName},</if>
+            <if test="taskEndSite != null  and taskEndSite != ''">#{taskEndSite},</if>
+            <if test="taskType != null ">#{taskType},</if>
+            <if test="taskStatus != null ">#{taskStatus},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createUserId != null ">#{createUserId},</if>
+            <if test="modifyTime != null ">#{modifyTime},</if>
+            <if test="modifyUserId != null ">#{modifyUserId},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="productId != null ">#{productId},</if>
+            <if test="productName != null  and productName != ''">#{productName},</if>
+            <if test="passengerSeatNum != null ">#{passengerSeatNum},</if>
+            <if test="remainingSeatNum != null ">#{remainingSeatNum},</if>
+            <if test="ninPinNum != null ">#{ninPinNum},</if>
+            <if test="pzNum != null ">#{pzNum},</if>
+            <if test="noCancel != null  and noCancel != ''">#{noCancel},</if>
+            <if test="gjDdId != null  and gjDdId != ''">#{gjDdId},</if>
+            <if test="taskCreatTime != null  and taskCreatTime != ''">#{taskCreatTime},</if>
+            <if test="taskAcceptTime != null  and taskAcceptTime != ''">#{taskAcceptTime},</if>
+            <if test="lockCar != null  and lockCar != ''">#{lockCar},</if>
+            <if test="lockCarRemark != null  and lockCarRemark != ''">#{lockCarRemark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTVehicleTaskStatus" parameterType="TVehicleTaskStatus">
+        update t_vehicle_task_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dispatchOrdercode != null  and dispatchOrdercode != ''">dispatch_ordercode =
+                #{dispatchOrdercode},
+            </if>
+            <if test="vehicleInfoId != null  and vehicleInfoId != ''">vehicle_info_id = #{vehicleInfoId},</if>
+            <if test="vehiclePlateNo != null  and vehiclePlateNo != ''">vehicle_plate_no = #{vehiclePlateNo},</if>
+            <if test="driverId != null  and driverId != ''">driver_id = #{driverId},</if>
+            <if test="driverName != null  and driverName != ''">driver_name = #{driverName},</if>
+            <if test="driverPhone != null  and driverPhone != ''">driver_phone = #{driverPhone},</if>
+            <if test="taskStartTime != null ">task_start_time = #{taskStartTime},</if>
+            <if test="taskEndTime != null ">task_end_time = #{taskEndTime},</if>
+            <if test="taskStartSiteName != null  and taskStartSiteName != ''">task_start_site_name =
+                #{taskStartSiteName},
+            </if>
+            <if test="taskStartSite != null  and taskStartSite != ''">task_start_site = #{taskStartSite},</if>
+            <if test="taskEndSiteName != null  and taskEndSiteName != ''">task_end_site_name = #{taskEndSiteName},</if>
+            <if test="taskEndSite != null  and taskEndSite != ''">task_end_site = #{taskEndSite},</if>
+            <if test="taskType != null ">task_type = #{taskType},</if>
+            <if test="taskStatus != null ">task_status = #{taskStatus},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createUserId != null ">create_user_id = #{createUserId},</if>
+            <if test="modifyTime != null ">modify_time = #{modifyTime},</if>
+            <if test="modifyUserId != null ">modify_user_id = #{modifyUserId},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="productId != null ">product_id = #{productId},</if>
+            <if test="productName != null  and productName != ''">product_name = #{productName},</if>
+            <if test="passengerSeatNum != null ">passenger_seat_num = #{passengerSeatNum},</if>
+            <if test="remainingSeatNum != null ">remaining_seat_num = #{remainingSeatNum},</if>
+            <if test="ninPinNum != null ">nin_pin_num = #{ninPinNum},</if>
+            <if test="pzNum != null ">pz_num = #{pzNum},</if>
+            <if test="noCancel != null  and noCancel != ''">no_cancel = #{noCancel},</if>
+            <if test="gjDdId != null  and gjDdId != ''">gj_dd_id = #{gjDdId},</if>
+            <if test="taskCreatTime != null  and taskCreatTime != ''">task_creat_time=#{taskCreatTime},</if>
+            <if test="taskAcceptTime != null  and taskAcceptTime != ''">task_accept_time=#{taskAcceptTime},</if>
+            <if test="lockCar != null  and lockCar != ''">lock_car=#{lockCar},</if>
+            <if test="lockCarRemark != null  and lockCarRemark != ''">lock_car_remark=#{lockCarRemark},</if>
+        </trim>
+        where vehicle_task_status_id = #{vehicleTaskStatusId}
+    </update>
+
+    <delete id="deleteTVehicleTaskStatusById" parameterType="String">
+        delete from t_vehicle_task_status where vehicle_task_status_id = #{vehicleTaskStatusId}
+    </delete>
+
+    <delete id="deleteTVehicleTaskStatusByIds" parameterType="String">
+        delete from t_vehicle_task_status where vehicle_task_status_id in
+        <foreach item="vehicleTaskStatusId" collection="array" open="(" separator="," close=")">
+            #{vehicleTaskStatusId}
+        </foreach>
+    </delete>
+
+
+    <select id="selectCarTaskStatusList" resultMap="TVehicleTaskStatusResult1">
+        select vs.*,v.dept_id,dt.dept_name from t_vehicle_task_status vs left join t_vehicle_info v on
+        vs.vehicle_info_id = v.vehicle_id
+        left join sys_dept dt on dt.dept_id = v.dept_id
+        <where>
+            <if test="dispatchOrdercode != null  and dispatchOrdercode != ''">and vs.dispatch_ordercode =
+                #{dispatchOrdercode}
+            </if>
+            <if test="vehicleInfoId != null  and vehicleInfoId != ''">and vs.vehicle_info_id = #{vehicleInfoId}</if>
+            <if test="vehiclePlateNo != null  and vehiclePlateNo != ''">and vs.vehicle_plate_no like concat('%',
+                #{vehiclePlateNo}, '%')
+            </if>
+            <if test="driverId != null  and driverId != ''">and vs.driver_id = #{driverId}</if>
+            <if test="driverName != null  and driverName != ''">and vs.driver_name like concat('%', #{driverName},'%')
+            </if>
+            <if test="driverPhone != null  and driverPhone != ''">and vs.driver_phone like concat('%', #{driverPhone},
+                '%')
+            </if>
+            <if test="taskStartTime != null ">and vs.task_start_time &gt;= #{taskStartTime}</if>
+            <if test="taskEndTime != null ">and vs.task_end_time &lt;= #{taskEndTime}</if>
+            <if test="taskStartSiteName != null  and taskStartSiteName != ''">and vs.task_start_site_name like
+                concat('%', #{taskStartSiteName}, '%')
+            </if>
+            <if test="taskStartSite != null  and taskStartSite != ''">and vs.task_start_site = #{taskStartSite}</if>
+            <if test="taskEndSiteName != null  and taskEndSiteName != ''">and vs.task_end_site_name like concat('%',
+                #{taskEndSiteName}, '%')
+            </if>
+            <if test="taskEndSite != null  and taskEndSite != ''">and vs.task_end_site = #{taskEndSite}</if>
+            <if test="taskType != null ">and vs.task_type = #{taskType}</if>
+            <if test="taskStatus != null ">and vs.task_status = #{taskStatus}</if>
+            <if test="createUserId != null ">and vs.create_user_id = #{createUserId}</if>
+            <if test="modifyTime != null ">and vs.modify_time = #{modifyTime}</if>
+            <if test="modifyUserId != null ">and vs.modify_user_id = #{modifyUserId}</if>
+            <if test="belong != null ">and v.belong = #{belong}</if>
+            <if test="carryMax != null ">and v.carry_max = #{carryMax}</if>
+
+            <if test="productId != null ">and vs.product_id = #{productId}</if>
+            <if test="productName != null  and productName != ''">and vs.product_name like concat('%', #{productName},
+                '%')
+            </if>
+            <if test="passengerSeatNum != null ">and vs.passenger_seat_num = #{passengerSeatNum}</if>
+            <if test="remainingSeatNum != null ">and vs.remaining_seat_num = #{remainingSeatNum}</if>
+            <if test="ninPinNum != null ">and vs.nin_pin_num = #{ninPinNum}</if>
+            <if test="pzNum != null ">and vs.pz_num = #{pzNum}</if>
+            <if test="noCancel != null  and noCancel != ''">and vs.no_cancel = #{noCancel}</if>
+            <if test="deptId != null and deptId != 0">
+                AND (v.dept_id = #{deptId} OR v.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET
+                (#{deptId},ancestors) ))
+            </if>
+            <!-- 数据范围过滤 -->
+            ${dataScope}
+        </where>
+    </select>
+
+
+    <select id="selectDriverTaskStatusList" resultMap="TVehicleTaskStatusResult1">
+        select vs.*,d.dept_id,dt.dept_name from t_vehicle_task_status vs left join t_driver_info d on vs.driver_id =
+        d.driver_id
+        left join sys_dept dt on dt.dept_id = d.dept_id
+        <where>
+            <if test="dispatchOrdercode != null  and dispatchOrdercode != ''">and vs.dispatch_ordercode =
+                #{dispatchOrdercode}
+            </if>
+            <if test="vehicleInfoId != null  and vehicleInfoId != ''">and vs.vehicle_info_id = #{vehicleInfoId}</if>
+            <if test="vehiclePlateNo != null  and vehiclePlateNo != ''">and vs.vehicle_plate_no like concat('%',
+                #{vehiclePlateNo}, '%')
+            </if>
+            <if test="driverId != null  and driverId != ''">and vs.driver_id = #{driverId}</if>
+            <if test="driverName != null  and driverName != ''">and vs.driver_name like concat('%', #{driverName},'%')
+            </if>
+            <if test="driverPhone != null  and driverPhone != ''">and vs.driver_phone like concat('%', #{driverPhone},
+                '%')
+            </if>
+            <if test="taskStartTime != null ">and vs.task_start_time &gt;= #{taskStartTime}</if>
+            <if test="taskEndTime != null ">and vs.task_end_time &lt;= #{taskEndTime}</if>
+            <if test="taskStartSiteName != null  and taskStartSiteName != ''">and vs.task_start_site_name like
+                concat('%', #{taskStartSiteName}, '%')
+            </if>
+            <if test="taskStartSite != null  and taskStartSite != ''">and vs.task_start_site = #{taskStartSite}</if>
+            <if test="taskEndSiteName != null  and taskEndSiteName != ''">and vs.task_end_site_name like concat('%',
+                #{taskEndSiteName}, '%')
+            </if>
+            <if test="taskEndSite != null  and taskEndSite != ''">and vs.task_end_site = #{taskEndSite}</if>
+            <if test="taskType != null ">and vs.task_type = #{taskType}</if>
+            <if test="taskStatus != null ">and vs.task_status = #{taskStatus}</if>
+            <if test="createUserId != null ">and vs.create_user_id = #{createUserId}</if>
+            <if test="modifyTime != null ">and vs.modify_time = #{modifyTime}</if>
+            <if test="modifyUserId != null ">and vs.modify_user_id = #{modifyUserId}</if>
+            <if test="productId != null ">and vs.product_id = #{productId}</if>
+            <if test="productName != null  and productName != ''">and vs.product_name like concat('%', #{productName},
+                '%')
+            </if>
+            <if test="passengerSeatNum != null ">and vs.passenger_seat_num = #{passengerSeatNum}</if>
+            <if test="remainingSeatNum != null ">and vs.remaining_seat_num = #{remainingSeatNum}</if>
+            <if test="ninPinNum != null ">and vs.nin_pin_num = #{ninPinNum}</if>
+            <if test="pzNum != null ">and vs.pz_num = #{pzNum}</if>
+            <if test="noCancel != null  and noCancel != ''">and vs.no_cancel = #{noCancel}</if>
+            <if test="deptId != null and deptId != 0">
+                AND (d.dept_id = #{deptId} OR d.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET
+                (#{deptId},ancestors) ))
+            </if>
+            <!-- 数据范围过滤 -->
+            ${dataScope}
+        </where>
+    </select>
+    <select id="getPCshift" resultMap="TVehicleTaskStatusResult1">
+        <include refid="selectTVehicleTaskStatusVo2"/>
+        <where>
+            and vs.product_id = #{productId} and vs.task_type in(3,4)
+            and vs.vehicle_plate_no is not null
+            and task_status in (1,2)
+            and date_add(#{time},interval 3 hour ) &gt; vs.task_start_time
+            and date_add(#{time},interval -3 hour ) &lt; vs.task_start_time
+            order by vs.task_start_time
+        </where>
+    </select>
+</mapper>

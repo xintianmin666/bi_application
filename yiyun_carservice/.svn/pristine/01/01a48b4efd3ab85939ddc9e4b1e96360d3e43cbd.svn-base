@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.ErpCarInfoMapper">
+    
+    <resultMap type="ErpCarInfo" id="ErpCarInfoResult">
+        <result property="fId"    column="F_Id"    />
+        <result property="fPlateno"    column="F_PlateNo"    />
+        <result property="fUnitid"    column="F_UnitId"    />
+        <result property="fVehicletype"    column="F_VehicleType"    />
+        <result property="fSeatno"    column="F_SeatNo"    />
+        <result property="fCarryno"    column="F_CarryNo"    />
+        <result property="fBrandname"    column="F_BrandName"    />
+        <result property="fState"    column="F_State"    />
+    </resultMap>
+
+    <sql id="selectErpCarInfoVo">
+        select F_Id, F_PlateNo, F_UnitId, F_VehicleType, F_SeatNo, F_CarryNo, F_BrandName, F_State from erp_car_info
+    </sql>
+
+    <select id="selectErpCarInfoList" parameterType="ErpCarInfo" resultMap="ErpCarInfoResult">
+        <include refid="selectErpCarInfoVo"/>
+        <where>  
+            <if test="fId != null  and fId != ''"> and F_Id = #{fId}</if>
+            <if test="fPlateno != null  and fPlateno != ''"> and F_PlateNo like concat('%',#{fPlateno}, '%')</if>
+            <if test="fUnitid != null  and fUnitid != ''"> and F_UnitId = #{fUnitid}</if>
+            <if test="fVehicletype != null  and fVehicletype != ''"> and F_VehicleType = #{fVehicletype}</if>
+            <if test="fSeatno != null "> and F_SeatNo = #{fSeatno}</if>
+            <if test="fCarryno != null "> and F_CarryNo = #{fCarryno}</if>
+            <if test="fBrandname != null  and fBrandname != ''"> and F_BrandName like concat('%', #{fBrandname}, '%')</if>
+            <if test="fState != null  and fState != ''"> and F_State = #{fState}</if>
+        </where>
+    </select>
+    
+    <select id="selectErpCarInfoById" parameterType="String" resultMap="ErpCarInfoResult">
+        <include refid="selectErpCarInfoVo"/>
+        where F_Id = #{fId}
+    </select>
+        
+    <insert id="insertErpCarInfo" parameterType="ErpCarInfo">
+        insert into erp_car_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fId != null  and fId != ''">F_Id,</if>
+            <if test="fPlateno != null  and fPlateno != ''">F_PlateNo,</if>
+            <if test="fUnitid != null  and fUnitid != ''">F_UnitId,</if>
+            <if test="fVehicletype != null  and fVehicletype != ''">F_VehicleType,</if>
+            <if test="fSeatno != null ">F_SeatNo,</if>
+            <if test="fCarryno != null ">F_CarryNo,</if>
+            <if test="fBrandname != null  and fBrandname != ''">F_BrandName,</if>
+            <if test="fState != null  and fState != ''">F_State,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fId != null  and fId != ''">#{fId},</if>
+            <if test="fPlateno != null  and fPlateno != ''">#{fPlateno},</if>
+            <if test="fUnitid != null  and fUnitid != ''">#{fUnitid},</if>
+            <if test="fVehicletype != null  and fVehicletype != ''">#{fVehicletype},</if>
+            <if test="fSeatno != null ">#{fSeatno},</if>
+            <if test="fCarryno != null ">#{fCarryno},</if>
+            <if test="fBrandname != null  and fBrandname != ''">#{fBrandname},</if>
+            <if test="fState != null  and fState != ''">#{fState},</if>
+         </trim>
+    </insert>
+
+    <update id="updateErpCarInfo" parameterType="ErpCarInfo">
+        update erp_car_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fPlateno != null  and fPlateno != ''">F_PlateNo = #{fPlateno},</if>
+            <if test="fUnitid != null  and fUnitid != ''">F_UnitId = #{fUnitid},</if>
+            <if test="fVehicletype != null  and fVehicletype != ''">F_VehicleType = #{fVehicletype},</if>
+            <if test="fSeatno != null ">F_SeatNo = #{fSeatno},</if>
+            <if test="fCarryno != null ">F_CarryNo = #{fCarryno},</if>
+            <if test="fBrandname != null  and fBrandname != ''">F_BrandName = #{fBrandname},</if>
+            <if test="fState != null  and fState != ''">F_State = #{fState},</if>
+        </trim>
+        where F_Id = #{fId}
+    </update>
+
+    <delete id="deleteErpCarInfoById" parameterType="String">
+        delete from erp_car_info where F_Id = #{fId}
+    </delete>
+
+    <delete id="deleteErpCarInfoByIds" parameterType="String">
+        delete from erp_car_info where F_Id in 
+        <foreach item="fId" collection="array" open="(" separator="," close=")">
+            #{fId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TPriceFormulaMapper">
+    
+    <resultMap type="TPriceFormula" id="TPriceFormulaResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="userType"    column="user_type"    />
+        <result property="chargeType"    column="charge_type"    />
+        <result property="priceFormula"    column="price_formula"    />
+        <result property="adminParam"    column="admin_param"    />
+        <result property="userParam"    column="user_param"    />
+        <result property="isUse"    column="is_use"    />
+        <result property="qBao"    column="q_bao"    />
+    </resultMap>
+
+    <sql id="selectTPriceFormulaVo">
+        select id, name, user_type, charge_type, price_formula, admin_param, user_param, is_use, q_bao from t_price_formula
+    </sql>
+
+    <select id="selectTPriceFormulaList" parameterType="TPriceFormula" resultMap="TPriceFormulaResult">
+        <include refid="selectTPriceFormulaVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="userType != null  and userType != ''"> and user_type = #{userType}</if>
+            <if test="chargeType != null  and chargeType != ''"> and charge_type = #{chargeType}</if>
+            <if test="priceFormula != null  and priceFormula != ''"> and price_formula = #{priceFormula}</if>
+            <if test="adminParam != null  and adminParam != ''"> and admin_param = #{adminParam}</if>
+            <if test="userParam != null  and userParam != ''"> and user_param = #{userParam}</if>
+            <if test="isUse != null  and isUse != ''"> and is_use = #{isUse}</if>
+            <if test="qBao != null  and qBao != ''"> and q_bao = #{qBao}</if>
+        </where>
+    </select>
+    
+    <select id="selectTPriceFormulaById" parameterType="Long" resultMap="TPriceFormulaResult">
+        <include refid="selectTPriceFormulaVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTPriceFormula" parameterType="TPriceFormula" useGeneratedKeys="true" keyProperty="id">
+        insert into t_price_formula
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="userType != null  and userType != ''">user_type,</if>
+            <if test="chargeType != null  and chargeType != ''">charge_type,</if>
+            <if test="priceFormula != null  and priceFormula != ''">price_formula,</if>
+            <if test="adminParam != null  and adminParam != ''">admin_param,</if>
+            <if test="userParam != null  and userParam != ''">user_param,</if>
+            <if test="isUse != null  and isUse != ''">is_use,</if>
+            <if test="qBao != null  and qBao != ''">q_bao,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="userType != null  and userType != ''">#{userType},</if>
+            <if test="chargeType != null  and chargeType != ''">#{chargeType},</if>
+            <if test="priceFormula != null  and priceFormula != ''">#{priceFormula},</if>
+            <if test="adminParam != null  and adminParam != ''">#{adminParam},</if>
+            <if test="userParam != null  and userParam != ''">#{userParam},</if>
+            <if test="isUse != null  and isUse != ''">#{isUse},</if>
+            <if test="qBao != null  and qBao != ''">#{qBao},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTPriceFormula" parameterType="TPriceFormula">
+        update t_price_formula
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="userType != null  and userType != ''">user_type = #{userType},</if>
+            <if test="chargeType != null  and chargeType != ''">charge_type = #{chargeType},</if>
+            <if test="priceFormula != null  and priceFormula != ''">price_formula = #{priceFormula},</if>
+            <if test="adminParam != null  and adminParam != ''">admin_param = #{adminParam},</if>
+            <if test="userParam != null  and userParam != ''">user_param = #{userParam},</if>
+            <if test="isUse != null  and isUse != ''">is_use = #{isUse},</if>
+            <if test="qBao != null  and qBao != ''">q_bao = #{qBao},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTPriceFormulaById" parameterType="Long">
+        delete from t_price_formula where id = #{id}
+    </delete>
+
+    <delete id="deleteTPriceFormulaByIds" parameterType="String">
+        delete from t_price_formula where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

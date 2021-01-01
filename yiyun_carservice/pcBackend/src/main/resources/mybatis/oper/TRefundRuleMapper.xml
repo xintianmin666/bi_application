@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TRefundRuleMapper">
+    
+    <resultMap type="TRefundRule" id="TRefundRuleResult">
+        <result property="refundRuleId"    column="refund_rule_id"    />
+        <result property="refundRuleName"    column="refund_rule_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUserId"    column="create_user_id"    />
+    </resultMap>
+
+    <sql id="selectTRefundRuleVo">
+        select refund_rule_id, refund_rule_name, create_time, create_user_id from t_refund_rule
+    </sql>
+
+    <select id="selectTRefundRuleList" parameterType="TRefundRule" resultMap="TRefundRuleResult">
+        <include refid="selectTRefundRuleVo"/>
+        <where>  
+            <if test="refundRuleName != null  and refundRuleName != ''"> and refund_rule_name like concat('%', #{refundRuleName}, '%')</if>
+            <if test="createUserId != null "> and create_user_id = #{createUserId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTRefundRuleById" parameterType="Long" resultMap="TRefundRuleResult">
+        <include refid="selectTRefundRuleVo"/>
+        where refund_rule_id = #{refundRuleId}
+    </select>
+        
+    <insert id="insertTRefundRule" parameterType="TRefundRule">
+        insert into t_refund_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="refundRuleId != null ">refund_rule_id,</if>
+            <if test="refundRuleName != null  and refundRuleName != ''">refund_rule_name,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createUserId != null ">create_user_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="refundRuleId != null ">#{refundRuleId},</if>
+            <if test="refundRuleName != null  and refundRuleName != ''">#{refundRuleName},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createUserId != null ">#{createUserId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTRefundRule" parameterType="TRefundRule">
+        update t_refund_rule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="refundRuleName != null  and refundRuleName != ''">refund_rule_name = #{refundRuleName},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createUserId != null ">create_user_id = #{createUserId},</if>
+        </trim>
+        where refund_rule_id = #{refundRuleId}
+    </update>
+
+    <delete id="deleteTRefundRuleById" parameterType="Long">
+        delete from t_refund_rule where refund_rule_id = #{refundRuleId}
+    </delete>
+
+    <delete id="deleteTRefundRuleByIds" parameterType="String">
+        delete from t_refund_rule where refund_rule_id in 
+        <foreach item="refundRuleId" collection="array" open="(" separator="," close=")">
+            #{refundRuleId}
+        </foreach>
+    </delete>
+    
+</mapper>

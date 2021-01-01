@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.ErpDriverInfoMapper">
+    
+    <resultMap type="ErpDriverInfo" id="ErpDriverInfoResult">
+        <result property="fDriverid"    column="F_DriverId"    />
+        <result property="fDrivingpermittype"    column="F_DrivingPermitType"    />
+        <result property="fUnitid"    column="F_UnitId"    />
+        <result property="fDeptid"    column="F_DeptId"    />
+        <result property="fUnitname"    column="F_UnitName"    />
+        <result property="fDrivername"    column="F_DriverName"    />
+        <result property="fPhonecode"    column="F_PhoneCode"    />
+        <result property="fIdcard"    column="F_Idcard"    />
+        <result property="fDriverstate"    column="F_DriverState"    />
+        <result property="fOpenId"    column="F_OpenId"    />
+
+    </resultMap>
+
+    <sql id="selectErpDriverInfoVo">
+        select F_DriverId, F_DrivingPermitType, F_UnitId, F_DeptId, F_UnitName, F_DriverName, F_PhoneCode, F_Idcard, F_DriverState,F_OpenId from erp_driver_info
+    </sql>
+
+    <select id="selectErpDriverInfoList" parameterType="ErpDriverInfo" resultMap="ErpDriverInfoResult">
+        <include refid="selectErpDriverInfoVo"/>
+        <where>  
+            <if test="fDriverid != null  and fDriverid != ''"> and F_DriverId = #{fDriverid}</if>
+            <if test="fDrivingpermittype != null  and fDrivingpermittype != ''"> and F_DrivingPermitType = #{fDrivingpermittype}</if>
+            <if test="fUnitid != null  and fUnitid != ''"> and F_UnitId = #{fUnitid}</if>
+            <if test="fDeptid != null  and fDeptid != ''"> and F_DeptId = #{fDeptid}</if>
+            <if test="fUnitname != null  and fUnitname != ''"> and F_UnitName like concat('%', #{fUnitname}, '%')</if>
+            <if test="fDrivername != null  and fDrivername != ''"> and F_DriverName like concat('%', #{fDrivername}, '%')</if>
+            <if test="fPhonecode != null  and fPhonecode != ''"> and F_PhoneCode = #{fPhonecode}</if>
+            <if test="fIdcard != null  and fIdcard != ''"> and F_Idcard = #{fIdcard}</if>
+            <if test="fDriverstate != null  and fDriverstate != ''"> and F_DriverState = #{fDriverstate}</if>
+            <if test="fOpenId != null  and fOpenId != ''"> and F_OpenId = #{fOpenId}</if>
+        </where>
+    </select>
+    
+    <select id="selectErpDriverInfoById" parameterType="String" resultMap="ErpDriverInfoResult">
+        <include refid="selectErpDriverInfoVo"/>
+        where F_DriverId = #{fDriverid}
+    </select>
+        
+    <insert id="insertErpDriverInfo" parameterType="ErpDriverInfo">
+        insert into erp_driver_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fDriverid != null  and fDriverid != ''">F_DriverId,</if>
+            <if test="fDrivingpermittype != null  and fDrivingpermittype != ''">F_DrivingPermitType,</if>
+            <if test="fUnitid != null  and fUnitid != ''">F_UnitId,</if>
+            <if test="fDeptid != null  and fDeptid != ''">F_DeptId,</if>
+            <if test="fUnitname != null  and fUnitname != ''">F_UnitName,</if>
+            <if test="fDrivername != null  and fDrivername != ''">F_DriverName,</if>
+            <if test="fPhonecode != null  and fPhonecode != ''">F_PhoneCode,</if>
+            <if test="fIdcard != null  and fIdcard != ''">F_Idcard,</if>
+            <if test="fDriverstate != null  and fDriverstate != ''">F_DriverState,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fDriverid != null  and fDriverid != ''">#{fDriverid},</if>
+            <if test="fDrivingpermittype != null  and fDrivingpermittype != ''">#{fDrivingpermittype},</if>
+            <if test="fUnitid != null  and fUnitid != ''">#{fUnitid},</if>
+            <if test="fDeptid != null  and fDeptid != ''">#{fDeptid},</if>
+            <if test="fUnitname != null  and fUnitname != ''">#{fUnitname},</if>
+            <if test="fDrivername != null  and fDrivername != ''">#{fDrivername},</if>
+            <if test="fPhonecode != null  and fPhonecode != ''">#{fPhonecode},</if>
+            <if test="fIdcard != null  and fIdcard != ''">#{fIdcard},</if>
+            <if test="fDriverstate != null  and fDriverstate != ''">#{fDriverstate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateErpDriverInfo" parameterType="ErpDriverInfo">
+        update erp_driver_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fDrivingpermittype != null  and fDrivingpermittype != ''">F_DrivingPermitType = #{fDrivingpermittype},</if>
+            <if test="fUnitid != null  and fUnitid != ''">F_UnitId = #{fUnitid},</if>
+            <if test="fDeptid != null  and fDeptid != ''">F_DeptId = #{fDeptid},</if>
+            <if test="fUnitname != null  and fUnitname != ''">F_UnitName = #{fUnitname},</if>
+            <if test="fDrivername != null  and fDrivername != ''">F_DriverName = #{fDrivername},</if>
+            <if test="fPhonecode != null  and fPhonecode != ''">F_PhoneCode = #{fPhonecode},</if>
+            <if test="fIdcard != null  and fIdcard != ''">F_Idcard = #{fIdcard},</if>
+            <if test="fDriverstate != null  and fDriverstate != ''">F_DriverState = #{fDriverstate},</if>
+        </trim>
+        where F_DriverId = #{fDriverid}
+    </update>
+
+    <delete id="deleteErpDriverInfoById" parameterType="String">
+        delete from erp_driver_info where F_DriverId = #{fDriverid}
+    </delete>
+
+    <delete id="deleteErpDriverInfoByIds" parameterType="String">
+        delete from erp_driver_info where F_DriverId in 
+        <foreach item="fDriverid" collection="array" open="(" separator="," close=")">
+            #{fDriverid}
+        </foreach>
+    </delete>
+    
+</mapper>

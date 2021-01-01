@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiyun.yiyuncarservice.mapper.CRefundLogMapper">
+
+    <select id="queryYlRefundList" resultType="com.yiyun.yiyuncarservice.entity.CRefundLog">
+        SELECT * FROM c_refund_log WHERE refund_status=1 AND pay_type=2 ORDER BY id LIMIT 20;
+    </select>
+
+    <select id="queryWaiteRefundList" resultType="com.yiyun.yiyuncarservice.entity.CRefundLog">
+        SELECT * FROM c_refund_log WHERE refund_status=1 AND pay_type=1 ORDER BY id LIMIT 20;
+    </select>
+
+
+</mapper>

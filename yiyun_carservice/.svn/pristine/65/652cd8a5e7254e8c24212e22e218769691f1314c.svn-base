@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.customer.mapper.CUserInfoMapper">
+    
+    <resultMap type="CUserInfo" id="CUserInfoResult">
+        <result property="id"    column="id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="sex"    column="sex"    />
+        <result property="idcard"    column="idcard"    />
+        <result property="headImg"    column="head_img"    />
+        <result property="address"    column="address"    />
+        <result property="vipLevel"    column="vip_level"    />
+        <result property="promoteCode"    column="promote_code"    />
+        <result property="inviteCode"    column="invite_code"    />
+        <result property="sessionKey"    column="session_key"    />
+        <result property="source"    column="source"    />
+        <result property="points"    column="points"    />
+        <result property="password"    column="password"    />
+        <result property="payPassword"    column="pay_password"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="remark"    column="remark"    />
+        <result property="carNo"    column="car_no"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="openid"    column="openid"    />
+    </resultMap>
+
+    <sql id="selectCUserInfoVo">
+        select id, user_name, user_phone, sex, idcard, head_img, address, vip_level, promote_code, invite_code, session_key, source, points, password, pay_password, is_delete, remark, car_no, nick_name, openid from c_user_info
+    </sql>
+
+    <select id="selectCUserInfoList" parameterType="CUserInfo" resultMap="CUserInfoResult">
+        <include refid="selectCUserInfoVo"/>
+        <where>  
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="userPhone != null  and userPhone != ''"> and user_phone = #{userPhone}</if>
+            <if test="sex != null "> and sex = #{sex}</if>
+            <if test="idcard != null  and idcard != ''"> and idcard = #{idcard}</if>
+            <if test="headImg != null  and headImg != ''"> and head_img = #{headImg}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="vipLevel != null  and vipLevel != ''"> and vip_level = #{vipLevel}</if>
+            <if test="promoteCode != null  and promoteCode != ''"> and promote_code = #{promoteCode}</if>
+            <if test="inviteCode != null  and inviteCode != ''"> and invite_code = #{inviteCode}</if>
+            <if test="sessionKey != null  and sessionKey != ''"> and session_key = #{sessionKey}</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+            <if test="points != null "> and points = #{points}</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="payPassword != null  and payPassword != ''"> and pay_password = #{payPassword}</if>
+            <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+            <if test="carNo != null  and carNo != ''"> and car_no = #{carNo}</if>
+            <if test="nickName != null  and nickName != ''"> and nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="openid != null  and openid != ''"> and openid = #{openid}</if>
+        </where>
+    </select>
+    
+    <select id="selectCUserInfoById" parameterType="Long" resultMap="CUserInfoResult">
+        <include refid="selectCUserInfoVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectCUserInfoByUserPhone" resultMap="CUserInfoResult">
+        <include refid="selectCUserInfoVo"/>
+        where user_phone = #{userPhone}
+    </select>
+    <insert id="insertCUserInfo" parameterType="CUserInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into c_user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null  and userName != ''">user_name,</if>
+            <if test="userPhone != null  and userPhone != ''">user_phone,</if>
+            <if test="sex != null ">sex,</if>
+            <if test="idcard != null  and idcard != ''">idcard,</if>
+            <if test="headImg != null  and headImg != ''">head_img,</if>
+            <if test="address != null  and address != ''">address,</if>
+            <if test="vipLevel != null  and vipLevel != ''">vip_level,</if>
+            <if test="promoteCode != null  and promoteCode != ''">promote_code,</if>
+            <if test="inviteCode != null  and inviteCode != ''">invite_code,</if>
+            <if test="sessionKey != null  and sessionKey != ''">session_key,</if>
+            <if test="source != null  and source != ''">source,</if>
+            <if test="points != null ">points,</if>
+            <if test="password != null  and password != ''">password,</if>
+            <if test="payPassword != null  and payPassword != ''">pay_password,</if>
+            <if test="isDelete != null ">is_delete,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="carNo != null  and carNo != ''">car_no,</if>
+            <if test="nickName != null  and nickName != ''">nick_name,</if>
+            <if test="openid != null  and openid != ''">openid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null  and userName != ''">#{userName},</if>
+            <if test="userPhone != null  and userPhone != ''">#{userPhone},</if>
+            <if test="sex != null ">#{sex},</if>
+            <if test="idcard != null  and idcard != ''">#{idcard},</if>
+            <if test="headImg != null  and headImg != ''">#{headImg},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+            <if test="vipLevel != null  and vipLevel != ''">#{vipLevel},</if>
+            <if test="promoteCode != null  and promoteCode != ''">#{promoteCode},</if>
+            <if test="inviteCode != null  and inviteCode != ''">#{inviteCode},</if>
+            <if test="sessionKey != null  and sessionKey != ''">#{sessionKey},</if>
+            <if test="source != null  and source != ''">#{source},</if>
+            <if test="points != null ">#{points},</if>
+            <if test="password != null  and password != ''">#{password},</if>
+            <if test="payPassword != null  and payPassword != ''">#{payPassword},</if>
+            <if test="isDelete != null ">#{isDelete},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="carNo != null  and carNo != ''">#{carNo},</if>
+            <if test="nickName != null  and nickName != ''">#{nickName},</if>
+            <if test="openid != null  and openid != ''">#{openid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCUserInfo" parameterType="CUserInfo">
+        update c_user_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null  and userName != ''">user_name = #{userName},</if>
+            <if test="userPhone != null  and userPhone != ''">user_phone = #{userPhone},</if>
+            <if test="sex != null ">sex = #{sex},</if>
+            <if test="idcard != null  and idcard != ''">idcard = #{idcard},</if>
+            <if test="headImg != null  and headImg != ''">head_img = #{headImg},</if>
+            <if test="address != null  and address != ''">address = #{address},</if>
+            <if test="vipLevel != null  and vipLevel != ''">vip_level = #{vipLevel},</if>
+            <if test="promoteCode != null  and promoteCode != ''">promote_code = #{promoteCode},</if>
+            <if test="inviteCode != null  and inviteCode != ''">invite_code = #{inviteCode},</if>
+            <if test="sessionKey != null  and sessionKey != ''">session_key = #{sessionKey},</if>
+            <if test="source != null  and source != ''">source = #{source},</if>
+            <if test="points != null ">points = #{points},</if>
+            <if test="password != null  and password != ''">password = #{password},</if>
+            <if test="payPassword != null  and payPassword != ''">pay_password = #{payPassword},</if>
+            <if test="isDelete != null ">is_delete = #{isDelete},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="carNo != null  and carNo != ''">car_no = #{carNo},</if>
+            <if test="nickName != null  and nickName != ''">nick_name = #{nickName},</if>
+            <if test="openid != null  and openid != ''">openid = #{openid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCUserInfoById" parameterType="Long">
+        delete from c_user_info where id = #{id}
+    </delete>
+
+    <delete id="deleteCUserInfoByIds" parameterType="String">
+        delete from c_user_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

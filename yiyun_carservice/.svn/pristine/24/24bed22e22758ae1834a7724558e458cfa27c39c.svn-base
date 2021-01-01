@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carservice.project.oper.mapper.TPriceRulesMapper">
+    
+    <resultMap type="TPriceRules" id="TPriceRulesResult">
+        <result property="id"    column="id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="userType"    column="user_type"    />
+        <result property="chargeType"    column="charge_type"    />
+        <result property="carType"    column="car_type"    />
+        <result property="basePrice"    column="base_price"    />
+        <result property="baseDistance"    column="base_distance"    />
+        <result property="oneKmPrice"    column="one_km_price"    />
+        <result property="outDistancePrice"    column="out_distance_price"    />
+        <result property="otherPrice"    column="other_price"    />
+        <result property="otherPriceRemark"    column="other_price_remark"    />
+        <result property="formulaName"    column="formula_name"    />
+        <result property="priceFormula"    column="price_formula"    />
+        <result property="userParam"    column="user_param"    />
+        <association property="dept" column="dept_id" javaType="SysDept" resultMap="deptResult"/>
+        <association property="vehicleType" column="car_type" resultMap="TVehicleTypeResult"/>
+        <!--<association property="vehicleType" column="car_type" select="getVehicleTypeByCarType"/>-->
+    </resultMap>
+    <resultMap id="deptResult" type="SysDept">
+        <id property="deptId" column="dept_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="leader" column="leader"/>
+        <result property="status" column="dept_status"/>
+    </resultMap>
+
+    <resultMap type="TVehicleType" id="TVehicleTypeResult">
+        <result property="vcehicleTypeId"    column="vcehicle_type_id"    />
+        <result property="capacityMax"    column="capacity_max"    />
+        <result property="passengerNum"    column="passenger_num"    />
+        <result property="noSeatChildNum"    column="no_seat_child_num"    />
+        <result property="suitcaseNumRemark"    column="suitcase_num_remark"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="carPicUrl"    column="car_pic_url"    />
+        <result property="pincheMin"    column="pinche_min"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+    <select id="getVehicleTypeByCarType" resultMap="TVehicleTypeResult">
+    SELECT * FROM t_vehicle_type where vcehicle_type_id = #{car_type}
+    order by capacity_max
+    </select>
+
+    <sql id="selectTPriceRulesVo">
+select r.id, r.dept_id, r.user_type, r.charge_type, r.car_type, r.base_price, r.base_distance, r.one_km_price, r.out_distance_price,r.other_price,r.other_price_remark,
+        d.dept_name,
+        t.capacity_max,t.type_name,t.passenger_num,t.no_seat_child_num,t.pinche_min,t.car_pic_url,t.remark,t.suitcase_num_remark,t.vcehicle_type_id,
+        f.name formula_name,f.price_formula,f.user_param
+        from t_price_rules r left join sys_dept d on r.dept_id = d.dept_id
+        left join t_vehicle_type t on t.vcehicle_type_id = r.car_type
+        left join t_price_formula f on r.other_price = f.id
+    </sql>
+    <select id="selectTPriceRulesList" parameterType="TPriceRules" resultMap="TPriceRulesResult">
+        <include refid="selectTPriceRulesVo"/>
+        <where>
+            <if test="userType != null  and userType != ''"> and r.user_type = #{userType}</if>
+            <if test="chargeType != null  and chargeType != ''"> and r.charge_type = #{chargeType}</if>
+            <if test="carType != null  and carType != ''"> and r.car_type = #{carType}</if>
+            <if test="basePrice != null "> and r.base_price = #{basePrice}</if>
+            <if test="baseDistance != null "> and r.base_distance = #{baseDistance}</if>
+            <if test="oneKmPrice != null "> and r.one_km_price = #{oneKmPrice}</if>
+            <if test="outDistancePrice != null "> and r.out_distance_price = #{outDistancePrice}</if>
+            <if test="deptId != null and deptId != 0">
+                AND (r.dept_id = #{deptId} OR r.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET
+                (#{deptId},ancestors) ))
+            </if>
+            <!-- 数据范围过滤 -->
+            ${dataScope}
+        </where>
+        order by r.dept_id,t.capacity_max,base_price
+    </select>
+    
+    <select id="selectTPriceRulesById" parameterType="Long" resultMap="TPriceRulesResult">
+        <include refid="selectTPriceRulesVo"/>
+        where r.id = #{id}
+    </select>
+        
+    <insert id="insertTPriceRules" parameterType="TPriceRules" useGeneratedKeys="true" keyProperty="id">
+        insert into t_price_rules
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptId != null  and deptId != ''">dept_id,</if>
+            <if test="userType != null  and userType != ''">user_type,</if>
+            <if test="chargeType != null  and chargeType != ''">charge_type,</if>
+            <if test="carType != null  and carType != ''">car_type,</if>
+            <if test="basePrice != null ">base_price,</if>
+            <if test="baseDistance != null ">base_distance,</if>
+            <if test="oneKmPrice != null ">one_km_price,</if>
+            <if test="outDistancePrice != null ">out_distance_price,</if>
+            <if test="otherPrice != null ">other_price,</if>
+            <if test="otherPriceRemark != null ">other_price_remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null  and deptId != ''">#{deptId},</if>
+            <if test="userType != null  and userType != ''">#{userType},</if>
+            <if test="chargeType != null  and chargeType != ''">#{chargeType},</if>
+            <if test="carType != null  and carType != ''">#{carType},</if>
+            <if test="basePrice != null ">#{basePrice},</if>
+            <if test="baseDistance != null ">#{baseDistance},</if>
+            <if test="oneKmPrice != null ">#{oneKmPrice},</if>
+            <if test="outDistancePrice != null ">#{outDistancePrice},</if>
+            <if test="otherPrice != null ">#{otherPrice},</if>
+            <if test="otherPriceRemark != null ">#{otherPriceRemark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTPriceRules" parameterType="TPriceRules">
+        update t_price_rules
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deptId != null  and deptId != ''">dept_id = #{deptId},</if>
+            <if test="userType != null  and userType != ''">user_type = #{userType},</if>
+            <if test="chargeType != null  and chargeType != ''">charge_type = #{chargeType},</if>
+            <if test="carType != null  and carType != ''">car_type = #{carType},</if>
+            <if test="basePrice != null ">base_price = #{basePrice},</if>
+            <if test="baseDistance != null ">base_distance = #{baseDistance},</if>
+            <if test="oneKmPrice != null ">one_km_price = #{oneKmPrice},</if>
+            <if test="outDistancePrice != null ">out_distance_price = #{outDistancePrice},</if>
+            <if test="otherPrice != null ">other_price = #{otherPrice},</if>
+            <if test="otherPriceRemark != null ">other_price_remark = #{otherPriceRemark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTPriceRulesById" parameterType="Long">
+        delete from t_price_rules where id = #{id}
+    </delete>
+
+    <delete id="deleteTPriceRulesByIds" parameterType="String">
+        delete from t_price_rules where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
